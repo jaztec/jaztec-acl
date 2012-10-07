@@ -1,0 +1,39 @@
+<?php
+
+return array(
+    'service_manager' => array(
+        'factories' => array(
+        ),
+    ),
+    'controller_plugins' => array(
+        'invokables' => array(
+            'jaztecacl' => 'Jaztec\Controller\Plugin\AclHelper',
+        ),
+    ),
+    'doctrine' => array(
+        'driver' => array(
+            'jaztec_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(
+                    __DIR__ . '/../src/Jaztec/Entity',
+                )
+            ),
+            
+            'zfcuser_entity' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(
+                    __DIR__ . '/../src/Jaztec/Entity',
+                )
+            ),
+            
+            'orm_default' => array(
+                'drivers' => array(
+                    'Jaztec\Entity'           => 'jaztec_driver',
+                    'ZfcUser\Entity'          => 'zfcuser_entity',
+                )
+            )
+        )
+    ),
+);
