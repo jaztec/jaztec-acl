@@ -2,15 +2,14 @@
 
 namespace Jaztec\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController,
-    Zend\Mvc\McvEvent,
+use Zend\Mvc\McvEvent,
     Jaztec\Entity\User,
     Jaztec\Entity\Role,
     Jaztec\Entity\Resource,
     Jaztec\Entity\Privilege,
     Doctrine\ORM\EntityManager;
 
-class AutherizedController extends AbstractActionController
+class AutherizedController extends BaseController
 {
     /** @var EntityManager $em */
     protected $em;
