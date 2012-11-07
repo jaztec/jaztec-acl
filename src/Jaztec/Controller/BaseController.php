@@ -4,6 +4,7 @@ namespace Jaztec\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use ZfcUser\Service\User as UserService;
+use Zend\Mvc\MvcEvent;
 
 class BaseController extends AbstractActionController
 {
@@ -13,11 +14,16 @@ class BaseController extends AbstractActionController
     /** @var ZfcUser\Service\User $em */
     protected $userService;
     
-    public function __construct() {
+    /**
+     * @param \Zend\Mvc\MvcEvent $e
+     */
+    public function onDispatch(MvcEvent $e) {
         date_default_timezone_set('Europe/Amsterdam');
-    }
-
-        /**
+        
+        parent::onDispatch($e);
+    }    
+    
+    /**
      * @param EntityManager $em 
      */
     public function setEntityManager(EntityManager $em) {
