@@ -1,6 +1,17 @@
 <?php
 
 return array(
+    'jaztec' => array(
+        'cache' => array(
+            'name'      => 'filesystem',
+            'options'   => array(
+                'cachedir'          => 'data/cache',
+                'ttl'               => 3600,
+                'dir_permission'    => 0760,
+                'file_permission'   => 0660,
+            ),
+        ),
+    ),
     'service_manager' => array(
         'factories' => array(
         ),
