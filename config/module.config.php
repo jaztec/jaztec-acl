@@ -8,7 +8,7 @@ return array(
             'name'      => 'filesystem',
             'options'   => array(
                 'cachedir'          => __DIR__ . '/../data/cache/acl', 
-                'ttl'               => 3600,
+                'ttl'               => 0,
                 'dir_permission'    => 0760,
                 'file_permission'   => 0660,
             ),
