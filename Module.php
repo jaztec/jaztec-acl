@@ -2,14 +2,9 @@
 
 namespace Jaztec;
 
-use Zend\Http\Request;
 use Zend\ModuleManager\ModuleManager;
-use Doctrine\ORM\EntityManager;
-use Jaztec\Entity\User;
-use Jaztec\Acl\Acl;
 use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
-use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 

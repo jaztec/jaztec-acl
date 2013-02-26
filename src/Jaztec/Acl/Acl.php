@@ -7,36 +7,18 @@
  */
 
 namespace Jaztec\Acl;
+ 
+use Zend\Permissions\Acl\Acl as ZendAcl;
+use Zend\Cache\Storage\StorageInterface;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
-use Zend\Permissions\Acl\Acl as ZendAcl,
-    Doctrine\ORM\EntityManager,
-    Doctrine\ORM\Query\ResultSetMappingBuilder,
-    Jaztec\Entity\Role,
-    Jaztec\Entity\Resource,
-    Jaztec\Entity\Privilege;
-
-class Acl extends ZendAcl {
-    
-    /** @var \Doctrine\ORM\EntityManager */
-    protected $em;
+class Acl extends ZendAcl 
+{
     
     /** @var boolean $loaded */
     protected $loaded;
-    
-    /**
-     * @param EntityManager $em 
-     */
-    public function __construct(EntityManager $em) {
-        $this->em = $em;
-    }
-    
-    /**
-     * @return Doctrine\ORM\EntityManager
-     */
-    public function getEntityManager() {
-        return $this->em;
-    }
-    
+
     /**
      * @return bool
      */
@@ -44,10 +26,10 @@ class Acl extends ZendAcl {
         return $this->loaded;
     }
 
-    public function setupAcl() {
-        $this->insertRoles($this->findRoles())
-             ->insertResources($this->findResources())
-             ->insertPrivileges($this->findPrivileges());
+    public function setupAcl(EntityManager $em) {
+        $this->insertRoles($this->findRoles($em))
+             ->insertResources($this->findResources($em))
+             ->insertPrivileges($this->findPrivileges($em));
         
         $this->loaded = true;
         
@@ -64,7 +46,6 @@ class Acl extends ZendAcl {
                 $this->addRole($role,$parents);
             }
         }
-        
         return $this;
     }
     
@@ -77,7 +58,6 @@ class Acl extends ZendAcl {
                 $this->addResource($resource, $parent);
             }
         }
-        
         return $this;
     }
     
@@ -90,53 +70,34 @@ class Acl extends ZendAcl {
                 $privilege->getPrivilege()
             );
         }
-        
         return $this;
     }
     
-    protected function findRoles() {
-        $em = $this->em;
-        
+    protected function findRoles(EntityManager $em) {
         $sql = 'SELECT ro.* FROM acl_roles ro ORDER BY sort';
-        
+
         $rsm = new ResultSetMappingBuilder($em);
         $rsm->addRootEntityFromClassMetadata('\Jaztec\Entity\Role', 'ro');
-        
-        $roles = array();
-        
         $roles = $em->createNativeQuery($sql, $rsm)->getResult();
         
         return $roles;
     }
     
-    protected function findResources() {
-        $em = $this->em;
-        
+    protected function findResources(EntityManager $em) {
         $sql = 'SELECT re.* FROM acl_resources re ORDER BY sort';
-        
+
         $rsm = new ResultSetMappingBuilder($em);
         $rsm->addRootEntityFromClassMetadata('\Jaztec\Entity\Resource', 're');
-        
-        $resources = array();
-        
         $resources = $em->createNativeQuery($sql, $rsm)->getResult();
-        
-        // Ook de geconfigureerde resources inladen
-        
         
         return $resources;
     }
     
-    protected function findPrivileges() {
-        $em = $this->em;
-        
+    protected function findPrivileges(EntityManager $em) {
         $sql = 'SELECT pr.* FROM acl_privileges pr';
         
         $rsm = new ResultSetMappingBuilder($em);
         $rsm->addRootEntityFromClassMetadata('\Jaztec\Entity\Privilege', 'pr');
-        
-        $privileges = array();
-        
         $privileges = $em->createNativeQuery($sql, $rsm)->getResult();
         
         return $privileges;

@@ -4,7 +4,7 @@ namespace Jaztec\Cache;
 
 use Zend\Cache\Storage\StorageInterface;
 
-interface CacheAwareInterface
+interface CacheAwareInterface 
 {
     /**
      * @param \Zend\Cache\Storage\StorageInterface $storage

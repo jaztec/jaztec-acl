@@ -4,12 +4,11 @@ namespace Jaztec;
 
 use Zend\Cache\StorageFactory;
 
-return array(
-    
+return array( 
     'invokables' => array(
-        'jaztec_acl_service'   => 'Jaztec\Service\AclService',
+        'jaztec_acl_service'    => 'Jaztec\Service\AclService',
     ),
-
+    
     'factories' => array(
         'jaztec_cache' => function($sm) {
             $config = $sm->get('Config');
@@ -25,13 +24,25 @@ return array(
                 ),
             ));
             return $storage;
+        },
+        'jaztec_acl' => function($sm) {
+            $cache = $sm->get('jaztec_cache');
+            if($cache->hasItem('jaztec_acl'))
+                return unserialize ($cache->getItem('jaztec_acl'));
+            else
+                return new Acl\Acl();
         }
     ),
-    
+            
     'initializers' => array(
         'jaztec_em' => function($instance, $sm) {
             if ($instance instanceof Service\AbstractDoctrineService) {
                 $instance->setEntityManager($sm->get('doctrine.entitymanager.orm_default'));
+            }
+        },
+        'jaztec_acl' => function($instance, $sm) {
+            if( $instance instanceof Acl\AclAwareInterface) {
+                $instance->setAcl($sm->get('jaztec_acl'));
             }
         },
         'jaztec_cache' => function($instance, $sm) {

@@ -2,9 +2,17 @@
 
 namespace Jaztec\Service;
 
-class AclService extends AbstractService
+use Jaztec\Acl\AclAwareInterface;
+use Jaztec\Cache\CacheAwareInterface;
+use Jaztec\Acl\Acl as JaztecAcl;
+
+use Zend\Cache\Storage\StorageInterface;
+
+class AclService extends AbstractService implements 
+    AclAwareInterface,
+    CacheAwareInterface
 {
-        /** @var \Jaztec\Acl\Acl $acl */
+    /** @var \Jaztec\Acl\Acl $acl */
     protected $acl;
     
     /** @var \ZfcUser\Controller\Plugin\ZfcUserAuthentication $userAuth */
@@ -13,15 +21,30 @@ class AclService extends AbstractService
     /** @var \Doctrine\ORM\EntityManager $em */
     protected $em;
     
+    /** @var \Zend\Cache\Storage\StorageInterface */
+    protected $cacheStorage;
+    
+    /**
+     * @param \Zend\Cache\Storage\StorageInterface $storage
+     */
+    public function setCacheStorage(StorageInterface $storage)
+    {
+        $this->cacheStorage = $storage;
+    }
+    
+    /**
+     * @return \Zend\Cache\Storage\StorageInterface
+     */
+    public function getCacheStorage()
+    {
+        return $this->cacheStorage;
+    }
+    
     /**
      * @return @\Jaztec\Acl\Acl 
      */
     public function getAcl() {
-        if(null === $this->acl) {
-            $this->acl = new JaztecAcl($this->getEntityManager());
-        }
-        
-        return @$this->acl;
+        return $this->acl;
     }
 
     /**
@@ -30,8 +53,6 @@ class AclService extends AbstractService
      */
     public function setAcl(JaztecAcl $acl) {
         $this->acl = $acl;
-        
-        return $this;
     }
 
     /**
@@ -55,9 +76,8 @@ class AclService extends AbstractService
      */
     public function getEntityManager() {
         if(null === $this->em) {
-            $this->em = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
+            $this->setEntityManager($this->getServiceLocator()->get('doctrine.entitymanager.orm_default'));
         }
-        
         return $this->em;
     }
     
@@ -66,27 +86,6 @@ class AclService extends AbstractService
      */
     public function setEntityManager(EntityManager $em) {
         $this->em = $em;
-    }
-    
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager->getServiceLocator();
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param ServiceManager $locator
-     * @return void
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
     }
     
     /**
@@ -100,7 +99,8 @@ class AclService extends AbstractService
         $acl = $this->getAcl();
         
         if(!$acl->isLoaded()) {
-            $acl->setupAcl();
+            $acl->setupAcl($this->getEntityManager());
+            $this->getCacheStorage()->addItem('jaztec_acl', serialize($acl));
         }
         
         // Controleer of de resource bestaat

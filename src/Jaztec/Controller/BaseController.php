@@ -49,7 +49,7 @@ class BaseController extends AbstractActionController
      */
     public function getUserService()
     {
-        if (!$this->userService) {
+        if (null === $this->userService) {
             $this->userService = $this->getServiceLocator()->get('zfcuser_user_service');
         }
         return $this->userService;
@@ -70,7 +70,7 @@ class BaseController extends AbstractActionController
      */
     public function getAclService()
     {
-        if (!$this->aclService) {
+        if (null === $this->aclService) {
             $this->aclService = $this->getServiceLocator()->get('jaztec_acl_service');
         }
         return $this->aclService;

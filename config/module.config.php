@@ -1,26 +1,24 @@
 <?php
 
-return array(
+namespace Jaztec;
+
+return array( 
     'jaztec' => array(
         'cache' => array(
             'name'      => 'filesystem',
             'options'   => array(
-                'cachedir'          => 'data/cache',
+                'cachedir'          => __DIR__ . '/../data/cache/acl', 
                 'ttl'               => 3600,
                 'dir_permission'    => 0760,
                 'file_permission'   => 0660,
             ),
         ),
     ),
-    'service_manager' => array(
-        'factories' => array(
-        ),
+    
+    'service_manager' => array( 
+
     ),
-    'controller_plugins' => array(
-        'invokables' => array(
-            'jaztecacl' => 'Jaztec\Controller\Plugin\AclHelper',
-        ),
-    ),
+    
     'doctrine' => array(
         'driver' => array(
             'jaztec_driver' => array(

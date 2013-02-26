@@ -2,12 +2,8 @@
 
 namespace Jaztec\Controller;
 
-use Zend\Mvc\McvEvent,
-    Jaztec\Entity\User,
-    Jaztec\Entity\Role,
-    Jaztec\Entity\Resource,
-    Jaztec\Entity\Privilege,
-    Doctrine\ORM\EntityManager;
+use Jaztec\Entity\Role;
+use Doctrine\ORM\EntityManager;
 
 class AutherizedController extends BaseController
 {
@@ -23,7 +19,6 @@ class AutherizedController extends BaseController
      */
     public function setRole(Role $role) {
         $this->role = $role;
-        
         return $this;
     }
     
@@ -42,7 +37,6 @@ class AutherizedController extends BaseController
             }
             $this->setRole($role);
         }
-        
         return $this->role;
     }
     
@@ -60,7 +54,6 @@ class AutherizedController extends BaseController
         if(null === $this->em) {
             $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
         }
-        
         return $this->em;
     }
     
@@ -71,7 +64,7 @@ class AutherizedController extends BaseController
     public function checkAcl(\Zend\Mvc\MvcEvent $e) {
         $params = $e->getRouteMatch()->getParams();
 
-        $allowed = $this->jaztecAcl()->isAllowed(
+        $allowed = $this->getAclService()->isAllowed(
             $this->getRole(),
             $params['controller'],
             $params['action']
