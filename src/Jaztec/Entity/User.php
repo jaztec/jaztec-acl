@@ -256,6 +256,28 @@ class User extends Entity implements ZfcUserInterface {
     }
     
     /**
+     * Get state.
+     *
+     * @return int
+     */
+    public function getState()
+    {
+        return (int) $this->active;
+    }
+
+    /**
+     * Set state.
+     *
+     * @param int $state
+     * @return UserInterface
+     */
+    public function setState($state)
+    {
+        $this->active = (bool) $state;
+        return $this;
+    }
+    
+    /**
      * @return array
      */
     public function serialize() {
