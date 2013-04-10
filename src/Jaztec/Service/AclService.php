@@ -56,17 +56,17 @@ class AclService extends AbstractService implements
     }
 
     /**
-     * @return ZfcUserAuthentication
+     * @return \ZfcUser\Controller\Plugin\ZfcUserAuthentication
      */
     public function getUserAuth() {
         return $this->userAuth;
     }
 
     /**
-     * @param ZfcUserAuthentication $userAuth
+     * @param \ZfcUser\Controller\Plugin\ZfcUserAuthentication $userAuth
      * @return \Jaztec\Acl\Acl 
      */
-    public function setUserAuth(ZfcUserAuthentication $userAuth) {
+    public function setUserAuth(\ZfcUser\Controller\Plugin\ZfcUserAuthentication $userAuth) {
         $this->userAuth = $userAuth;
         return $this;
     }
@@ -84,7 +84,7 @@ class AclService extends AbstractService implements
     /**
      * @param \Doctrine\ORM\EntityManager $em 
      */
-    public function setEntityManager(EntityManager $em) {
+    public function setEntityManager(\Doctrine\ORM\EntityManager $em) {
         $this->em = $em;
     }
     
