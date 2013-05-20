@@ -22,8 +22,6 @@ class BaseController extends AbstractActionController
      * @param \Zend\Mvc\MvcEvent $e
      */
     public function onDispatch(MvcEvent $e) {
-        date_default_timezone_set('Europe/Amsterdam');
-        
         parent::onDispatch($e);
     }    
     

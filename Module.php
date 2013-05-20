@@ -28,7 +28,6 @@ class Module implements
                 }
             }
         ); 
-        
     } 
 
     /**
