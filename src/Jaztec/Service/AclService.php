@@ -99,11 +99,11 @@ class AclService extends AbstractService implements
         $acl = $this->getAcl();
         
         if(!$acl->isLoaded()) {
-            $cache = $this->getCacheStorage();
+//            $cache = $this->getCacheStorage();
             $acl->setupAcl($this->getEntityManager());
-            if($cache->hasItem('jaztec_acl'))
-                $cache->removeItem('jaztec_acl');
-            $cache->addItem('jaztec_acl', $acl); 
+//            if($cache->hasItem('jaztec_acl'))
+//                $cache->removeItem('jaztec_acl');
+//            $cache->addItem('jaztec_acl', $acl); 
         }
         
         // Controleer of de resource bestaat
