@@ -3,20 +3,11 @@
 namespace Jaztec;
 
 return array( 
+    
     'jaztec' => array(
         'cache' => array(
-            'name'      => 'filesystem',
-            'options'   => array(
-                'cachedir'          => __DIR__ . '/../../../data/cache/acl', 
-                'ttl'               => 0,
-                'dir_permission'    => 0760,
-                'file_permission'   => 0660,
-            ),
+            'name'      => 'apc'
         ),
-    ),
-    
-    'service_manager' => array( 
-
     ),
     
     'doctrine' => array(

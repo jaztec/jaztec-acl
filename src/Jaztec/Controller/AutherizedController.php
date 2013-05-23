@@ -4,30 +4,31 @@ namespace Jaztec\Controller;
 
 use Jaztec\Entity\Role;
 use Doctrine\ORM\EntityManager;
+use Zend\Permissions\Acl\Role\RoleInterface;
 
 class AutherizedController extends BaseController
 {
     /** @var EntityManager $em */
     protected $em;
 
-    /** @var Role $role */
+    /** @var \Zend\Permissions\Acl\Role\RoleInterface $role */
     protected $role;
        
     /**
-     * @param Role $role
+     * @param \Zend\Permissions\Acl\Role\RoleInterface $role
      * @return \Jaztec\Controller\AutherizedController 
      */
-    public function setRole(Role $role) {
+    public function setRole(RoleInterface $role) {
         $this->role = $role;
         return $this;
     }
     
     /**
-     * @return Role
+     * @return \Zend\Permissions\Acl\Role\RoleInterface
      */
     public function getRole() {
         if(null === $this->role) {
-            if ($this->zfcUserAuthentication()->hasIdentity()) {
+            if ($this->zfcUserAuthentication()->hasIdentity()) { 
                 $role = $this->zfcUserAuthentication()->getIdentity()->getRole();
             } else {
                 $em = $this->getEntityManager();
@@ -63,7 +64,7 @@ class AutherizedController extends BaseController
      */
     public function checkAcl(\Zend\Mvc\MvcEvent $e) {
         $params = $e->getRouteMatch()->getParams();
-
+        
         $allowed = $this->getAclService()->isAllowed(
             $this->getRole(),
             $params['controller'],

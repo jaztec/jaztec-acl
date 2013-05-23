@@ -12,24 +12,18 @@ return array(
     'factories' => array(
         'jaztec_cache' => function($sm) {
             $config = $sm->get('Config');
-            $storage = StorageFactory::factory(array(
-                'adapter'   => $config['jaztec']['cache'],
-                'plugins'   => array(
-                    array(
-                        'name'      => 'serializer',
-                        'options'   => array(
-                            'serializer' => 'Zend\Serializer\Adapter\PhpCode'
-                        ),
-                    ),
-                ),
-            ));
-            return $storage;
+            $storage = StorageFactory::adapterFactory($config['jaztec']['cache']['name']);
+            $plugin = StorageFactory::pluginFactory('serializer', array('serializer' => 'Zend\Serializer\Adapter\PhpSerialize'));
+            $storage->addPlugin($plugin);
+            return $storage; 
         },
         'jaztec_acl' => function($sm) {
-            $cache = $sm->get('jaztec_cache');
-            if($cache->hasItem('jaztec_acl'))
-                return unserialize ($cache->getItem('jaztec_acl'));
-            else
+//            Cache tijdelijk uitgeschakeld, dit geeft een probleem met Zend\Permissions\Acl\Acl, isAllowed.
+//            RoleRegistry verneukt de role wanneer deze opgehaald wordt vanuit een gecached Acl object.
+//            $cache = $sm->get('jaztec_cache');
+//            if($cache->hasItem('jaztec_acl'))
+//                return $cache->getItem('jaztec_acl');
+//            else
                 return new Acl\Acl();
         }
     ),
