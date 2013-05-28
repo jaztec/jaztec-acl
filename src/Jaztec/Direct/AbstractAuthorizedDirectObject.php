@@ -23,7 +23,6 @@ class AbstractAuthorizedDirectObject extends AbstractDirectObject
      */
     public function checkAcl()
     {
-        var_dump($this->aclDenominator); 
         $allowed = $this->getAclService()->isAllowed($this->getRole(), $this->aclDenominator, '');
         return $allowed;
     }
