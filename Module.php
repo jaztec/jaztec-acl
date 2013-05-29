@@ -32,7 +32,7 @@ class Module implements
         ); 
         $events->attach(
             'KJSencha\Controller\DirectController', 
-            DirectEvent::EVENT_RPCDISPATCH, 
+            DirectEvent::EVENT_DISPATCH_RPC, 
             function($e) {
                 $object = $e->getParam('object');
                 
