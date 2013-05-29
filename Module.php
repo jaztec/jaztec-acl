@@ -7,6 +7,8 @@ use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
+use KJSencha\Direct\DirectEvent;
+use KJSencha\Controller\DirectController;
 
 class Module implements
     AutoloaderProviderInterface,
@@ -25,6 +27,21 @@ class Module implements
                 // Acl controle uitvoeren
                 if($controller instanceof \Jaztec\Controller\AutherizedController) {
                     $controller->checkAcl($e);
+                }
+            }
+        ); 
+        $events->attach(
+            'KJSencha\Controller\DirectController', 
+            DirectEvent::EVENT_RPCDISPATCH, 
+            function($e) {
+                $object = $e->getParam('object');
+                
+                // Acl controle uitvoeren
+                if($object instanceof \Jaztec\Direct\AbstractAuthorizedDirectObject) {
+                    if(!$object->checkAcl()) {
+                        $e->stopPropagation(true);
+                        return $object->notAllowed();
+                    }
                 }
             }
         ); 

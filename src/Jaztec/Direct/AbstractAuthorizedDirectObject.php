@@ -5,9 +5,12 @@ namespace Jaztec\Direct;
 use Jaztec\Acl\Acl;
 use Jaztec\Service\AclService;
 use Zend\Permissions\Acl\Role\RoleInterface;
- 
+
 class AbstractAuthorizedDirectObject extends AbstractDirectObject
 {
+    /** @var \Doctrine\ORM\EntityManager $em */
+    protected $em;
+
     /** @var \Zend\Permissions\Acl\Role\RoleInterface $role */
     protected $role;
     
@@ -85,4 +88,21 @@ class AbstractAuthorizedDirectObject extends AbstractDirectObject
         }
         return $this->role;
     } 
+    
+    /**
+     * @param \Doctrine\ORM\EntityManager $em 
+     */
+    public function setEntityManager(EntityManager $em) {
+        $this->em = $em;
+    }
+    
+    /**
+     * @return \Doctrine\ORM\EntityManager 
+     */
+    public function getEntityManager() {
+        if(null === $this->em) {
+            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+        }
+        return $this->em;
+    }
 }
