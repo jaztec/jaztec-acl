@@ -6,6 +6,7 @@ CREATE TABLE `acl_roles` (
   `parent` int(11) DEFAULT NULL,
   `sort` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
   KEY `FK_role_parent_idx` (`parent`),
   CONSTRAINT `FK_role_parent` FOREIGN KEY (`parent`) REFERENCES `acl_roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB$$
@@ -40,6 +41,7 @@ CREATE TABLE `acl_resources` (
   `parent` int(11) DEFAULT NULL,
   `sort` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
   KEY `FK_resource_parent_idx` (`parent`),
   CONSTRAINT `FK_resource_parent` FOREIGN KEY (`parent`) REFERENCES `acl_resources` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB$$

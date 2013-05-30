@@ -8,6 +8,7 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use KJSencha\Direct\DirectEvent;
 use Zend\Mvc\MvcEvent;
+use Zend\EventManager\Event;
 
 class Module implements
     AutoloaderProviderInterface,
@@ -70,11 +71,11 @@ class Module implements
      * @param \Zend\Mvc\MvcEvent $e
      * @return null|array
      */
-    public function onDispatchDirect(MvcEvent $e) {
+    public function onDispatchDirect(Event $e) {
         $object = $e->getParam('object');
 
         // Check ACL
-        if ($object instanceof \JaztecAcl\Direct\AbstractAuthorizedDirectObject) {
+        if ($object instanceof \JaztecAcl\Direct\AuthorizedDirectObject) {
             if (!$object->checkAcl()) {
                 $e->stopPropagation(true);
                 return $object->notAllowed();

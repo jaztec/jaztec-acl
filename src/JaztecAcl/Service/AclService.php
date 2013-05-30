@@ -8,7 +8,9 @@ use JaztecAcl\Acl\Acl as JaztecAclAcl;
 use Zend\Cache\Storage\StorageInterface;
 
 class AclService extends AbstractService implements
-AclAwareInterface, CacheAwareInterface {
+    AclAwareInterface,
+    CacheAwareInterface
+{
 
     /** @var \JaztecAcl\Acl\Acl $acl */
     protected $acl;
@@ -21,6 +23,9 @@ AclAwareInterface, CacheAwareInterface {
 
     /** @var \Zend\Cache\Storage\StorageInterface */
     protected $cacheStorage;
+
+    /** @var array */
+    protected $config;
 
     /**
      * @param \Zend\Cache\Storage\StorageInterface $storage
