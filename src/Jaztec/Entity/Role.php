@@ -9,8 +9,8 @@ use Doctrine\ORM\Mapping as ORM,
  * @ORM\Entity
  * @ORM\Table(name="acl_roles") 
  */
-class Role extends Entity implements ZendRoleInterface
-{
+class Role extends Entity implements ZendRoleInterface {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -19,21 +19,21 @@ class Role extends Entity implements ZendRoleInterface
      * @var int
      */
     protected $id;
-    
+
     /**
      * @ORM\Column(type="string")
      * 
      * @var string
      */
     protected $name;
-    
+
     /**
      * @ORM\Column(type="integer")
      * 
      * @var int
-     */    
+     */
     protected $sort;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Role")
      * @ORM\JoinColumn(name="parent", referencedColumnName="id")
@@ -41,7 +41,7 @@ class Role extends Entity implements ZendRoleInterface
      * @var \Jaztec\Entity\Role
      */
     protected $parent;
-    
+
     /**
      * @return int
      */
@@ -55,7 +55,7 @@ class Role extends Entity implements ZendRoleInterface
      */
     public function setId($id) {
         $this->id = (int) $id;
-        
+
         return $this;
     }
 
@@ -72,7 +72,7 @@ class Role extends Entity implements ZendRoleInterface
      */
     public function setName($name) {
         $this->name = $name;
-        
+
         return $this;
     }
 
@@ -89,7 +89,7 @@ class Role extends Entity implements ZendRoleInterface
      */
     public function setSort($sort) {
         $this->sort = (int) $sort;
-        
+
         return $this;
     }
 
@@ -106,16 +106,16 @@ class Role extends Entity implements ZendRoleInterface
      */
     public function setParent(\Jaztec\Entity\Role $parent) {
         $this->parent = $parent;
-        
+
         return $this;
     }
-    
+
     /**
      * @return \Jaztec\Entity\Role
      */
     public function clearParent() {
         $this->parent = null;
-        
+
         return $this;
     }
 
@@ -125,13 +125,16 @@ class Role extends Entity implements ZendRoleInterface
     public function getRoleId() {
         return $this->name;
     }
-    
+
+    /**
+     * @return array
+     */
     public function serialize() {
         return array(
-            'RoleID'        => $this->getId(),
-            'Name'          => $this->getRoleId(),
-            'ParentID'      => $this->getParent() === null ? null : $this->getParent()->getId(),
-            'Parent'        => $this->getParent() === null ? null : $this->getParent()->getRoleId(),
+            'RoleID' => $this->getId(),
+            'Name' => $this->getRoleId(),
+            'ParentID' => $this->getParent() === null ? null : $this->getParent()->getId(),
+            'Parent' => $this->getParent() === null ? null : $this->getParent()->getRoleId(),
         );
     }
 

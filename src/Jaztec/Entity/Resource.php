@@ -9,8 +9,8 @@ use Doctrine\ORM\Mapping as ORM,
  * @ORM\Entity
  * @ORM\Table(name="acl_resources") 
  */
-class Resource extends Entity implements ZendResourceInterface
-{
+class Resource extends Entity implements ZendResourceInterface {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -19,14 +19,14 @@ class Resource extends Entity implements ZendResourceInterface
      * @var integer
      */
     protected $id;
-    
+
     /**
      * @ORM\Column(type="string")
      * 
      * @var string
      */
     protected $name;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Resource")
      * @ORM\JoinColumn(name="parent", referencedColumnName="id")
@@ -34,14 +34,14 @@ class Resource extends Entity implements ZendResourceInterface
      * @var \Jaztec\Entity\Resource
      */
     protected $parent;
-    
+
     /**
      * @ORM\Column(type="integer")
      * 
      * @var integer
      */
     protected $sort;
-    
+
     /**
      * @return int 
      */
@@ -55,7 +55,7 @@ class Resource extends Entity implements ZendResourceInterface
      */
     public function setId($id) {
         $this->id = (int) $id;
-        
+
         return $this;
     }
 
@@ -72,7 +72,7 @@ class Resource extends Entity implements ZendResourceInterface
      */
     public function setName($name) {
         $this->name = $name;
-        
+
         return $this;
     }
 
@@ -89,16 +89,16 @@ class Resource extends Entity implements ZendResourceInterface
      */
     public function setParent(\Jaztec\Entity\Resource $parent) {
         $this->parent = $parent;
-        
+
         return $this;
     }
-    
+
     /**
      * @return Resource
      */
     public function clearParent() {
         $this->parent = null;
-        
+
         return $this;
     }
 
@@ -115,7 +115,7 @@ class Resource extends Entity implements ZendResourceInterface
      */
     public function setSort($sort) {
         $this->sort = (int) $sort;
-        
+
         return $this;
     }
 
@@ -125,13 +125,17 @@ class Resource extends Entity implements ZendResourceInterface
     public function getResourceId() {
         return $this->name;
     }
-    
+
+    /**
+     * @return array
+     */
     public function serialize() {
         return array(
-            'ResourceID'    => $this->getId(),
-            'Name'          => $this->getResourceId(),
-            'ParentID'      => $this->getParent() === null ? null : $this->getParent()->getId(),
-            'Parent'        => $this->getParent() === null ? null : $this->getParent()->getResourceId(),
+            'ResourceID' => $this->getId(),
+            'Name' => $this->getResourceId(),
+            'ParentID' => $this->getParent() === null ? null : $this->getParent()->getId(),
+            'Parent' => $this->getParent() === null ? null : $this->getParent()->getResourceId(),
         );
     }
+
 }

@@ -10,37 +10,34 @@ use Zend\EventManager\ResponseCollection;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class AbstractService implements 
-        ServiceLocatorAwareInterface, 
-        EventManagerAwareInterface
-{
+class AbstractService implements
+ServiceLocatorAwareInterface, EventManagerAwareInterface {
+
     /**
-     * @var EventManagerInterface
+     * @var \Zend\EventManager\EventManagerInterface $events
      */
     protected $events;
 
     /**
-     * @var ServiceLocatorInterface
+     * @var \Zend\ServiceManager\ServiceLocatorInterface $locator
      */
     protected $locator;
 
     /**
-     * set service locator
+     * Set service locator
      *
-     * @param ServiceLocatorInterface $locator
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $locator
      */
-    public function setServiceLocator(ServiceLocatorInterface $locator)
-    {
+    public function setServiceLocator(ServiceLocatorInterface $locator) {
         $this->locator = $locator;
     }
 
     /**
-     * get service locator
+     * Get service locator
      *
-     * @return ServiceLocatorInterface
+     * @return \Zend\ServiceManager\ServiceLocatorInterface
      */
-    public function getServiceLocator()
-    {
+    public function getServiceLocator() {
         return $this->locator;
     }
 
@@ -52,8 +49,7 @@ class AbstractService implements
      * @param  Closure $callback
      * @return array
      */
-    protected function triggerParamsMergeEvent($event, $argv = array(), $callback = null)
-    {
+    protected function triggerParamsMergeEvent($event, $argv = array(), $callback = null) {
         $eventRet = $this->triggerEvent($event, $argv, $callback);
         foreach ($eventRet as $event) {
             if (is_array($event) || $event instanceof Traversable) {
@@ -70,19 +66,17 @@ class AbstractService implements
      * @param  Closure|null       $callback
      * @return ResponseCollection
      */
-    protected function triggerEvent($event, $argv = array(), $callback = null)
-    {
+    protected function triggerEvent($event, $argv = array(), $callback = null) {
         return $this->getEventManager()->trigger($event, $this, $argv, $callback);
     }
 
     /**
      * Set the event manager instance used by this context
-     *
-     * @param  EventManagerInterface $events
-     * @return mixed
+     * 
+     * @param \Zend\EventManager\EventManagerInterface $events
+     * @return \Jaztec\Service\AbstractService
      */
-    public function setEventManager(EventManagerInterface $events)
-    {
+    public function setEventManager(EventManagerInterface $events) {
         $events->setIdentifiers(array(__CLASS__, get_called_class()));
         $this->events = $events;
         $this->attachDefaultListeners();
@@ -97,8 +91,7 @@ class AbstractService implements
      *
      * @return EventManagerInterface
      */
-    public function getEventManager()
-    {
+    public function getEventManager() {
         if (null === $this->events) {
             $this->setEventManager($this->getServiceLocator()->get('EventManager'));
         }
@@ -111,16 +104,14 @@ class AbstractService implements
      *
      * @return void
      */
-    protected function attachDefaultListeners()
-    {
-
+    protected function attachDefaultListeners() {
+        
     }
-    
+
     /**
      * @return \ZfcUser\Service\User
      */
-    public function getUserService()
-    {
+    public function getUserService() {
         if (!$this->userService) {
             $this->userService = $this->getServiceLocator()->get('zfcuser_user_service');
         }
@@ -129,11 +120,11 @@ class AbstractService implements
 
     /**
      * @param \ZfcUser\Service\User $userService
-     * @return \JaztecAdmin\Controller\UsersController
+     * @return \Jaztec\Service\AbstractService
      */
-    public function setUserService(UserService $userService)
-    {
+    public function setUserService(\ZfcUser\Service\User $userService) {
         $this->userService = $userService;
         return $this;
     }
+
 }
