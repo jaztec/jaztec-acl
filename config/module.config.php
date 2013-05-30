@@ -3,10 +3,8 @@
 namespace JaztecAcl;
 
 return array(
-    'jaztec' => array(
-        'cache' => array(
-            'name' => 'apc'
-        ),
+    'jaztec'    => array(
+        
     ),
     'doctrine' => array(
         'driver' => array(

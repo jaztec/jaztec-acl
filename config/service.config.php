@@ -11,7 +11,11 @@ return array(
     'factories' => array(
         'jaztec_cache' => function($sm) {
             $config = $sm->get('Config');
-            $storage = StorageFactory::adapterFactory($config['jaztec']['cache']['name']);
+            if (array_key_exists('cache', $config['jaztec'])) {
+                $storage = StorageFactory::adapterFactory($config['jaztec']['cache']['name']);
+            } else {
+                $storage = StorageFactory::adapterFactory('FileSystem');
+            }
             $plugin = StorageFactory::pluginFactory('serializer', array('serializer' => 'Zend\Serializer\Adapter\PhpSerialize'));
             $storage->addPlugin($plugin);
             return $storage;
