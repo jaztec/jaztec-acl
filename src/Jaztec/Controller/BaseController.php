@@ -1,10 +1,10 @@
 <?php
 
-namespace Jaztec\Controller;
+namespace JaztecAcl\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use ZfcUser\Service\User as UserService;
-use Jaztec\Service\AclService;
+use JaztecAcl\Service\AclService;
 use Zend\Mvc\MvcEvent;
 
 class BaseController extends AbstractActionController {
@@ -15,7 +15,7 @@ class BaseController extends AbstractActionController {
     /** @var ZfcUser\Service\User $em */
     protected $userService;
 
-    /** @var Jaztec\Service\AclService $aclService */
+    /** @var JaztecAcl\Service\AclService $aclService */
     protected $aclService;
 
     /**
@@ -54,7 +54,7 @@ class BaseController extends AbstractActionController {
 
     /**
      * @param \ZfcUser\Service\User $userService
-     * @return \JaztecAdmin\Controller\UsersController
+     * @return \JaztecAclAdmin\Controller\UsersController
      */
     public function setUserService(UserService $userService) {
         $this->userService = $userService;
@@ -62,7 +62,7 @@ class BaseController extends AbstractActionController {
     }
 
     /**
-     * @return \Jaztec\Service\AclService
+     * @return \JaztecAcl\Service\AclService
      */
     public function getAclService() {
         if (null === $this->aclService) {
@@ -72,8 +72,8 @@ class BaseController extends AbstractActionController {
     }
 
     /**
-     * @param \Jaztec\Service\AclService $aclService
-     * @return \Jaztec\Controller\BaseController
+     * @param \JaztecAcl\Service\AclService $aclService
+     * @return \JaztecAcl\Controller\BaseController
      */
     public function setAclService(AclService $aclService) {
         $this->aclService = $aclService;

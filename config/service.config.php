@@ -1,12 +1,12 @@
 <?php
 
-namespace Jaztec;
+namespace JaztecAcl;
 
 use Zend\Cache\StorageFactory;
 
 return array(
     'invokables' => array(
-        'jaztec_acl_service' => 'Jaztec\Service\AclService',
+        'jaztec_acl_service' => 'JaztecAcl\Service\AclService',
     ),
     'factories' => array(
         'jaztec_cache' => function($sm) {

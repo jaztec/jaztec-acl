@@ -1,6 +1,6 @@
 <?php
 
-namespace Jaztec\Cache;
+namespace JaztecAcl\Cache;
 
 use Zend\Cache\Storage\StorageInterface;
 

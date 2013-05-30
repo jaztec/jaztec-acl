@@ -1,6 +1,6 @@
 <?php
 
-namespace Jaztec\Service;
+namespace JaztecAcl\Service;
 
 use Closure;
 use Traversable;
@@ -74,7 +74,7 @@ ServiceLocatorAwareInterface, EventManagerAwareInterface {
      * Set the event manager instance used by this context
      * 
      * @param \Zend\EventManager\EventManagerInterface $events
-     * @return \Jaztec\Service\AbstractService
+     * @return \JaztecAcl\Service\AbstractService
      */
     public function setEventManager(EventManagerInterface $events) {
         $events->setIdentifiers(array(__CLASS__, get_called_class()));
@@ -120,7 +120,7 @@ ServiceLocatorAwareInterface, EventManagerAwareInterface {
 
     /**
      * @param \ZfcUser\Service\User $userService
-     * @return \Jaztec\Service\AbstractService
+     * @return \JaztecAcl\Service\AbstractService
      */
     public function setUserService(\ZfcUser\Service\User $userService) {
         $this->userService = $userService;

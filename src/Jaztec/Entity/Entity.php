@@ -1,6 +1,6 @@
 <?php
 
-namespace Jaztec\Entity;
+namespace JaztecAcl\Entity;
 
 abstract class Entity {
 
@@ -8,7 +8,7 @@ abstract class Entity {
      * Probeer de waarden van een array toe te voegen aan de entity
      * 
      * @param array $array
-     * @return \Jaztec\Entity\Entity
+     * @return \JaztecAcl\Entity\Entity
      */
     public function updateFromArray(array $array) {
         foreach ($array as $key => $value) {

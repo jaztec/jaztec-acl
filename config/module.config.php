@@ -1,6 +1,6 @@
 <?php
 
-namespace Jaztec;
+namespace JaztecAcl;
 
 return array(
     'jaztec' => array(
@@ -14,19 +14,19 @@ return array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(
-                    __DIR__ . '/../src/Jaztec/Entity',
+                    __DIR__ . '/../src/JaztecAcl/Entity',
                 )
             ),
             'zfcuser_entity' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(
-                    __DIR__ . '/../src/Jaztec/Entity',
+                    __DIR__ . '/../src/JaztecAcl/Entity',
                 )
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'Jaztec\Entity' => 'jaztec_driver',
+                    'JaztecAcl\Entity' => 'jaztec_driver',
                     'ZfcUser\Entity' => 'zfcuser_entity',
                 )
             )

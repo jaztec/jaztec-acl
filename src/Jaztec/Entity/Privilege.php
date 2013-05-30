@@ -1,6 +1,6 @@
 <?php
 
-namespace Jaztec\Entity;
+namespace JaztecAcl\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -37,7 +37,7 @@ class Privilege extends Entity {
      * @ORM\ManyToOne(targetEntity="Role")
      * @ORM\JoinColumn(name="role", referencedColumnName="id")
      * 
-     * @var \Jaztec\Entity\Role
+     * @var \JaztecAcl\Entity\Role
      */
     protected $role;
 
@@ -45,7 +45,7 @@ class Privilege extends Entity {
      * @ORM\ManyToOne(targetEntity="Resource")
      * @ORM\JoinColumn(name="resource", referencedColumnName="id")
      * 
-     * @var \Jaztec\Entity\Role
+     * @var \JaztecAcl\Entity\Role
      */
     protected $resource;
 
@@ -65,7 +65,7 @@ class Privilege extends Entity {
 
     /**
      * @param string $type
-     * @return \Jaztec\Entity\Privilege
+     * @return \JaztecAcl\Entity\Privilege
      */
     public function setType($type) {
         $this->type = $type;
@@ -82,7 +82,7 @@ class Privilege extends Entity {
 
     /**
      * @param string $privilege
-     * @return \Jaztec\Entity\Privilege
+     * @return \JaztecAcl\Entity\Privilege
      */
     public function setPrivilege($privilege) {
         $this->privilege = $privilege;
@@ -91,15 +91,15 @@ class Privilege extends Entity {
     }
 
     /**
-     * @return \Jaztec\Entity\Role
+     * @return \JaztecAcl\Entity\Role
      */
     public function getRole() {
         return $this->role;
     }
 
     /**
-     * @param \Jaztec\Entity\Role $role
-     * @return \Jaztec\Entity\Privilege
+     * @param \JaztecAcl\Entity\Role $role
+     * @return \JaztecAcl\Entity\Privilege
      */
     public function setRole(Role $role) {
         $this->role = $role;
@@ -108,7 +108,7 @@ class Privilege extends Entity {
     }
 
     /**
-     * @return \Jaztec\Entity\Privilege
+     * @return \JaztecAcl\Entity\Privilege
      */
     public function clearRole() {
         $this->role = null;
@@ -117,15 +117,15 @@ class Privilege extends Entity {
     }
 
     /**
-     * @return \Jaztec\Entity\Resource
+     * @return \JaztecAcl\Entity\Resource
      */
     public function getResource() {
         return $this->resource;
     }
 
     /**
-     * @param \Jaztec\Entity\Resource $resource
-     * @return \Jaztec\Entity\Privilege
+     * @param \JaztecAcl\Entity\Resource $resource
+     * @return \JaztecAcl\Entity\Privilege
      */
     public function setResource(Resource $resource) {
         $this->resource = $resource;
@@ -134,7 +134,7 @@ class Privilege extends Entity {
     }
 
     /**
-     * @return \Jaztec\Entity\Privilege
+     * @return \JaztecAcl\Entity\Privilege
      */
     public function clearResource() {
         $this->resource = null;

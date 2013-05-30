@@ -4,10 +4,10 @@
  * Database driven ACL class.
  * 
  * @author Jasper van Herpt
- * @package Jaztec\Acl 
+ * @package JaztecAcl\Acl 
  */
 
-namespace Jaztec\Acl;
+namespace JaztecAcl\Acl;
 
 use Zend\Permissions\Acl\Acl as ZendAcl;
 use Zend\Cache\Storage\StorageInterface;
@@ -30,7 +30,7 @@ class Acl extends ZendAcl {
      * Build a new ACL object from the database.
      * 
      * @param \Doctrine\ORM\EntityManager $em
-     * @return \Jaztec\Acl\Acl
+     * @return \JaztecAcl\Acl\Acl
      */
     public function setupAcl(EntityManager $em) {
         $this->insertRoles($this->findRoles($em))
@@ -46,7 +46,7 @@ class Acl extends ZendAcl {
      * Insert an array of roles into the current ACL object.
      * 
      * @param array $roles
-     * @return \Jaztec\Acl\Acl
+     * @return \JaztecAcl\Acl\Acl
      */
     protected function insertRoles(array $roles) {
         foreach ($roles as $role) {
@@ -65,7 +65,7 @@ class Acl extends ZendAcl {
      * Inserts an array of resources into the current ACL object.
      * 
      * @param array $resources
-     * @return \Jaztec\Acl\Acl
+     * @return \JaztecAcl\Acl\Acl
      */
     protected function insertResources(array $resources) {
         foreach ($resources as $resource) {
@@ -83,7 +83,7 @@ class Acl extends ZendAcl {
      * Setup the privileges.
      * 
      * @param array $privileges
-     * @return \Jaztec\Acl\Acl
+     * @return \JaztecAcl\Acl\Acl
      */
     protected function insertPrivileges(array $privileges) {
         foreach ($privileges as $privilege) {
@@ -104,7 +104,7 @@ class Acl extends ZendAcl {
     protected function findRoles(EntityManager $em) {
         $sql = 'SELECT ro.* FROM acl_roles ro ORDER BY sort';
         $rsm = new ResultSetMappingBuilder($em);
-        $rsm->addRootEntityFromClassMetadata('\Jaztec\Entity\Role', 'ro');
+        $rsm->addRootEntityFromClassMetadata('\JaztecAcl\Entity\Role', 'ro');
         $roles = $em->createNativeQuery($sql, $rsm)->getResult();
 
         return $roles;
@@ -119,7 +119,7 @@ class Acl extends ZendAcl {
     protected function findResources(EntityManager $em) {
         $sql = 'SELECT re.* FROM acl_resources re ORDER BY sort';
         $rsm = new ResultSetMappingBuilder($em);
-        $rsm->addRootEntityFromClassMetadata('\Jaztec\Entity\Resource', 're');
+        $rsm->addRootEntityFromClassMetadata('\JaztecAcl\Entity\Resource', 're');
         $resources = $em->createNativeQuery($sql, $rsm)->getResult();
 
         return $resources;
@@ -134,7 +134,7 @@ class Acl extends ZendAcl {
     protected function findPrivileges(EntityManager $em) {
         $sql = 'SELECT pr.* FROM acl_privileges pr';
         $rsm = new ResultSetMappingBuilder($em);
-        $rsm->addRootEntityFromClassMetadata('\Jaztec\Entity\Privilege', 'pr');
+        $rsm->addRootEntityFromClassMetadata('\JaztecAcl\Entity\Privilege', 'pr');
         $privileges = $em->createNativeQuery($sql, $rsm)->getResult();
 
         return $privileges;

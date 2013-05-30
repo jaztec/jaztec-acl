@@ -1,6 +1,6 @@
 <?php
 
-namespace Jaztec;
+namespace JaztecAcl;
 
 use Zend\ModuleManager\ModuleManager;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
@@ -18,7 +18,7 @@ AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface {
                     $controller = $e->getTarget();
 
                     // Check ACL
-                    if ($controller instanceof \Jaztec\Controller\AutherizedController) {
+                    if ($controller instanceof \JaztecAcl\Controller\AutherizedController) {
                         $controller->checkAcl($e);
                     }
                 }
@@ -28,7 +28,7 @@ AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface {
                     $object = $e->getParam('object');
 
                     // Check ACL
-                    if ($object instanceof \Jaztec\Direct\AbstractAuthorizedDirectObject) {
+                    if ($object instanceof \JaztecAcl\Direct\AbstractAuthorizedDirectObject) {
                         if (!$object->checkAcl()) {
                             $e->stopPropagation(true);
                             return $object->notAllowed();

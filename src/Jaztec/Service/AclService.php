@@ -1,16 +1,16 @@
 <?php
 
-namespace Jaztec\Service;
+namespace JaztecAcl\Service;
 
-use Jaztec\Acl\AclAwareInterface;
-use Jaztec\Cache\CacheAwareInterface;
-use Jaztec\Acl\Acl as JaztecAcl;
+use JaztecAcl\Acl\AclAwareInterface;
+use JaztecAcl\Cache\CacheAwareInterface;
+use JaztecAcl\Acl\Acl as JaztecAclAcl;
 use Zend\Cache\Storage\StorageInterface;
 
 class AclService extends AbstractService implements
 AclAwareInterface, CacheAwareInterface {
 
-    /** @var \Jaztec\Acl\Acl $acl */
+    /** @var \JaztecAcl\Acl\Acl $acl */
     protected $acl;
 
     /** @var \ZfcUser\Controller\Plugin\ZfcUserAuthentication $userAuth */
@@ -37,17 +37,17 @@ AclAwareInterface, CacheAwareInterface {
     }
 
     /**
-     * @return @\Jaztec\Acl\Acl 
+     * @return @\JaztecAcl\Acl\Acl 
      */
     public function getAcl() {
         return $this->acl;
     }
 
     /**
-     * @param \Jaztec\Acl\Acl $acl
-     * @return \Jaztec\Acl\Acl 
+     * @param \JaztecAcl\Acl\Acl $acl
+     * @return \JaztecAcl\Acl\Acl 
      */
-    public function setAcl(JaztecAcl $acl) {
+    public function setAcl(JaztecAclAcl $acl) {
         $this->acl = $acl;
     }
 
@@ -60,7 +60,7 @@ AclAwareInterface, CacheAwareInterface {
 
     /**
      * @param \ZfcUser\Controller\Plugin\ZfcUserAuthentication $userAuth
-     * @return \Jaztec\Acl\Acl 
+     * @return \JaztecAcl\Acl\Acl 
      */
     public function setUserAuth(\ZfcUser\Controller\Plugin\ZfcUserAuthentication $userAuth) {
         $this->userAuth = $userAuth;

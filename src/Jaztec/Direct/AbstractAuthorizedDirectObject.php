@@ -1,9 +1,9 @@
 <?php
 
-namespace Jaztec\Direct;
+namespace JaztecAcl\Direct;
 
-use Jaztec\Acl\Acl;
-use Jaztec\Service\AclService;
+use JaztecAcl\Acl\Acl;
+use JaztecAcl\Service\AclService;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
 class AbstractAuthorizedDirectObject extends AbstractDirectObject {
@@ -14,7 +14,7 @@ class AbstractAuthorizedDirectObject extends AbstractDirectObject {
     /** @var \Zend\Permissions\Acl\Role\RoleInterface $role */
     protected $role;
 
-    /** @var \Jaztec\Service\AclService $aclService */
+    /** @var \JaztecAcl\Service\AclService $aclService */
     protected $aclService;
 
     /** @var string $aclDenominator */
@@ -40,7 +40,7 @@ class AbstractAuthorizedDirectObject extends AbstractDirectObject {
     }
 
     /**
-     * @return \Jaztec\Service\AclService
+     * @return \JaztecAcl\Service\AclService
      */
     protected function getAclService() {
         if (null === $this->aclService) {
@@ -50,8 +50,8 @@ class AbstractAuthorizedDirectObject extends AbstractDirectObject {
     }
 
     /**
-     * @param \Jaztec\Service\AclService $aclService
-     * @return \Jaztec\Controller\BaseController
+     * @param \JaztecAcl\Service\AclService $aclService
+     * @return \JaztecAcl\Controller\BaseController
      */
     public function setAclService(AclService $aclService) {
         $this->aclService = $aclService;
@@ -60,7 +60,7 @@ class AbstractAuthorizedDirectObject extends AbstractDirectObject {
 
     /**
      * @param \Zend\Permissions\Acl\Role\RoleInterface $role
-     * @return \Jaztec\Direct\AbstractAuthorizedDirectObject
+     * @return \JaztecAcl\Direct\AbstractAuthorizedDirectObject
      */
     public function setRole(RoleInterface $role) {
         $this->role = $role;
@@ -78,7 +78,7 @@ class AbstractAuthorizedDirectObject extends AbstractDirectObject {
                 $em = $this->getEntityManager();
                 /** @var EntityManager $em */
                 // Haal de eerste rol op, altijd guest.
-                $role = $em->find('\Jaztec\Entity\Role', 1);
+                $role = $em->find('\JaztecAcl\Entity\Role', 1);
             }
             $this->setRole($role);
         }

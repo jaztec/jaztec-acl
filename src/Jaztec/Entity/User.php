@@ -1,6 +1,6 @@
 <?php
 
-namespace Jaztec\Entity;
+namespace JaztecAcl\Entity;
 
 use ZfcUser\Entity\UserInterface as ZfcUserInterface,
     Doctrine\ORM\Mapping as ORM;
@@ -101,7 +101,7 @@ class User extends Entity implements ZfcUserInterface {
 
     /**
      * @param int $id
-     * @return \Jaztec\Entity\User
+     * @return \JaztecAcl\Entity\User
      */
     public function setId($id) {
         $this->userID = (int) $id;
@@ -118,7 +118,7 @@ class User extends Entity implements ZfcUserInterface {
 
     /**
      * @param string $username
-     * @return \Jaztec\Entity\User 
+     * @return \JaztecAcl\Entity\User 
      */
     public function setUsername($username) {
         $this->username = $username;
@@ -135,7 +135,7 @@ class User extends Entity implements ZfcUserInterface {
 
     /**
      * @param string $email
-     * @return \Jaztec\Entity\User 
+     * @return \JaztecAcl\Entity\User 
      */
     public function setEmail($email) {
         $this->email = $email;
@@ -152,7 +152,7 @@ class User extends Entity implements ZfcUserInterface {
 
     /**
      * @param string $password
-     * @return \Jaztec\Entity\User 
+     * @return \JaztecAcl\Entity\User 
      */
     public function setPassword($password) {
         $this->password = $password;
@@ -169,7 +169,7 @@ class User extends Entity implements ZfcUserInterface {
 
     /**
      * @param string $firstName
-     * @return \Jaztec\Entity\User 
+     * @return \JaztecAcl\Entity\User 
      */
     public function setFirstName($firstName) {
         $this->firstName = $firstName;
@@ -185,17 +185,17 @@ class User extends Entity implements ZfcUserInterface {
     }
 
     /**
-     * @return Jaztec\Entity\Role
+     * @return JaztecAcl\Entity\Role
      */
     public function getRole() {
         return $this->role;
     }
 
     /**
-     * @param \Jaztec\Entity\Role $role
-     * @return \Jaztec\Entity\User 
+     * @param \JaztecAcl\Entity\Role $role
+     * @return \JaztecAcl\Entity\User 
      */
-    public function setRole(\Jaztec\Entity\Role $role) {
+    public function setRole(\JaztecAcl\Entity\Role $role) {
         $this->role = $role;
 
         return $this;
@@ -203,7 +203,7 @@ class User extends Entity implements ZfcUserInterface {
 
     /**
      * @param string $lastName
-     * @return \Jaztec\Entity\User 
+     * @return \JaztecAcl\Entity\User 
      */
     public function setLastName($lastName) {
         $this->lastName = $lastName;
@@ -220,7 +220,7 @@ class User extends Entity implements ZfcUserInterface {
 
     /**
      * @param bool $active
-     * @return \Jaztec\Entity\User 
+     * @return \JaztecAcl\Entity\User 
      */
     public function setActive($active) {
         $this->active = $active;
@@ -237,7 +237,7 @@ class User extends Entity implements ZfcUserInterface {
 
     /**
      * @param string $displayName
-     * @return \Jaztec\Entity\User 
+     * @return \JaztecAcl\Entity\User 
      */
     public function setDisplayName($displayName) {
         $this->displayName = $displayName;
@@ -247,7 +247,7 @@ class User extends Entity implements ZfcUserInterface {
 
     /**
      * @param int $roleID
-     * @return \Jaztec\Entity\User
+     * @return \JaztecAcl\Entity\User
      */
     protected function setRoleID($roleID) {
         $this->roleID = (int) $roleID;

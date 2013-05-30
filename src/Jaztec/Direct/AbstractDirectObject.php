@@ -1,6 +1,6 @@
 <?php
 
-namespace Jaztec\Direct;
+namespace JaztecAcl\Direct;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -33,7 +33,7 @@ ServiceLocatorAwareInterface {
 
     /**
      * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
-     * @return \Jaztec\Direct\AbstractDirectObject
+     * @return \JaztecAcl\Direct\AbstractDirectObject
      */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
         $this->locator = $serviceLocator;
@@ -52,7 +52,7 @@ ServiceLocatorAwareInterface {
 
     /**
      * @param \ZfcUser\Service\User $userService
-     * @return \JaztecAdmin\Controller\UsersController
+     * @return \JaztecAclAdmin\Controller\UsersController
      */
     public function setUserService(UserService $userService) {
         $this->userService = $userService;

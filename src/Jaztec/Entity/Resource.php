@@ -1,6 +1,6 @@
 <?php
 
-namespace Jaztec\Entity;
+namespace JaztecAcl\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
     Zend\Permissions\Acl\Resource\ResourceInterface as ZendResourceInterface;
@@ -31,7 +31,7 @@ class Resource extends Entity implements ZendResourceInterface {
      * @ORM\ManyToOne(targetEntity="Resource")
      * @ORM\JoinColumn(name="parent", referencedColumnName="id")
      * 
-     * @var \Jaztec\Entity\Resource
+     * @var \JaztecAcl\Entity\Resource
      */
     protected $parent;
 
@@ -77,17 +77,17 @@ class Resource extends Entity implements ZendResourceInterface {
     }
 
     /**
-     * @return \Jaztec\Entity\Resource 
+     * @return \JaztecAcl\Entity\Resource 
      */
     public function getParent() {
         return $this->parent;
     }
 
     /**
-     * @param \Jaztec\Entity\Resource $parent
+     * @param \JaztecAcl\Entity\Resource $parent
      * @return Resource 
      */
-    public function setParent(\Jaztec\Entity\Resource $parent) {
+    public function setParent(\JaztecAcl\Entity\Resource $parent) {
         $this->parent = $parent;
 
         return $this;

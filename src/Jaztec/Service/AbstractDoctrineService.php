@@ -63,8 +63,8 @@ abstract class AbstractDoctrineService extends AbstractService {
             case AbstractDoctrineMapper::TYPE_SERIALIZEDARRAY:
                 $result = array();
                 foreach ($repo as $obj) {
-                    /* @var $obj \Jaztec\Entity\Entity */
-                    if ($obj instanceof \Jaztec\Entity\Entity)
+                    /* @var $obj \JaztecAcl\Entity\Entity */
+                    if ($obj instanceof \JaztecAcl\Entity\Entity)
                         $result[] = $obj->serialize();
                 }
                 break;

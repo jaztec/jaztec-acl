@@ -1,16 +1,16 @@
 <?php
 
-namespace Jaztec\Acl;
+namespace JaztecAcl\Acl;
 
 interface AclAwareInterface {
 
     /**
-     * @param \Jaztec\Acl\Acl $acl
+     * @param \JaztecAcl\Acl\Acl $acl
      */
     public function setAcl(Acl $acl);
 
     /**
-     * @return \Jaztec\Acl\Acl $acl
+     * @return \JaztecAcl\Acl\Acl $acl
      */
     public function getAcl();
 }

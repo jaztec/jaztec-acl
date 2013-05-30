@@ -1,8 +1,8 @@
 <?php
 
-namespace Jaztec\Controller;
+namespace JaztecAcl\Controller;
 
-use Jaztec\Entity\Role;
+use JaztecAcl\Entity\Role;
 use Doctrine\ORM\EntityManager;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
@@ -16,7 +16,7 @@ class AutherizedController extends BaseController {
 
     /**
      * @param \Zend\Permissions\Acl\Role\RoleInterface $role
-     * @return \Jaztec\Controller\AutherizedController 
+     * @return \JaztecAcl\Controller\AutherizedController 
      */
     public function setRole(RoleInterface $role) {
         $this->role = $role;
@@ -34,7 +34,7 @@ class AutherizedController extends BaseController {
                 $em = $this->getEntityManager();
                 /** @var EntityManager $em */
                 // Haal de eerste rol op, altijd guest.
-                $role = $em->find('\Jaztec\Entity\Role', 1);
+                $role = $em->find('\JaztecAcl\Entity\Role', 1);
             }
             $this->setRole($role);
         }

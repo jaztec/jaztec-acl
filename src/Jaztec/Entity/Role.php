@@ -1,6 +1,6 @@
 <?php
 
-namespace Jaztec\Entity;
+namespace JaztecAcl\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
     Zend\Permissions\Acl\Role\RoleInterface as ZendRoleInterface;
@@ -38,7 +38,7 @@ class Role extends Entity implements ZendRoleInterface {
      * @ORM\ManyToOne(targetEntity="Role")
      * @ORM\JoinColumn(name="parent", referencedColumnName="id")
      * 
-     * @var \Jaztec\Entity\Role
+     * @var \JaztecAcl\Entity\Role
      */
     protected $parent;
 
@@ -51,7 +51,7 @@ class Role extends Entity implements ZendRoleInterface {
 
     /**
      * @param int $id
-     * @return \Jaztec\Entity\Role 
+     * @return \JaztecAcl\Entity\Role 
      */
     public function setId($id) {
         $this->id = (int) $id;
@@ -68,7 +68,7 @@ class Role extends Entity implements ZendRoleInterface {
 
     /**
      * @param string $name
-     * @return \Jaztec\Entity\Role 
+     * @return \JaztecAcl\Entity\Role 
      */
     public function setName($name) {
         $this->name = $name;
@@ -85,7 +85,7 @@ class Role extends Entity implements ZendRoleInterface {
 
     /**
      * @param int $sort
-     * @return \Jaztec\Entity\Role 
+     * @return \JaztecAcl\Entity\Role 
      */
     public function setSort($sort) {
         $this->sort = (int) $sort;
@@ -94,24 +94,24 @@ class Role extends Entity implements ZendRoleInterface {
     }
 
     /**
-     * @return \Jaztec\Entity\Role 
+     * @return \JaztecAcl\Entity\Role 
      */
     public function getParent() {
         return $this->parent;
     }
 
     /**
-     * @param \Jaztec\Entity\Role $parent
-     * @return \Jaztec\Entity\Role 
+     * @param \JaztecAcl\Entity\Role $parent
+     * @return \JaztecAcl\Entity\Role 
      */
-    public function setParent(\Jaztec\Entity\Role $parent) {
+    public function setParent(\JaztecAcl\Entity\Role $parent) {
         $this->parent = $parent;
 
         return $this;
     }
 
     /**
-     * @return \Jaztec\Entity\Role
+     * @return \JaztecAcl\Entity\Role
      */
     public function clearParent() {
         $this->parent = null;
