@@ -4,18 +4,17 @@ namespace Jaztec;
 
 use Zend\Cache\StorageFactory;
 
-return array( 
+return array(
     'invokables' => array(
-        'jaztec_acl_service'    => 'Jaztec\Service\AclService',
+        'jaztec_acl_service' => 'Jaztec\Service\AclService',
     ),
-    
     'factories' => array(
         'jaztec_cache' => function($sm) {
             $config = $sm->get('Config');
             $storage = StorageFactory::adapterFactory($config['jaztec']['cache']['name']);
             $plugin = StorageFactory::pluginFactory('serializer', array('serializer' => 'Zend\Serializer\Adapter\PhpSerialize'));
             $storage->addPlugin($plugin);
-            return $storage; 
+            return $storage;
         },
         'jaztec_acl' => function($sm) {
 //            Cache tijdelijk uitgeschakeld, dit geeft een probleem met Zend\Permissions\Acl\Acl, isAllowed.
@@ -24,10 +23,9 @@ return array(
 //            if($cache->hasItem('jaztec_acl'))
 //                return $cache->getItem('jaztec_acl');
 //            else
-                return new Acl\Acl();
+            return new Acl\Acl();
         }
     ),
-            
     'initializers' => array(
         'jaztec_em' => function($instance, $sm) {
             if ($instance instanceof Service\AbstractDoctrineService) {
@@ -35,12 +33,12 @@ return array(
             }
         },
         'jaztec_acl' => function($instance, $sm) {
-            if( $instance instanceof Acl\AclAwareInterface) {
+            if ($instance instanceof Acl\AclAwareInterface) {
                 $instance->setAcl($sm->get('jaztec_acl'));
             }
         },
         'jaztec_cache' => function($instance, $sm) {
-            if( $instance instanceof Cache\CacheAwareInterface ) {
+            if ($instance instanceof Cache\CacheAwareInterface) {
                 $instance->setCacheStorage($sm->get('jaztec_cache'));
             }
         },
