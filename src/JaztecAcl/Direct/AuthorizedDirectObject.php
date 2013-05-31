@@ -41,10 +41,16 @@ class AuthorizedDirectObject implements
     }
     /**
      * Checks the ACL registry.
+     *
+     * @param string $privilege
      * @return boolean
      */
-    public function checkAcl() {
-        $allowed = $this->getAclService()->isAllowed($this->getRole(), $this->aclDenominator, '');
+    public function checkAcl($privilege) {
+        // Find the base resource name this module is given.
+        $moduleName = substr(get_class($this), 0, strpos(get_class($this), '\\'));
+        $config = $this->getServiceLocator()->get('Config');
+        $baseName = $config['jaztec']['name'][$moduleName];
+        $allowed = $this->getAclService()->isAllowed($this->getRole(), $this->aclDenominator, $privilege, $baseName);
         return $allowed;
     }
 

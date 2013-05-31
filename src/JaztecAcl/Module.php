@@ -73,10 +73,11 @@ class Module implements
      */
     public function onDispatchDirect(Event $e) {
         $object = $e->getParam('object');
+        $method = $e->getParam('method');
 
         // Check ACL
         if ($object instanceof \JaztecAcl\Direct\AuthorizedDirectObject) {
-            if (!$object->checkAcl()) {
+            if (!$object->checkAcl($method)) {
                 $e->stopPropagation(true);
                 return $object->notAllowed();
             }

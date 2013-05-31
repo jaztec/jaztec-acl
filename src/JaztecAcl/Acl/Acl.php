@@ -155,7 +155,7 @@ class Acl extends ZendAcl {
             throw new \Exception('Base resource is not a valid ACL resource');
         } else if (!$baseResource instanceof \ResourceEntity) {
             $baseName = $baseResource;
-            $baseResource = $em->getRepository('Jaztec\Entity\Resource')->findOneBy(array('name' => $baseName));
+            $baseResource = $em->getRepository('JaztecAcl\Entity\Resource')->findOneBy(array('name' => $baseName));
             if (!$baseResource instanceof ResourceEntity) {
                 $baseResource = new \JaztecAcl\Entity\Resource();
                 $baseResource->setName($baseName);
