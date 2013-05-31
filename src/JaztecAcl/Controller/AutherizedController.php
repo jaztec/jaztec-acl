@@ -65,8 +65,13 @@ class AutherizedController extends BaseController {
     public function checkAcl(\Zend\Mvc\MvcEvent $e) {
         $params = $e->getRouteMatch()->getParams();
 
+        // Finding the module name in which the controller is declared.
+        $moduleName = substr(get_class($this), 0, strpos(get_class($this), '\\'));
+        $config = $this->getServiceLocator()->get('Config');
+        $baseName = $config['jaztec']['name'][$moduleName];
+
         $allowed = $this->getAclService()->isAllowed(
-                $this->getRole(), $params['controller'], $params['action']
+                $this->getRole(), $params['controller'], $params['action'], $baseName
         );
 
         // Wanneer de persoon niet toegestaan is wordt deze omgeleid
