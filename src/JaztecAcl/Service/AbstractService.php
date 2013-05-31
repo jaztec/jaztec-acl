@@ -23,6 +23,9 @@ ServiceLocatorAwareInterface, EventManagerAwareInterface {
      */
     protected $locator;
 
+    /** @var array */
+    protected $config;
+
     /**
      * Set service locator
      *
@@ -127,4 +130,20 @@ ServiceLocatorAwareInterface, EventManagerAwareInterface {
         return $this;
     }
 
+    /**
+     * @param array $config
+     */
+    public function setConfig(array $config) {
+        $this->config = $config;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfig() {
+        if (!$this->config) {
+            $this->config = $this->getServiceLocator()->get('Config');
+        }
+        return $this->config;
+    }
 }

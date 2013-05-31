@@ -164,11 +164,12 @@ class Acl extends ZendAcl {
                 $this->addResource($baseResource->getResourceId());
             }
         }
-        // Checking the new resource on validicity
+        // Checking the new resource on validity
         if (!is_string($newResource)) {
             throw new \Exception('The new resource is not a valid string');
         }
 
+        // Create the new (unknown) resource and add it to the ACL.
         $resource = new \JaztecAcl\Entity\Resource();
         $resource->setName($newResource);
         $resource->setParent($baseResource);

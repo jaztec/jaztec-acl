@@ -24,9 +24,6 @@ class AclService extends AbstractService implements
     /** @var \Zend\Cache\Storage\StorageInterface */
     protected $cacheStorage;
 
-    /** @var array */
-    protected $config;
-
     /**
      * @param \Zend\Cache\Storage\StorageInterface $storage
      */
@@ -93,12 +90,14 @@ class AclService extends AbstractService implements
      * @param Zend\Acl\Role\RoleInterface|string $role
      * @param Zend\Acl\Role\RoleInterface|string $resource
      * @param string $privilege
-     * @param Zend\Acl\Role\RoleInterface|string $baseResource 
+     * @param Zend\Acl\Role\RoleInterface|string $baseResource This resource is only used when the
+     *      requested resource is not known in the ACL.
      * 
      * @return bool
      */
     public function isAllowed($role, $resource, $privilege, $baseResource = 'base') {
         $acl = $this->getAcl();
+        $cnf = $this->getConfig();
 
         if (!$acl->isLoaded()) {
 //            $cache = $this->getCacheStorage();
@@ -111,7 +110,7 @@ class AclService extends AbstractService implements
         // Check resource existance and create it if the config allows this, by defaultm use 'base'.
         if (!$acl->hasResource($resource)) {
             if (!array_key_exists('create_resource', $config['jaztec'])
-                || $this->config['jaztec']['create_resource'] == true) {
+                || $cfg['jaztec']['create_resource'] == true) {
                 $resource = $acl->createResource($resource, $baseResource, $this->getEntityManager());
             } else {
                 return false;
