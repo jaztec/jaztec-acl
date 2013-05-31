@@ -13,6 +13,7 @@ use Zend\Permissions\Acl\Acl as ZendAcl;
 use Zend\Cache\Storage\StorageInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
+use JaztecAcl\Entity\Resource as ResourceEntity;
 
 class Acl extends ZendAcl {
 
@@ -140,4 +141,44 @@ class Acl extends ZendAcl {
         return $privileges;
     }
 
+    /**
+     *
+     * @param string $newResource
+     * @param string|\JaztecAcl\Entity\Resource $baseResource
+     * @param \Doctrine\ORM\EntityManager $em
+     * @return \JaztecAcl\Entity\Resource
+     */
+    public function createResource($newResource, $baseResource, EntityManager $em) {
+        // Check if the base resource exists, otherwise create it.
+        if (!$baseResource instanceof ResourceEntity &&
+            !is_string($baseResource)) {
+            throw new \Exception('Base resource is not a valid ACL resource');
+        } else if (!$baseResource instanceof \ResourceEntity) {
+            $baseName = $baseResource;
+            $baseResource = $em->getRepository('Jaztec\Entity\Resource')->findOneBy(array('name' => $baseName));
+            if (!$baseResource instanceof ResourceEntity) {
+                $baseResource = new \JaztecAcl\Entity\Resource();
+                $baseResource->setName($baseName);
+                $baseResource->setSort(0);
+                $em->persist($baseResource);
+                $this->addResource($baseResource->getResourceId());
+            }
+        }
+        // Checking the new resource on validicity
+        if (!is_string($newResource)) {
+            throw new \Exception('The new resource is not a valid string');
+        }
+
+        $resource = new \JaztecAcl\Entity\Resource();
+        $resource->setName($newResource);
+        $resource->setParent($baseResource);
+        $resource->setSort($baseResource->getSort() + 1);
+        $em->persist($resource);
+
+        $em->flush();
+
+        $this->addResource($resource, $baseResource->getResourceId());
+
+        return $resource;
+    }
 }

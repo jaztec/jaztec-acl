@@ -42,7 +42,7 @@ class AclService extends AbstractService implements
     }
 
     /**
-     * @return @\JaztecAcl\Acl\Acl 
+     * @return \JaztecAcl\Acl\Acl 
      */
     public function getAcl() {
         return $this->acl;
@@ -93,10 +93,11 @@ class AclService extends AbstractService implements
      * @param Zend\Acl\Role\RoleInterface|string $role
      * @param Zend\Acl\Role\RoleInterface|string $resource
      * @param string $privilege
+     * @param Zend\Acl\Role\RoleInterface|string $baseResource 
      * 
      * @return bool
      */
-    public function isAllowed($role, $resource, $privilege) {
+    public function isAllowed($role, $resource, $privilege, $baseResource = 'base') {
         $acl = $this->getAcl();
 
         if (!$acl->isLoaded()) {
@@ -107,9 +108,14 @@ class AclService extends AbstractService implements
 //            $cache->addItem('jaztec_acl', $acl); 
         }
 
-        // Check resource existance.
+        // Check resource existance and create it if the config allows this, by defaultm use 'base'.
         if (!$acl->hasResource($resource)) {
-            return false;
+            if (!array_key_exists('create_resource', $config['jaztec'])
+                || $this->config['jaztec']['create_resource'] == true) {
+                $resource = $acl->createResource($resource, $baseResource, $this->getEntityManager());
+            } else {
+                return false;
+            }
         }
 
         return $acl->isAllowed($role, $resource, $privilege);
