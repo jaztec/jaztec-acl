@@ -73,7 +73,7 @@ class Module implements
      */
     public function onDispatchDirect(Event $e) {
         $object = $e->getParam('object');
-        $method = $e->getParam('method');
+        $method = $e->getParam('rpc')->getMethod();
 
         // Check ACL
         if ($object instanceof \JaztecAcl\Direct\AuthorizedDirectObject) {

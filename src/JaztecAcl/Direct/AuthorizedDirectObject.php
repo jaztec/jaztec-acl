@@ -35,6 +35,8 @@ class AuthorizedDirectObject implements
     /**
      * Constructor is needed to setup the aclDenominator. This will be used
      * to check the ACL against.
+     * 
+     * Inherited classes should set their own denominator when initialized.
      */
     public function __construct() {
         $this->aclDenominator = 'base/direct';
