@@ -99,8 +99,9 @@ class AutherizedController extends BaseController implements
 
         // Redirect the user if this is specified in the configuration.
         if (!$allowed) {
-            if ($config['jaztec']['redirect_controller'] == true)
+            if ($config['jaztec']['redirect_controller'] == true) {
                 $this->redirect()->toRoute($config['jaztec']['redirect_controller_route'], $config['jaztec']['redirect_controller_route_params']);
+            }
         }
 
         return $allowed;
