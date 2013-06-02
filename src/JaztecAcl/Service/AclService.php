@@ -47,7 +47,6 @@ class AclService extends AbstractService implements
 
     /**
      * @param \JaztecAcl\Acl\Acl $acl
-     * @return \JaztecAcl\Acl\Acl 
      */
     public function setAcl(JaztecAclAcl $acl) {
         $this->acl = $acl;

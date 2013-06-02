@@ -3,16 +3,22 @@
 namespace JaztecAcl\Controller;
 
 use JaztecAcl\Entity\Role;
+use JaztecAcl\Service\AclService;
+use JaztecAcl\Service\AclServiceAwareInterface;
 use Doctrine\ORM\EntityManager;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
-class AutherizedController extends BaseController {
-
+class AutherizedController extends BaseController implements
+    AclServiceAwareInterface
+{
     /** @var EntityManager $em */
     protected $em;
 
     /** @var \Zend\Permissions\Acl\Role\RoleInterface $role */
     protected $role;
+
+    /** @var JaztecAcl\Service\AclService $aclService */
+    protected $aclService;
 
     /**
      * @param \Zend\Permissions\Acl\Role\RoleInterface $role
@@ -59,8 +65,25 @@ class AutherizedController extends BaseController {
     }
 
     /**
+     * @return \JaztecAcl\Service\AclService
+     */
+    public function getAclService() {
+        if (null === $this->aclService) {
+            $this->aclService = $this->getServiceLocator()->get('jaztec_acl_service');
+        }
+        return $this->aclService;
+    }
+
+    /**
+     * @param \JaztecAcl\Service\AclService $aclService
+     */
+    public function setAclService(AclService $aclService) {
+        $this->aclService = $aclService;
+    }
+
+    /**
      * @param \Zend\Mvc\MvcEvent $e 
-     * @return void
+     * @return boolean
      */
     public function checkAcl(\Zend\Mvc\MvcEvent $e) {
         $params = $e->getRouteMatch()->getParams();
@@ -74,10 +97,13 @@ class AutherizedController extends BaseController {
                 $this->getRole(), $params['controller'], $params['action'], $baseName
         );
 
-        // Wanneer de persoon niet toegestaan is wordt deze omgeleid
+        // Redirect the user if this is specified in the configuration.
         if (!$allowed) {
-            $this->redirect()->toRoute('zfcuser/login', array('redirect' => 'admin'));
+            if ($config['jaztec']['redirect_controller'] == true)
+                $this->redirect()->toRoute($config['jaztec']['redirect_controller_route'], $config['jaztec']['redirect_controller_route_params']);
         }
+
+        return $allowed;
     }
 
 }

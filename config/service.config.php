@@ -41,6 +41,11 @@ return array(
                 $instance->setAcl($sm->get('jaztec_acl'));
             }
         },
+        'jaztec_aclservice' => function($instance, $sm) {
+            if ($instance instanceof Service\AclServiceAwareInterface) {
+                $instance->setAclService($sm->get('jaztec_acl_service'));
+            }
+        },
         'jaztec_cache' => function($instance, $sm) {
             if ($instance instanceof Cache\CacheAwareInterface) {
                 $instance->setCacheStorage($sm->get('jaztec_cache'));
