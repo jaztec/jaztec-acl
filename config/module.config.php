@@ -4,7 +4,10 @@ namespace JaztecAcl;
 
 return array(
     'jaztec'    => array(
-        
+        'name'  => array(
+
+        ),
+        'create_resource'   => true,
     ),
     'doctrine' => array(
         'driver' => array(
