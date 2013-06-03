@@ -35,31 +35,35 @@ class AuthorizedDirectObject implements
     /**
      * Constructor is needed to setup the aclDenominator. This will be used
      * to check the ACL against.
-     * 
+     *
      * Inherited classes should set their own denominator when initialized.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->aclDenominator = 'base/direct';
     }
     /**
      * Checks the ACL registry.
      *
-     * @param string $privilege
+     * @param  string  $privilege
      * @return boolean
      */
-    public function checkAcl($privilege) {
+    public function checkAcl($privilege)
+    {
         // Find the base resource name this module is given.
         $moduleName = substr(get_class($this), 0, strpos(get_class($this), '\\'));
         $config = $this->getServiceLocator()->get('Config');
         $baseName = $config['jaztec']['name'][$moduleName];
         $allowed = $this->getAclService()->isAllowed($this->getRole(), $this->aclDenominator, $privilege, $baseName);
+
         return $allowed;
     }
 
     /**
      * Returns a not allowed array
      */
-    public function notAllowed() {
+    public function notAllowed()
+    {
         return array(
             'success' => false,
             'message' => 'not allowed',
@@ -69,35 +73,42 @@ class AuthorizedDirectObject implements
     /**
      * @return \JaztecAcl\Service\AclService
      */
-    protected function getAclService() {
+    protected function getAclService()
+    {
         if (null === $this->aclService) {
             $this->aclService = $this->getServiceLocator()->get('jaztec_acl_service');
         }
+
         return $this->aclService;
     }
 
     /**
-     * @param \JaztecAcl\Service\AclService $aclService
+     * @param  \JaztecAcl\Service\AclService        $aclService
      * @return \JaztecAcl\Controller\BaseController
      */
-    public function setAclService(AclService $aclService) {
+    public function setAclService(AclService $aclService)
+    {
         $this->aclService = $aclService;
+
         return $this;
     }
 
     /**
-     * @param \Zend\Permissions\Acl\Role\RoleInterface $role
+     * @param  \Zend\Permissions\Acl\Role\RoleInterface         $role
      * @return \JaztecAcl\Direct\AbstractAuthorizedDirectObject
      */
-    public function setRole(RoleInterface $role) {
+    public function setRole(RoleInterface $role)
+    {
         $this->role = $role;
+
         return $this;
     }
 
     /**
      * @return \Zend\Permissions\Acl\Role\RoleInterface
      */
-    public function getRole() {
+    public function getRole()
+    {
         if (null === $this->role) {
             if ($this->getUserService()->getAuthService()->hasIdentity()) {
                 $role = $this->getUserService()->getAuthService()->getIdentity()->getRole();
@@ -109,58 +120,69 @@ class AuthorizedDirectObject implements
             }
             $this->setRole($role);
         }
+
         return $this->role;
     }
 
     /**
-     * @param \Doctrine\ORM\EntityManager $em 
+     * @param \Doctrine\ORM\EntityManager $em
      */
-    public function setEntityManager(\Doctrine\ORM\EntityManager $em) {
+    public function setEntityManager(\Doctrine\ORM\EntityManager $em)
+    {
         $this->em = $em;
     }
 
     /**
-     * @return \Doctrine\ORM\EntityManager 
+     * @return \Doctrine\ORM\EntityManager
      */
-    public function getEntityManager() {
+    public function getEntityManager()
+    {
         if (null === $this->em) {
             $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
         }
+
         return $this->em;
     }
 
      /**
      * @return \Zend\ServiceManager\ServiceLocatorInterface
      */
-    public function getServiceLocator() {
+    public function getServiceLocator()
+    {
         return $this->locator;
     }
 
     /**
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     * @param  \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
      * @return \JaztecAcl\Direct\AbstractDirectObject
      */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
         $this->locator = $serviceLocator;
+
         return $this;
     }
 
     /**
      * @return \ZfcUser\Service\User
      */
-    public function getUserService() {
+    public function getUserService()
+    {
         if (null === $this->userService) {
             $this->userService = $this->getServiceLocator()->get('zfcuser_user_service');
         }
+
         return $this->userService;
     }
 
     /**
-     * @param \ZfcUser\Service\User $userService
+     * @param  \ZfcUser\Service\User                      $userService
      * @return \JaztecAclAdmin\Controller\UsersController
      */
-    public function setUserService(UserService $userService) {
+    public function setUserService(UserService $userService)
+    {
         $this->userService = $userService;
+
         return $this;
     }
 }

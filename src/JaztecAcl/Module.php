@@ -16,7 +16,8 @@ class Module implements
     ServiceProviderInterface
 {
 
-    public function init(ModuleManager $moduleManager) {
+    public function init(ModuleManager $moduleManager)
+    {
         $events = $moduleManager->getEventManager()->getSharedManager();
         $controllerCallback = array($this, 'onDispatchController');
         $directCallback = array($this, 'onDispatchDirect');
@@ -27,14 +28,16 @@ class Module implements
     /**
      * {@inheritDoc}
      */
-    public function getConfig() {
+    public function getConfig()
+    {
         return include __DIR__ . '/../../config/module.config.php';
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getAutoloaderConfig() {
+    public function getAutoloaderConfig()
+    {
         return array(
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
@@ -47,7 +50,8 @@ class Module implements
     /**
      * {@inheritDoc}
      */
-    public function getServiceConfig() {
+    public function getServiceConfig()
+    {
         return include __DIR__ . '/../../config/service.config.php';
     }
 
@@ -56,7 +60,8 @@ class Module implements
      *
      * @param \Zend\Mvc\MvcEvent $e
      */
-    public function onDispatchController(MvcEvent $e) {
+    public function onDispatchController(MvcEvent $e)
+    {
         $controller = $e->getTarget();
 
         // Check ACL
@@ -67,11 +72,12 @@ class Module implements
 
     /**
      * Perform an ACL check when a AuthorizedDirectObject is dispatched.
-     * 
-     * @param \Zend\Mvc\MvcEvent $e
+     *
+     * @param  \Zend\Mvc\MvcEvent $e
      * @return null|array
      */
-    public function onDispatchDirect(Event $e) {
+    public function onDispatchDirect(Event $e)
+    {
         $object = $e->getParam('object');
         $method = $e->getParam('rpc')->getMethod();
 
@@ -79,6 +85,7 @@ class Module implements
         if ($object instanceof \JaztecAcl\Direct\AuthorizedDirectObject) {
             if (!$object->checkAcl($method)) {
                 $e->stopPropagation(true);
+
                 return $object->notAllowed();
             }
         }

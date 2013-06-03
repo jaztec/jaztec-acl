@@ -21,18 +21,21 @@ class AutherizedController extends BaseController implements
     protected $aclService;
 
     /**
-     * @param \Zend\Permissions\Acl\Role\RoleInterface $role
-     * @return \JaztecAcl\Controller\AutherizedController 
+     * @param  \Zend\Permissions\Acl\Role\RoleInterface   $role
+     * @return \JaztecAcl\Controller\AutherizedController
      */
-    public function setRole(RoleInterface $role) {
+    public function setRole(RoleInterface $role)
+    {
         $this->role = $role;
+
         return $this;
     }
 
     /**
      * @return \Zend\Permissions\Acl\Role\RoleInterface
      */
-    public function getRole() {
+    public function getRole()
+    {
         if (null === $this->role) {
             if ($this->zfcUserAuthentication()->hasIdentity()) {
                 $role = $this->zfcUserAuthentication()->getIdentity()->getRole();
@@ -44,48 +47,56 @@ class AutherizedController extends BaseController implements
             }
             $this->setRole($role);
         }
+
         return $this->role;
     }
 
     /**
-     * @param \Doctrine\ORM\EntityManager $em 
+     * @param \Doctrine\ORM\EntityManager $em
      */
-    public function setEntityManager(EntityManager $em) {
+    public function setEntityManager(EntityManager $em)
+    {
         $this->em = $em;
     }
 
     /**
-     * @return \Doctrine\ORM\EntityManager 
+     * @return \Doctrine\ORM\EntityManager
      */
-    public function getEntityManager() {
+    public function getEntityManager()
+    {
         if (null === $this->em) {
             $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
         }
+
         return $this->em;
     }
 
     /**
      * @return \JaztecAcl\Service\AclService
      */
-    public function getAclService() {
+    public function getAclService()
+    {
         if (null === $this->aclService) {
             $this->aclService = $this->getServiceLocator()->get('jaztec_acl_service');
         }
+
         return $this->aclService;
     }
 
     /**
      * @param \JaztecAcl\Service\AclService $aclService
      */
-    public function setAclService(AclService $aclService) {
+    public function setAclService(AclService $aclService)
+    {
         $this->aclService = $aclService;
     }
 
     /**
-     * @param \Zend\Mvc\MvcEvent $e 
+     * @param  \Zend\Mvc\MvcEvent $e
      * @return boolean
      */
-    public function checkAcl(\Zend\Mvc\MvcEvent $e) {
+    public function checkAcl(\Zend\Mvc\MvcEvent $e)
+    {
         $params = $e->getRouteMatch()->getParams();
 
         // Finding the module name in which the controller is declared.

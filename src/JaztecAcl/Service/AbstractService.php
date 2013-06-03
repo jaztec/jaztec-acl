@@ -31,7 +31,8 @@ ServiceLocatorAwareInterface, EventManagerAwareInterface {
      *
      * @param \Zend\ServiceManager\ServiceLocatorInterface $locator
      */
-    public function setServiceLocator(ServiceLocatorInterface $locator) {
+    public function setServiceLocator(ServiceLocatorInterface $locator)
+    {
         $this->locator = $locator;
     }
 
@@ -40,7 +41,8 @@ ServiceLocatorAwareInterface, EventManagerAwareInterface {
      *
      * @return \Zend\ServiceManager\ServiceLocatorInterface
      */
-    public function getServiceLocator() {
+    public function getServiceLocator()
+    {
         return $this->locator;
     }
 
@@ -52,7 +54,8 @@ ServiceLocatorAwareInterface, EventManagerAwareInterface {
      * @param  Closure $callback
      * @return array
      */
-    protected function triggerParamsMergeEvent($event, $argv = array(), $callback = null) {
+    protected function triggerParamsMergeEvent($event, $argv = array(), $callback = null)
+    {
         $eventRet = $this->triggerEvent($event, $argv, $callback);
         foreach ($eventRet as $event) {
             if (is_array($event) || $event instanceof Traversable) {
@@ -69,17 +72,19 @@ ServiceLocatorAwareInterface, EventManagerAwareInterface {
      * @param  Closure|null       $callback
      * @return ResponseCollection
      */
-    protected function triggerEvent($event, $argv = array(), $callback = null) {
+    protected function triggerEvent($event, $argv = array(), $callback = null)
+    {
         return $this->getEventManager()->trigger($event, $this, $argv, $callback);
     }
 
     /**
      * Set the event manager instance used by this context
-     * 
-     * @param \Zend\EventManager\EventManagerInterface $events
+     *
+     * @param  \Zend\EventManager\EventManagerInterface $events
      * @return \JaztecAcl\Service\AbstractService
      */
-    public function setEventManager(EventManagerInterface $events) {
+    public function setEventManager(EventManagerInterface $events)
+    {
         $events->setIdentifiers(array(__CLASS__, get_called_class()));
         $this->events = $events;
         $this->attachDefaultListeners();
@@ -94,7 +99,8 @@ ServiceLocatorAwareInterface, EventManagerAwareInterface {
      *
      * @return EventManagerInterface
      */
-    public function getEventManager() {
+    public function getEventManager()
+    {
         if (null === $this->events) {
             $this->setEventManager($this->getServiceLocator()->get('EventManager'));
         }
@@ -107,43 +113,50 @@ ServiceLocatorAwareInterface, EventManagerAwareInterface {
      *
      * @return void
      */
-    protected function attachDefaultListeners() {
-        
+    protected function attachDefaultListeners()
+    {
     }
 
     /**
      * @return \ZfcUser\Service\User
      */
-    public function getUserService() {
+    public function getUserService()
+    {
         if (!$this->userService) {
             $this->userService = $this->getServiceLocator()->get('zfcuser_user_service');
         }
+
         return $this->userService;
     }
 
     /**
-     * @param \ZfcUser\Service\User $userService
+     * @param  \ZfcUser\Service\User              $userService
      * @return \JaztecAcl\Service\AbstractService
      */
-    public function setUserService(\ZfcUser\Service\User $userService) {
+    public function setUserService(\ZfcUser\Service\User $userService)
+    {
         $this->userService = $userService;
+
         return $this;
     }
 
     /**
      * @param array $config
      */
-    public function setConfig(array $config) {
+    public function setConfig(array $config)
+    {
         $this->config = $config;
     }
 
     /**
      * @return array
      */
-    public function getConfig() {
+    public function getConfig()
+    {
         if (!$this->config) {
             $this->config = $this->getServiceLocator()->get('Config');
         }
+
         return $this->config;
     }
 }

@@ -7,22 +7,22 @@ use Doctrine\ORM\Mapping as ORM,
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="acl_resources") 
+ * @ORM\Table(name="acl_resources")
  */
-class Resource extends Entity implements ZendResourceInterface {
-
+class Resource extends Entity implements ZendResourceInterface
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
-     * 
+     *
      * @var integer
      */
     protected $id;
 
     /**
      * @ORM\Column(type="string")
-     * 
+     *
      * @var string
      */
     protected $name;
@@ -30,30 +30,32 @@ class Resource extends Entity implements ZendResourceInterface {
     /**
      * @ORM\ManyToOne(targetEntity="Resource")
      * @ORM\JoinColumn(name="parent", referencedColumnName="id")
-     * 
+     *
      * @var \JaztecAcl\Entity\Resource
      */
     protected $parent;
 
     /**
      * @ORM\Column(type="integer")
-     * 
+     *
      * @var integer
      */
     protected $sort;
 
     /**
-     * @return int 
+     * @return int
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
-     * @param int $id
-     * @return Resource 
+     * @param  int      $id
+     * @return Resource
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = (int) $id;
 
         return $this;
@@ -62,32 +64,36 @@ class Resource extends Entity implements ZendResourceInterface {
     /**
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
     /**
-     * @param string $name
-     * @return Resource 
+     * @param  string   $name
+     * @return Resource
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
     }
 
     /**
-     * @return \JaztecAcl\Entity\Resource 
+     * @return \JaztecAcl\Entity\Resource
      */
-    public function getParent() {
+    public function getParent()
+    {
         return $this->parent;
     }
 
     /**
-     * @param \JaztecAcl\Entity\Resource $parent
-     * @return Resource 
+     * @param  \JaztecAcl\Entity\Resource $parent
+     * @return Resource
      */
-    public function setParent(\JaztecAcl\Entity\Resource $parent) {
+    public function setParent(\JaztecAcl\Entity\Resource $parent)
+    {
         $this->parent = $parent;
 
         return $this;
@@ -96,7 +102,8 @@ class Resource extends Entity implements ZendResourceInterface {
     /**
      * @return Resource
      */
-    public function clearParent() {
+    public function clearParent()
+    {
         $this->parent = null;
 
         return $this;
@@ -105,15 +112,17 @@ class Resource extends Entity implements ZendResourceInterface {
     /**
      * @return int
      */
-    public function getSort() {
+    public function getSort()
+    {
         return $this->sort;
     }
 
     /**
-     * @param int $sort
-     * @return Resource 
+     * @param  int      $sort
+     * @return Resource
      */
-    public function setSort($sort) {
+    public function setSort($sort)
+    {
         $this->sort = (int) $sort;
 
         return $this;
@@ -122,14 +131,16 @@ class Resource extends Entity implements ZendResourceInterface {
     /**
      * @return string
      */
-    public function getResourceId() {
+    public function getResourceId()
+    {
         return $this->name;
     }
 
     /**
      * @return array
      */
-    public function serialize() {
+    public function serialize()
+    {
         return array(
             'ResourceID' => $this->getId(),
             'Name' => $this->getResourceId(),

@@ -27,74 +27,85 @@ class AclService extends AbstractService implements
     /**
      * @param \Zend\Cache\Storage\StorageInterface $storage
      */
-    public function setCacheStorage(StorageInterface $storage) {
+    public function setCacheStorage(StorageInterface $storage)
+    {
         $this->cacheStorage = $storage;
     }
 
     /**
      * @return \Zend\Cache\Storage\StorageInterface
      */
-    public function getCacheStorage() {
+    public function getCacheStorage()
+    {
         return $this->cacheStorage;
     }
 
     /**
-     * @return \JaztecAcl\Acl\Acl 
+     * @return \JaztecAcl\Acl\Acl
      */
-    public function getAcl() {
+    public function getAcl()
+    {
         return $this->acl;
     }
 
     /**
      * @param \JaztecAcl\Acl\Acl $acl
      */
-    public function setAcl(JaztecAclAcl $acl) {
+    public function setAcl(JaztecAclAcl $acl)
+    {
         $this->acl = $acl;
     }
 
     /**
      * @return \ZfcUser\Controller\Plugin\ZfcUserAuthentication
      */
-    public function getUserAuth() {
+    public function getUserAuth()
+    {
         return $this->userAuth;
     }
 
     /**
-     * @param \ZfcUser\Controller\Plugin\ZfcUserAuthentication $userAuth
-     * @return \JaztecAcl\Acl\Acl 
+     * @param  \ZfcUser\Controller\Plugin\ZfcUserAuthentication $userAuth
+     * @return \JaztecAcl\Acl\Acl
      */
-    public function setUserAuth(\ZfcUser\Controller\Plugin\ZfcUserAuthentication $userAuth) {
+    public function setUserAuth(\ZfcUser\Controller\Plugin\ZfcUserAuthentication $userAuth)
+    {
         $this->userAuth = $userAuth;
+
         return $this;
     }
 
     /**
      * @return \Doctrine\ORM\EntityManager
      */
-    public function getEntityManager() {
+    public function getEntityManager()
+    {
         if (null === $this->em) {
             $this->setEntityManager($this->getServiceLocator()->get('doctrine.entitymanager.orm_default'));
         }
+
         return $this->em;
     }
 
     /**
-     * @param \Doctrine\ORM\EntityManager $em 
+     * @param \Doctrine\ORM\EntityManager $em
      */
-    public function setEntityManager(\Doctrine\ORM\EntityManager $em) {
+    public function setEntityManager(\Doctrine\ORM\EntityManager $em)
+    {
         $this->em = $em;
     }
 
     /**
      * @param Zend\Acl\Role\RoleInterface|string $role
      * @param Zend\Acl\Role\RoleInterface|string $resource
-     * @param string $privilege
+     * @param string                             $privilege
      * @param Zend\Acl\Role\RoleInterface|string $baseResource This resource is only used when the
      *      requested resource is not known in the ACL.
-     * 
+     *
      * @return bool
      */
-    public function isAllowed($role, $resource, $privilege, $baseResource = 'base') {
+    public function isAllowed($role, $resource, $privilege, $baseResource = 'base')
+    {
         $acl = $this->getAcl();
         $cnf = $this->getConfig();
 
@@ -103,7 +114,7 @@ class AclService extends AbstractService implements
             $acl->setupAcl($this->getEntityManager());
 //            if($cache->hasItem('jaztec_acl'))
 //                $cache->removeItem('jaztec_acl');
-//            $cache->addItem('jaztec_acl', $acl); 
+//            $cache->addItem('jaztec_acl', $acl);
         }
 
         // Check resource existance and create it if the config allows this, by defaultm use 'base'.

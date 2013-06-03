@@ -18,6 +18,7 @@ return array(
             }
             $plugin = StorageFactory::pluginFactory('serializer', array('serializer' => 'Zend\Serializer\Adapter\PhpSerialize'));
             $storage->addPlugin($plugin);
+
             return $storage;
         },
         'jaztec_acl' => function($sm) {

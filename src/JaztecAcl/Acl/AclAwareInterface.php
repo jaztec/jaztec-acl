@@ -2,8 +2,8 @@
 
 namespace JaztecAcl\Acl;
 
-interface AclAwareInterface {
-
+interface AclAwareInterface
+{
     /**
      * @param \JaztecAcl\Acl\Acl $acl
      */

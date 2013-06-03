@@ -7,11 +7,11 @@ use Doctrine\ORM\EntityManager;
 
 /**
  * Doctrine Mapper
- * 
+ *
  * Provides common doctrine methods
  */
-abstract class AbstractDoctrineService extends AbstractService {
-
+abstract class AbstractDoctrineService extends AbstractService
+{
     const TYPE_SERIALIZEDARRAY = 0x1;
     const TYPE_ENTITYARRAY = 0x2;
 
@@ -28,37 +28,42 @@ abstract class AbstractDoctrineService extends AbstractService {
     /**
      * @return \Doctrine\ORM\EntityManager
      */
-    public function getEntityManager() {
+    public function getEntityManager()
+    {
         return $this->entityManager;
     }
 
     /**
      * @param \Doctrine\ORM\EntityManager $entityManager
      */
-    public function setEntityManager(EntityManager $entityManager) {
+    public function setEntityManager(EntityManager $entityManager)
+    {
         $this->entityManager = $entityManager;
     }
 
     /**
      * @return \Doctrine\DBAL\Connection
      */
-    public function getDatabase() {
+    public function getDatabase()
+    {
         return $this->entityManager->getConnection();
     }
 
     /**
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */
-    public function getRepository() {
+    public function getRepository()
+    {
         return $this->entityManager->getRepository($this->entityName);
     }
 
     /**
-     * @param array|\Doctrine\Common\Persistence\ObjectRepository $repo
-     * @param int $type
+     * @param  array|\Doctrine\Common\Persistence\ObjectRepository $repo
+     * @param  int                                                 $type
      * @return array
      */
-    protected function processResult($repo, $type) {
+    protected function processResult($repo, $type)
+    {
         switch ($type) {
             case AbstractDoctrineMapper::TYPE_SERIALIZEDARRAY:
                 $result = array();
@@ -74,6 +79,7 @@ abstract class AbstractDoctrineService extends AbstractService {
                 $result = $repo;
                 break;
         }
+
         return $result;
     }
 
