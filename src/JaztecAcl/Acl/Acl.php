@@ -11,7 +11,6 @@ namespace JaztecAcl\Acl;
 
 use Zend\Permissions\Acl\Acl as ZendAcl;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use JaztecAcl\Entity\Resource as ResourceEntity;
 
 class Acl extends ZendAcl
@@ -111,10 +110,10 @@ class Acl extends ZendAcl
      */
     protected function findRoles(EntityManager $em)
     {
-        $sql = 'SELECT ro.* FROM acl_roles ro ORDER BY sort';
-        $rsm = new ResultSetMappingBuilder($em);
-        $rsm->addRootEntityFromClassMetadata('\JaztecAcl\Entity\Role', 'ro');
-        $roles = $em->createNativeQuery($sql, $rsm)->getResult();
+        $roles = $em->getRepository('JaztecAcl\Entity\Role')->findBy(
+            array(),
+            array('sort' => 'ASC')
+        );
 
         return $roles;
     }
@@ -127,10 +126,9 @@ class Acl extends ZendAcl
      */
     protected function findResources(EntityManager $em)
     {
-        $sql = 'SELECT re.* FROM acl_resources re ORDER BY sort';
-        $rsm = new ResultSetMappingBuilder($em);
-        $rsm->addRootEntityFromClassMetadata('\JaztecAcl\Entity\Resource', 're');
-        $resources = $em->createNativeQuery($sql, $rsm)->getResult();
+        $resources = $em->getRepository('JaztecAcl\Entity\Resource')->findBy(
+            array(),
+            array('sort' => 'ASC'));
 
         return $resources;
     }
@@ -143,10 +141,7 @@ class Acl extends ZendAcl
      */
     protected function findPrivileges(EntityManager $em)
     {
-        $sql = 'SELECT pr.* FROM acl_privileges pr';
-        $rsm = new ResultSetMappingBuilder($em);
-        $rsm->addRootEntityFromClassMetadata('\JaztecAcl\Entity\Privilege', 'pr');
-        $privileges = $em->createNativeQuery($sql, $rsm)->getResult();
+        $privileges = $em->getRepository('JaztecAcl\Entity\Privilege')->findAll();
 
         return $privileges;
     }
