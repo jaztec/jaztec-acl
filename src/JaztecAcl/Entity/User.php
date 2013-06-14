@@ -2,8 +2,9 @@
 
 namespace JaztecAcl\Entity;
 
-use ZfcUser\Entity\UserInterface as ZfcUserInterface,
-    Doctrine\ORM\Mapping as ORM;
+use ZfcUser\Entity\UserInterface as ZfcUserInterface;
+use Doctrine\ORM\Mapping as ORM;
+use JaztecBase\Entity\Entity;
 
 /**
  * @ORM\Entity

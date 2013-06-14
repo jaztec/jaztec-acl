@@ -2,8 +2,9 @@
 
 namespace JaztecAcl\Entity;
 
-use Doctrine\ORM\Mapping as ORM,
-    Zend\Permissions\Acl\Resource\ResourceInterface as ZendResourceInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Zend\Permissions\Acl\Resource\ResourceInterface as ZendResourceInterface;
+use JaztecBase\Entity\Entity;
 
 /**
  * @ORM\Entity

@@ -2,8 +2,9 @@
 
 namespace JaztecAcl\Entity;
 
-use Doctrine\ORM\Mapping as ORM,
-    Zend\Permissions\Acl\Role\RoleInterface as ZendRoleInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Zend\Permissions\Acl\Role\RoleInterface as ZendRoleInterface;
+use JaztecBase\Entity\Entity;
 
 /**
  * @ORM\Entity

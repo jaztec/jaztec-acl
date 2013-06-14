@@ -8,6 +8,7 @@ Simple database driven ACL module for ZF2.
 - zendframework/ZF2
 - ZF-Commons/ZfcUser
 - ZF-Commons/ZfcUserDoctrineORM
+- jaztec/JaztecBase
 
 ## Installation
 - Run the /data/db/setup.sql script inside your MySQL editor.
