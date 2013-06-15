@@ -4,13 +4,13 @@ namespace JaztecAcl\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Permissions\Acl\Role\RoleInterface as ZendRoleInterface;
-use JaztecBase\Entity\Entity;
+use JaztecBase\Entity\AbstractEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="acl_roles")
  */
-class Role extends Entity implements ZendRoleInterface
+class Role extends AbstractEntity implements ZendRoleInterface
 {
     /**
      * @ORM\Id
@@ -140,7 +140,7 @@ class Role extends Entity implements ZendRoleInterface
     /**
      * @return array
      */
-    public function serialize()
+    public function toArray()
     {
         return array(
             'RoleID' => $this->getId(),

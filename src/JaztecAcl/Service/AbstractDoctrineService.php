@@ -70,7 +70,7 @@ abstract class AbstractDoctrineService extends AbstractService
                 foreach ($repo as $obj) {
                     /* @var $obj \JaztecBase\Entity\EntityInterface */
                     if ($obj instanceof \JaztecBase\Entity\EntityInterface)
-                        $result[] = $obj->serialize();
+                        $result[] = $obj->toArray();
                 }
                 break;
             case AbstractDoctrineMapper::TYPE_ENTITYARRAY:

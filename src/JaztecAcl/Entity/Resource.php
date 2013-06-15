@@ -4,13 +4,13 @@ namespace JaztecAcl\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Permissions\Acl\Resource\ResourceInterface as ZendResourceInterface;
-use JaztecBase\Entity\Entity;
+use JaztecBase\Entity\AbstractEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="acl_resources")
  */
-class Resource extends Entity implements ZendResourceInterface
+class Resource extends AbstractEntity implements ZendResourceInterface
 {
     /**
      * @ORM\Id
@@ -140,7 +140,7 @@ class Resource extends Entity implements ZendResourceInterface
     /**
      * @return array
      */
-    public function serialize()
+    public function toArray()
     {
         return array(
             'ResourceID' => $this->getId(),

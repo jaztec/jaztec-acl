@@ -3,13 +3,13 @@
 namespace JaztecAcl\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JaztecBase\Entity\Entity;
+use JaztecBase\Entity\AbstractEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="acl_privileges")
  */
-class Privilege extends Entity
+class Privilege extends AbstractEntity
 {
     /**
      * @ORM\Id
@@ -157,7 +157,7 @@ class Privilege extends Entity
     /**
      * @return array
      */
-    public function serialize()
+    public function toArray()
     {
         return array(
             'PrivilegeID' => $this->getId(),

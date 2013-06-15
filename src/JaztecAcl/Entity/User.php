@@ -4,13 +4,13 @@ namespace JaztecAcl\Entity;
 
 use ZfcUser\Entity\UserInterface as ZfcUserInterface;
 use Doctrine\ORM\Mapping as ORM;
-use JaztecBase\Entity\Entity;
+use JaztecBase\Entity\AbstractEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="user")
  */
-class User extends Entity implements ZfcUserInterface
+class User extends AbstractEntity implements ZfcUserInterface
 {
     /**
      * @ORM\Id
@@ -302,7 +302,7 @@ class User extends Entity implements ZfcUserInterface
     /**
      * @return array
      */
-    public function serialize()
+    public function toArray()
     {
         return array(
             'UserID' => $this->getId(),
