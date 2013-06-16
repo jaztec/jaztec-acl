@@ -6,6 +6,7 @@ use JaztecAcl\Acl\AclAwareInterface;
 use JaztecAcl\Cache\CacheAwareInterface;
 use JaztecAcl\Acl\Acl as JaztecAclAcl;
 use Zend\Cache\Storage\StorageInterface;
+use JaztecBase\Service\AbstractService;
 
 class AclService extends AbstractService implements
     AclAwareInterface,
@@ -107,7 +108,7 @@ class AclService extends AbstractService implements
     public function isAllowed($role, $resource, $privilege, $baseResource = 'base')
     {
         $acl = $this->getAcl();
-        $cnf = $this->getConfig();
+        $cnf = $this->getServiceLocator()->get('Config');
 
         if (!$acl->isLoaded()) {
 //            $cache = $this->getCacheStorage();
@@ -119,8 +120,8 @@ class AclService extends AbstractService implements
 
         // Check resource existance and create it if the config allows this, by defaultm use 'base'.
         if (!$acl->hasResource($resource)) {
-            if (!array_key_exists('create_resource', $config['jaztec'])
-                || $cfg['jaztec']['create_resource'] == true) {
+            if (!array_key_exists('create_resource', $config['jaztec_acl'])
+                || $cfg['jaztec_acl']['create_resource'] == true) {
                 $resource = $acl->createResource($resource, $baseResource, $this->getEntityManager());
             } else {
                 return false;

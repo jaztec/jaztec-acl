@@ -3,7 +3,7 @@
 namespace JaztecAcl;
 
 return array(
-    'jaztec'    => array(
+    'jaztec_acl'    => array(
         'name'  => array(
             // Module base name here, specify once per module.
         ),
