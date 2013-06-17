@@ -103,7 +103,7 @@ class AutherizedController extends BaseController implements
         $moduleName = substr(get_class($this), 0, strpos(get_class($this), '\\'));
         $config = $this->getServiceLocator()->get('Config');
         $baseName = $config['jaztec_acl']['name'][$moduleName];
-var_dump($moduleName . ' ' . $baseName);
+
         $allowed = $this->getAclService()->isAllowed(
             $this->getRole(), $params['controller'], $params['action'], $baseName
         );
