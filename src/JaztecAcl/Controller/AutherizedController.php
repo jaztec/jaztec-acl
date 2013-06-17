@@ -102,16 +102,16 @@ class AutherizedController extends BaseController implements
         // Finding the module name in which the controller is declared.
         $moduleName = substr(get_class($this), 0, strpos(get_class($this), '\\'));
         $config = $this->getServiceLocator()->get('Config');
-        $baseName = $config['jaztec']['name'][$moduleName];
-
+        $baseName = $config['jaztec_acl']['name'][$moduleName];
+var_dump($moduleName . ' ' . $baseName);
         $allowed = $this->getAclService()->isAllowed(
-                $this->getRole(), $params['controller'], $params['action'], $baseName
+            $this->getRole(), $params['controller'], $params['action'], $baseName
         );
 
         // Redirect the user if this is specified in the configuration.
         if (!$allowed) {
-            if ($config['jaztec']['redirect_controller'] == true) {
-                $this->redirect()->toRoute($config['jaztec']['redirect_controller_route'], $config['jaztec']['redirect_controller_route_params']);
+            if ($config['jaztec_acl']['redirect_controller'] == true) {
+                $this->redirect()->toRoute($config['jaztec_acl']['redirect_controller_route'], $config['jaztec_acl']['redirect_controller_route_params']);
             }
         }
 

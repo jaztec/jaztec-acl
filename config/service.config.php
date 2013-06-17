@@ -11,8 +11,8 @@ return array(
     'factories' => array(
         'jaztec_cache' => function($sm) {
             $config = $sm->get('Config');
-            if (array_key_exists('cache', $config['jaztec'])) {
-                $storage = StorageFactory::adapterFactory($config['jaztec']['cache']['name']);
+            if (array_key_exists('cache', $config['jaztec_acl'])) {
+                $storage = StorageFactory::adapterFactory($config['jaztec_acl']['cache']['name']);
             } else {
                 $storage = StorageFactory::adapterFactory('FileSystem');
             }

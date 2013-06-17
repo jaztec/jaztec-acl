@@ -53,7 +53,7 @@ class AuthorizedDirectObject implements
         // Find the base resource name this module is given.
         $moduleName = substr(get_class($this), 0, strpos(get_class($this), '\\'));
         $config = $this->getServiceLocator()->get('Config');
-        $baseName = $config['jaztec']['name'][$moduleName];
+        $baseName = $config['jaztec_acl']['name'][$moduleName];
         $allowed = $this->getAclService()->isAllowed($this->getRole(), $this->aclDenominator, $privilege, $baseName);
 
         return $allowed;
