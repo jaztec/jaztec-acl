@@ -14,12 +14,12 @@ class User extends AbstractEntity implements ZfcUserInterface
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      *
      * @var int
      */
-    protected $userID;
+    protected $user_id;
 
     /**
      * @ORM\Column(type="string")
@@ -99,7 +99,7 @@ class User extends AbstractEntity implements ZfcUserInterface
      */
     public function getId()
     {
-        return $this->userID;
+        return $this->user_id;
     }
 
     /**
@@ -108,7 +108,7 @@ class User extends AbstractEntity implements ZfcUserInterface
      */
     public function setId($id)
     {
-        $this->userID = (int) $id;
+        $this->user_id = (int) $id;
 
         return $this;
     }
@@ -305,11 +305,11 @@ class User extends AbstractEntity implements ZfcUserInterface
     public function toArray()
     {
         return array(
-            'UserID' => $this->getId(),
-            'Role' => $this->getRole()->getId(),
-            'DisplayName' => $this->getDisplayName(),
-            'Username' => $this->getUsername(),
-            'Email' => $this->getEmail(),
+            'UserID'        => $this->getId(),
+            'Role'          => $this->getRole()->getId(),
+            'DisplayName'   => $this->getDisplayName(),
+            'Username'      => $this->getUsername(),
+            'Email'         => $this->getEmail(),
         );
     }
 
