@@ -8,7 +8,7 @@ use JaztecAcl\Service\AclServiceAwareInterface;
 use Doctrine\ORM\EntityManager;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
-class AutherizedController extends BaseController implements
+class AuthorizedController extends BaseController implements
     AclServiceAwareInterface
 {
     /** @var EntityManager $em */
@@ -22,7 +22,7 @@ class AutherizedController extends BaseController implements
 
     /**
      * @param  \Zend\Permissions\Acl\Role\RoleInterface   $role
-     * @return \JaztecAcl\Controller\AutherizedController
+     * @return \JaztecAcl\Controller\AuthorizedController
      */
     public function setRole(RoleInterface $role)
     {

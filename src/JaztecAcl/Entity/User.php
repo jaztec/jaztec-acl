@@ -283,7 +283,7 @@ class User extends AbstractEntity implements ZfcUserInterface
      */
     public function getState()
     {
-        return (int) $this->active;
+        return $this->active ? 1 : 0;
     }
 
     /**

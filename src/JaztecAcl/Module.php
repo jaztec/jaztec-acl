@@ -56,7 +56,7 @@ class Module implements
     }
 
     /**
-     * Perform an ACL check when an AutherizedController is dispatched.
+     * Perform an ACL check when an AuthorizedController is dispatched.
      *
      * @param \Zend\Mvc\MvcEvent $e
      */
@@ -65,7 +65,7 @@ class Module implements
         $controller = $e->getTarget();
 
         // Check ACL
-        if ($controller instanceof \JaztecAcl\Controller\AutherizedController) {
+        if ($controller instanceof \JaztecAcl\Controller\AuthorizedController) {
             $controller->checkAcl($e);
         }
     }

@@ -9,9 +9,9 @@ return array(
         ),
         // Auto-create resources when the called resource does not exist.
         'create_resource'                   => true,
-        // Redirect the AutherizedController on Acl failure.
+        // Redirect the AuthorizedController on Acl failure.
         'redirect_controller'               => true,
-        // To which route the AutherizedController will redirect and additional params.
+        // To which route the AuthorizedController will redirect and additional params.
         'redirect_controller_route'         => 'zfcuser/login',
         'redirect_controller_route_params'  => array('redirect' => 'admin'),
     ),
