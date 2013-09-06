@@ -11,7 +11,8 @@ use Zend\Http\Request;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\RouteMatch;
 
-class AuthorizedControllerTest extends \PHPUnit_Framework_TestCase {
+class AuthorizedControllerTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * @var \JaztecAcl\Controller\AuthorizedController
@@ -19,7 +20,7 @@ class AuthorizedControllerTest extends \PHPUnit_Framework_TestCase {
     protected $controller;
 
     /**
-     * @var \Zend\Http\Request 
+     * @var \Zend\Http\Request
      */
     protected $request;
 
@@ -38,7 +39,8 @@ class AuthorizedControllerTest extends \PHPUnit_Framework_TestCase {
      */
     protected $event;
 
-    protected function setUp() {
+    protected function setUp()
+    {
         // Gather variables
         $serviceManager = Bootstrap::getServiceManager();
         $this->controller = new AuthorizedController();
@@ -56,12 +58,14 @@ class AuthorizedControllerTest extends \PHPUnit_Framework_TestCase {
         $this->controller->setServiceLocator($serviceManager);
     }
 
-    public function testCheckAcl() {
+    public function testCheckAcl()
+    {
         $this->routeMatch->setParam('action', 'index');
-        
+
         $result = $this->controller->dispatch($this->request);
         $response = $this->controller->getResponse();
-        
+
         $this->assertEquals(200, $response->getStatusCode());
     }
+
 }

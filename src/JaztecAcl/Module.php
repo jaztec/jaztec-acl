@@ -11,9 +11,7 @@ use Zend\Mvc\MvcEvent;
 use Zend\EventManager\Event;
 
 class Module implements
-    AutoloaderProviderInterface,
-    ConfigProviderInterface,
-    ServiceProviderInterface
+AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface
 {
 
     public function init(ModuleManager $moduleManager)
@@ -21,8 +19,8 @@ class Module implements
         $events = $moduleManager->getEventManager()->getSharedManager();
         $controllerCallback = array($this, 'onDispatchController');
         $directCallback = array($this, 'onDispatchDirect');
-        $events->attach('Zend\Mvc\Application',                 MvcEvent::EVENT_DISPATCH,           $controllerCallback);
-        $events->attach('KJSencha\Controller\DirectController', DirectEvent::EVENT_DISPATCH_RPC,    $directCallback);
+        $events->attach('Zend\Mvc\Application', MvcEvent::EVENT_DISPATCH, $controllerCallback);
+        $events->attach('KJSencha\Controller\DirectController', DirectEvent::EVENT_DISPATCH_RPC, $directCallback);
     }
 
     /**

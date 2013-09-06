@@ -12,6 +12,7 @@ use JaztecBase\Entity\AbstractEntity;
  */
 class Resource extends AbstractEntity implements ZendResourceInterface
 {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

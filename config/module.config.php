@@ -3,17 +3,17 @@
 namespace JaztecAcl;
 
 return array(
-    'jaztec_acl'    => array(
-        'name'  => array(
-            // Module base name here, specify once per module.
+    'jaztec_acl' => array(
+        'name' => array(
+        // Module base name here, specify once per module.
         ),
         // Auto-create resources when the called resource does not exist.
-        'create_resource'                   => true,
+        'create_resource' => true,
         // Redirect the AuthorizedController on Acl failure.
-        'redirect_controller'               => true,
+        'redirect_controller' => true,
         // To which route the AuthorizedController will redirect and additional params.
-        'redirect_controller_route'         => 'zfcuser/login',
-        'redirect_controller_route_params'  => array('redirect' => 'admin'),
+        'redirect_controller_route' => 'zfcuser/login',
+        'redirect_controller_route_params' => array('redirect' => 'admin'),
     ),
     'doctrine' => array(
         'driver' => array(

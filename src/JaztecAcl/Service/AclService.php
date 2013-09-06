@@ -9,8 +9,7 @@ use Zend\Cache\Storage\StorageInterface;
 use JaztecBase\Service\AbstractService;
 
 class AclService extends AbstractService implements
-    AclAwareInterface,
-    CacheAwareInterface
+AclAwareInterface, CacheAwareInterface
 {
 
     /** @var \JaztecAcl\Acl\Acl $acl */
@@ -120,8 +119,7 @@ class AclService extends AbstractService implements
 
         // Check resource existance and create it if the config allows this, by defaultm use 'base'.
         if (!$acl->hasResource($resource)) {
-            if (!array_key_exists('create_resource', $config['jaztec_acl'])
-                || $cfg['jaztec_acl']['create_resource'] == true) {
+            if (!array_key_exists('create_resource', $config['jaztec_acl']) || $cfg['jaztec_acl']['create_resource'] == true) {
                 $resource = $acl->createResource($resource, $baseResource, $this->getEntityManager());
             } else {
                 return false;

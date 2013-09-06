@@ -15,7 +15,8 @@ use RuntimeException;
 error_reporting(E_ALL | E_STRICT);
 chdir(__DIR__);
 
-class Bootstrap {
+class Bootstrap
+{
 
     /**
      * @var \Zend\ServiceManager\ServiceManager
@@ -30,11 +31,11 @@ class Bootstrap {
 
     /**
      * Setup the bootstrap.
-     * 
-     * @return void 
+     *
+     * @return void
      */
-    public static function init() {
-
+    public static function init()
+    {
         // Load a config file.
         if (is_readable(__DIR__ . '/TestConfig.php')) {
             $testConfig = include __DIR__ . '/TestConfig.php';
@@ -54,7 +55,7 @@ class Bootstrap {
         }
 
         $zf2ModulePaths = implode(PATH_SEPARATOR, $zf2ModulePaths) . PATH_SEPARATOR;
-        $zf2ModulePaths .= getenv('ZF2_MODULES_TEST_PATHS') ?: (defined('ZF2_MODULES_TEST_PATHS') ? ZF2_MODULES_TEST_PATHS : '');
+        $zf2ModulePaths .= getenv('ZF2_MODULES_TEST_PATHS') ? : (defined('ZF2_MODULES_TEST_PATHS') ? ZF2_MODULES_TEST_PATHS : '');
 
         static::initAutoloader();
 
@@ -77,22 +78,25 @@ class Bootstrap {
     /**
      * @return \Zend\ServiceManager\ServiceManager
      */
-    public static function getServiceManager() {
+    public static function getServiceManager()
+    {
         return static::$serviceManager;
     }
 
     /**
      * @return array
      */
-    public static function getConfig() {
+    public static function getConfig()
+    {
         return static::$config;
     }
 
     /**
      * @throws RuntimeException
-     * @return void 
+     * @return void
      */
-    protected static function initAutoloader() {
+    protected static function initAutoloader()
+    {
         $vendorPath = static::findParentPath('vendor');
 
         if (is_readable($vendorPath . '/autoload.php')) {
@@ -118,10 +122,11 @@ class Bootstrap {
     }
 
     /**
-     * @param string $path 
+     * @param  string $path
      * @return string
      */
-    protected static function findParentPath($path) {
+    protected static function findParentPath($path)
+    {
         $dir = __DIR__;
         $previousDir = '.';
         while (!is_dir($dir . '/' . $path)) {
@@ -130,6 +135,7 @@ class Bootstrap {
                 return false;
             $previousDir = $dir;
         }
+
         return $dir . '/' . $path;
     }
 

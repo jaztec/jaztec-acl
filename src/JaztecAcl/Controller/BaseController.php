@@ -8,6 +8,7 @@ use Zend\Mvc\MvcEvent;
 
 class BaseController extends AbstractActionController
 {
+
     /** @var EntityManager $em */
     protected $em;
 
@@ -64,4 +65,5 @@ class BaseController extends AbstractActionController
 
         return $this;
     }
+
 }

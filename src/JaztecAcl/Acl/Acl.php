@@ -15,6 +15,7 @@ use JaztecAcl\Entity\Resource as ResourceEntity;
 
 class Acl extends ZendAcl
 {
+
     /** @var boolean $loaded */
     protected $loaded;
 
@@ -111,8 +112,7 @@ class Acl extends ZendAcl
     protected function findRoles(EntityManager $em)
     {
         $roles = $em->getRepository('JaztecAcl\Entity\Role')->findBy(
-            array(),
-            array('sort' => 'ASC')
+                array(), array('sort' => 'ASC')
         );
 
         return $roles;
@@ -127,8 +127,7 @@ class Acl extends ZendAcl
     protected function findResources(EntityManager $em)
     {
         $resources = $em->getRepository('JaztecAcl\Entity\Resource')->findBy(
-            array(),
-            array('sort' => 'ASC'));
+                array(), array('sort' => 'ASC'));
 
         return $resources;
     }
@@ -157,7 +156,7 @@ class Acl extends ZendAcl
     {
         // Check if the base resource exists, otherwise create it.
         if (!$baseResource instanceof ResourceEntity &&
-            !is_string($baseResource)) {
+                !is_string($baseResource)) {
             throw new \Exception('Base resource is not a valid ACL resource, ' . get_class($baseResource) . ' given.');
         } elseif (!$baseResource instanceof \ResourceEntity) {
             $baseName = $baseResource;
@@ -188,4 +187,5 @@ class Acl extends ZendAcl
 
         return $resource;
     }
+
 }

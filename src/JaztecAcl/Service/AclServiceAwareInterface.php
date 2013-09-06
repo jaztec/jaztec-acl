@@ -4,6 +4,7 @@ namespace JaztecAcl\Service;
 
 interface AclServiceAwareInterface
 {
+
     /**
      * @param \JaztecAcl\Service\AclService $service
      */

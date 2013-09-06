@@ -12,6 +12,7 @@ use JaztecBase\Entity\AbstractEntity;
  */
 class User extends AbstractEntity implements ZfcUserInterface
 {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -305,11 +306,11 @@ class User extends AbstractEntity implements ZfcUserInterface
     public function toArray()
     {
         return array(
-            'UserID'        => $this->getId(),
-            'Role'          => $this->getRole()->getId(),
-            'DisplayName'   => $this->getDisplayName(),
-            'Username'      => $this->getUsername(),
-            'Email'         => $this->getEmail(),
+            'UserID' => $this->getId(),
+            'Role' => $this->getRole()->getId(),
+            'DisplayName' => $this->getDisplayName(),
+            'Username' => $this->getUsername(),
+            'Email' => $this->getEmail(),
         );
     }
 

@@ -11,6 +11,7 @@ use JaztecBase\Entity\AbstractEntity;
  */
 class Privilege extends AbstractEntity
 {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

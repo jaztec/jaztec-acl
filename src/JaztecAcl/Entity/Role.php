@@ -12,6 +12,7 @@ use JaztecBase\Entity\AbstractEntity;
  */
 class Role extends AbstractEntity implements ZendRoleInterface
 {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

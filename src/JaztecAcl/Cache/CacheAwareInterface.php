@@ -6,6 +6,7 @@ use Zend\Cache\Storage\StorageInterface;
 
 interface CacheAwareInterface
 {
+
     /**
      * @param \Zend\Cache\Storage\StorageInterface $storage
      */

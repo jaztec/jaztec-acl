@@ -9,8 +9,9 @@ use Doctrine\ORM\EntityManager;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
 class AuthorizedController extends BaseController implements
-    AclServiceAwareInterface
+AclServiceAwareInterface
 {
+
     /** @var EntityManager $em */
     protected $em;
 
@@ -105,7 +106,7 @@ class AuthorizedController extends BaseController implements
         $baseName = $config['jaztec_acl']['name'][$moduleName];
 
         $allowed = $this->getAclService()->isAllowed(
-            $this->getRole(), $params['controller'], $params['action'], $baseName
+                $this->getRole(), $params['controller'], $params['action'], $baseName
         );
 
         // Redirect the user if this is specified in the configuration.

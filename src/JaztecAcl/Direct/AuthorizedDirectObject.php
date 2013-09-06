@@ -10,8 +10,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfcUser\Service\User as UserService;
 
 class AuthorizedDirectObject implements
-    ServiceLocatorAwareInterface
+ServiceLocatorAwareInterface
 {
+
     /** @var ZfcUser\Service\User $em */
     protected $userService;
 
@@ -42,6 +43,7 @@ class AuthorizedDirectObject implements
     {
         $this->aclDenominator = 'base/direct';
     }
+
     /**
      * Checks the ACL registry.
      *
@@ -144,7 +146,7 @@ class AuthorizedDirectObject implements
         return $this->em;
     }
 
-     /**
+    /**
      * @return \Zend\ServiceManager\ServiceLocatorInterface
      */
     public function getServiceLocator()
@@ -185,4 +187,5 @@ class AuthorizedDirectObject implements
 
         return $this;
     }
+
 }
