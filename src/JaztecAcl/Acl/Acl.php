@@ -112,7 +112,8 @@ class Acl extends ZendAcl
     protected function findRoles(EntityManager $em)
     {
         $roles = $em->getRepository('JaztecAcl\Entity\Role')->findBy(
-                array(), array('sort' => 'ASC')
+            array(), 
+            array('sort' => 'ASC')
         );
 
         return $roles;
@@ -127,7 +128,9 @@ class Acl extends ZendAcl
     protected function findResources(EntityManager $em)
     {
         $resources = $em->getRepository('JaztecAcl\Entity\Resource')->findBy(
-                array(), array('sort' => 'ASC'));
+            array(), 
+            array('sort' => 'ASC')
+        );
 
         return $resources;
     }
@@ -187,5 +190,4 @@ class Acl extends ZendAcl
 
         return $resource;
     }
-
 }

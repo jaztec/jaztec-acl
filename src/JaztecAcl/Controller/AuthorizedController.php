@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
 class AuthorizedController extends BaseController implements
-AclServiceAwareInterface
+    AclServiceAwareInterface
 {
 
     /** @var EntityManager $em */
@@ -93,12 +93,12 @@ AclServiceAwareInterface
     }
 
     /**
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param  \Zend\Mvc\MvcEvent $event
      * @return boolean
      */
-    public function checkAcl(\Zend\Mvc\MvcEvent $e)
+    public function checkAcl(\Zend\Mvc\MvcEvent $event)
     {
-        $params = $e->getRouteMatch()->getParams();
+        $params = $event->getRouteMatch()->getParams();
 
         // Finding the module name in which the controller is declared.
         $moduleName = substr(get_class($this), 0, strpos(get_class($this), '\\'));
@@ -106,7 +106,10 @@ AclServiceAwareInterface
         $baseName = $config['jaztec_acl']['name'][$moduleName];
 
         $allowed = $this->getAclService()->isAllowed(
-                $this->getRole(), $params['controller'], $params['action'], $baseName
+            $this->getRole(), 
+            $params['controller'], 
+            $params['action'], 
+            $baseName
         );
 
         // Redirect the user if this is specified in the configuration.
@@ -118,5 +121,4 @@ AclServiceAwareInterface
 
         return $allowed;
     }
-
 }
