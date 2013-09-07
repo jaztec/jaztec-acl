@@ -16,11 +16,11 @@ AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface
 
     public function init(ModuleManager $moduleManager)
     {
-        $events = $moduleManager->getEventManager()->getSharedManager();
+        $eventvents = $moduleManager->getEventManager()->getSharedManager();
         $controllerCallback = array($this, 'onDispatchController');
         $directCallback = array($this, 'onDispatchDirect');
-        $events->attach('Zend\Mvc\Application', MvcEvent::EVENT_DISPATCH, $controllerCallback);
-        $events->attach('KJSencha\Controller\DirectController', DirectEvent::EVENT_DISPATCH_RPC, $directCallback);
+        $eventvents->attach('Zend\Mvc\Application', MvcEvent::EVENT_DISPATCH, $controllerCallback);
+        $eventvents->attach('KJSencha\Controller\DirectController', DirectEvent::EVENT_DISPATCH_RPC, $directCallback);
     }
 
     /**
@@ -56,33 +56,33 @@ AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface
     /**
      * Perform an ACL check when an AuthorizedController is dispatched.
      *
-     * @param \Zend\Mvc\MvcEvent $e
+     * @param \Zend\Mvc\MvcEvent $eventvent
      */
-    public function onDispatchController(MvcEvent $e)
+    public function onDispatchController(MvcEvent $eventvent)
     {
-        $controller = $e->getTarget();
+        $controller = $eventvent->getTarget();
 
         // Check ACL
         if ($controller instanceof \JaztecAcl\Controller\AuthorizedController) {
-            $controller->checkAcl($e);
+            $controller->checkAcl($eventvent);
         }
     }
 
     /**
      * Perform an ACL check when a AuthorizedDirectObject is dispatched.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param  \Zend\Mvc\MvcEvent $event
      * @return null|array
      */
-    public function onDispatchDirect(Event $e)
+    public function onDispatchDirect(Event $event)
     {
-        $object = $e->getParam('object');
-        $method = $e->getParam('rpc')->getMethod();
+        $object = $event->getParam('object');
+        $method = $event->getParam('rpc')->getMethod();
 
         // Check ACL
         if ($object instanceof \JaztecAcl\Direct\AuthorizedDirectObject) {
             if (!$object->checkAcl($method)) {
-                $e->stopPropagation(true);
+                $event->stopPropagation(true);
 
                 return $object->notAllowed();
             }
