@@ -106,16 +106,19 @@ class AuthorizedController extends BaseController implements
         $baseName = $config['jaztec_acl']['name'][$moduleName];
 
         $allowed = $this->getAclService()->isAllowed(
-            $this->getRole(), 
-            $params['controller'], 
-            $params['action'], 
+            $this->getRole(),
+            $params['controller'],
+            $params['action'],
             $baseName
         );
 
         // Redirect the user if this is specified in the configuration.
         if (!$allowed) {
             if ($config['jaztec_acl']['redirect_controller'] == true) {
-                $this->redirect()->toRoute($config['jaztec_acl']['redirect_controller_route'], $config['jaztec_acl']['redirect_controller_route_params']);
+                $this->redirect()->toRoute(
+                    $config['jaztec_acl']['redirect_controller_route'],
+                    $config['jaztec_acl']['redirect_controller_route_params']
+                );
             }
         }
 

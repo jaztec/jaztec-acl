@@ -11,7 +11,9 @@ use Zend\Mvc\MvcEvent;
 use Zend\EventManager\Event;
 
 class Module implements
-AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface
+    AutoloaderProviderInterface, 
+    ConfigProviderInterface, 
+    ServiceProviderInterface
 {
 
     public function init(ModuleManager $moduleManager)
@@ -88,5 +90,4 @@ AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface
             }
         }
     }
-
 }
