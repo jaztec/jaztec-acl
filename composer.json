@@ -1,5 +1,5 @@
 {
-    "name": "jaztec/JaztecAcl",
+    "name": "jaztec/jaztec-acl",
     "description": "Database driven ACL module for ZF2",
     "type": "library", 
     "license": "MIT",
@@ -25,6 +25,7 @@
         "doctrine/data-fixtures": "dev-master",
         "zf-commons/zfc-base": "0.*",
         "zf-commons/zfc-user": "0.*",
-        "zf-commons/zfc-user-doctrine-orm": "0.*"
+        "zf-commons/zfc-user-doctrine-orm": "0.*",
+        "jaztec/jaztec-base": "dev-master"
     }
 }
