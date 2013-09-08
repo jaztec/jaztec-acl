@@ -40,4 +40,11 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->acl->isAllowed('role02', 'resource01'));
         $this->assertTrue($this->acl->isAllowed('role03', 'resource01'));
     }
+
+    /**
+     * @covers \JaztecAcl\Acl\Acl::isLoaded
+     */
+    public function testLoaded() {
+        $this->assertFalse($this->acl->isLoaded());
+    }
 }

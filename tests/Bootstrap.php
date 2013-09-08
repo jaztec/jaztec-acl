@@ -27,6 +27,7 @@ class Bootstrap
      * @var array
      */
     protected static $config;
+
     protected static $bootstrap;
 
     /**

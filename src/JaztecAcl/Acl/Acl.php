@@ -24,7 +24,7 @@ class Acl extends ZendAcl
      */
     public function isLoaded()
     {
-        return $this->loaded;
+        return $this->loaded ?: false;
     }
 
     /**
