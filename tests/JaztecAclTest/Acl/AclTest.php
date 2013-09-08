@@ -24,6 +24,9 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->acl = $this->serviceManager->get('jaztec_acl_service')->getAcl();
     }
 
+    /**
+     * @covers \JaztecAcl\Acl\Acl::isAllowed
+     */
     public function testControlList() {
         // Setup the ACL
         $this->acl->addResource('resource01');
