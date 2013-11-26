@@ -16,6 +16,7 @@ INSERT INTO `acl_roles`(`name`,`parent`,`sort`) VALUES('registered',1, 1)$$
 INSERT INTO `acl_roles`(`name`,`parent`,`sort`) VALUES('member',2, 2)$$
 INSERT INTO `acl_roles`(`name`,`parent`,`sort`) VALUES('moderator',3, 3)$$
 INSERT INTO `acl_roles`(`name`,`parent`,`sort`) VALUES('admin',4, 4)$$
+INSERT INTO `acl_roles`(`name`,`parent`,`sort`) VALUES('superadmin',NULL, 0)$$
 
 # WARNING, when a zfcuser table is already in place below should be a ALTER statement.
 CREATE TABLE `user` (
@@ -63,8 +64,8 @@ CREATE TABLE `acl_privileges` (
 ) ENGINE=InnoDB$$
 
 # deny quest by default on all resources.
-INSERT INTO `acl_privileges`(`privilege`,`role`) VALUES ('deny', 1)$$
+INSERT INTO `acl_privileges`(`type`,`role`) VALUES ('deny', 1)$$
 # allow admin by default on all resources.
-INSERT INTO `acl_privileges`(`privilege`,`role`) VALUES ('allow', 5)$$
+INSERT INTO `acl_privileges`(`type`,`role`) VALUES ('allow', 6)$$
 
 delimiter ;

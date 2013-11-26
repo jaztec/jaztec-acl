@@ -7,20 +7,18 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use KJSencha\Direct\DirectEvent;
+use KJSencha\Frontend as ExtJS;
 use Zend\Mvc\MvcEvent;
 use Zend\EventManager\Event;
 
 class Module implements
-    AutoloaderProviderInterface,
-    ConfigProviderInterface,
-    ServiceProviderInterface
+AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface
 {
 
-    public function init(ModuleManager $moduleManager)
-    {
-        $eventvents = $moduleManager->getEventManager()->getSharedManager();
+    public function init(ModuleManager $moduleManager) {
+        $eventvents         = $moduleManager->getEventManager()->getSharedManager();
         $controllerCallback = array($this, 'onDispatchController');
-        $directCallback = array($this, 'onDispatchDirect');
+        $directCallback     = array($this, 'onDispatchDirect');
         $eventvents->attach('Zend\Mvc\Application', MvcEvent::EVENT_DISPATCH, $controllerCallback);
         $eventvents->attach('KJSencha\Controller\DirectController', DirectEvent::EVENT_DISPATCH_RPC, $directCallback);
     }
@@ -28,16 +26,14 @@ class Module implements
     /**
      * {@inheritDoc}
      */
-    public function getConfig()
-    {
+    public function getConfig() {
         return include __DIR__ . '/../../config/module.config.php';
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getAutoloaderConfig()
-    {
+    public function getAutoloaderConfig() {
         return array(
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
@@ -50,8 +46,7 @@ class Module implements
     /**
      * {@inheritDoc}
      */
-    public function getServiceConfig()
-    {
+    public function getServiceConfig() {
         return include __DIR__ . '/../../config/service.config.php';
     }
 
@@ -60,8 +55,7 @@ class Module implements
      *
      * @param \Zend\Mvc\MvcEvent $eventvent
      */
-    public function onDispatchController(MvcEvent $eventvent)
-    {
+    public function onDispatchController(MvcEvent $eventvent) {
         $controller = $eventvent->getTarget();
 
         // Check ACL
@@ -76,8 +70,7 @@ class Module implements
      * @param  \Zend\Mvc\MvcEvent $event
      * @return null|array
      */
-    public function onDispatchDirect(Event $event)
-    {
+    public function onDispatchDirect(Event $event) {
         $object = $event->getParam('object');
         $method = $event->getParam('rpc')->getMethod();
 
@@ -90,4 +83,20 @@ class Module implements
             }
         }
     }
+
+    /**
+     * @return array
+     */
+    public function getComponentConfig() {
+        return array(
+            'factories' => array(
+                'TestPanel' => function($sm) {
+                    return new ExtJS\Panel(array(
+                        'title' => 'Testpanel'
+                    ));
+                }
+            )
+        );
+    }
+
 }
