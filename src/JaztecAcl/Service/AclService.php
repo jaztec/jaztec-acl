@@ -9,8 +9,7 @@ use Zend\Cache\Storage\StorageInterface;
 use JaztecBase\Service\AbstractService;
 
 class AclService extends AbstractService implements
-    AclAwareInterface,
-    CacheAwareInterface
+AclAwareInterface, CacheAwareInterface
 {
 
     /** @var \JaztecAcl\Acl\Acl $acl */
@@ -130,4 +129,5 @@ class AclService extends AbstractService implements
 
         return $acl->isAllowed($role, $resource, $privilege);
     }
+
 }

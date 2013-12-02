@@ -21,13 +21,14 @@ class AclTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->serviceManager = Bootstrap::getServiceManager();
-        $this->acl = $this->serviceManager->get('jaztec_acl_service')->getAcl();
+        $this->acl            = $this->serviceManager->get('jaztec_acl_service')->getAcl();
     }
 
     /**
      * @covers \JaztecAcl\Acl\Acl::isAllowed
      */
-    public function testControlList() {
+    public function testControlList()
+    {
         // Setup the ACL
         $this->acl->addResource('resource01');
         $this->acl->addRole('role01');
@@ -44,7 +45,9 @@ class AclTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers \JaztecAcl\Acl\Acl::isLoaded
      */
-    public function testLoaded() {
+    public function testLoaded()
+    {
         $this->assertFalse($this->acl->isLoaded());
     }
+
 }

@@ -42,14 +42,14 @@ class AuthorizedControllerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         // Gather variables
-        $serviceManager = Bootstrap::getServiceManager();
+        $serviceManager   = Bootstrap::getServiceManager();
         $this->controller = new AuthorizedController();
-        $this->request = new Request();
+        $this->request    = new Request();
         $this->routeMatch = new RouteMatch(array());
-        $this->event = new MvcEvent();
-        $config = $serviceManager->get('Config');
-        $routerConfig = isset($config['router']) ? $config['router'] : array();
-        $router = HttpRouter::factory($routerConfig);
+        $this->event      = new MvcEvent();
+        $config           = $serviceManager->get('Config');
+        $routerConfig     = isset($config['router']) ? $config['router'] : array();
+        $router           = HttpRouter::factory($routerConfig);
 
         // Setup the actual testcase.
         $this->event->setRouter($router);
@@ -62,9 +62,10 @@ class AuthorizedControllerTest extends \PHPUnit_Framework_TestCase
     {
         $this->routeMatch->setParam('action', 'index');
 
-        $result = $this->controller->dispatch($this->request);
+        $result   = $this->controller->dispatch($this->request);
         $response = $this->controller->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
     }
+
 }

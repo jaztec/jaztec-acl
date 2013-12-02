@@ -8,7 +8,7 @@ return array(
     'invokables' => array(
         'jaztec_acl_service' => 'JaztecAcl\Service\AclService',
     ),
-    'factories' => array(
+    'factories'  => array(
         'jaztec_cache' => function($sm) {
             $config = $sm->get('Config');
             if (array_key_exists('cache', $config['jaztec_acl'])) {

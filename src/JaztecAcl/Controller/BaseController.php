@@ -18,21 +18,24 @@ class BaseController extends AbstractActionController
     /**
      * @param \Zend\Mvc\MvcEvent $event
      */
-    public function onDispatch(MvcEvent $event) {
+    public function onDispatch(MvcEvent $event)
+    {
         parent::onDispatch($event);
     }
 
     /**
      * @param \Doctrine\ORM\EntityManager $em
      */
-    public function setEntityManager(\Doctrine\ORM\EntityManager $em) {
+    public function setEntityManager(\Doctrine\ORM\EntityManager $em)
+    {
         $this->em = $em;
     }
 
     /**
      * @return \Doctrine\ORM\EntityManager
      */
-    public function getEntityManager() {
+    public function getEntityManager()
+    {
         if (null === $this->em) {
             $this->em = $this->getServiceLocator()
                 ->get('doctrine.entitymanager.orm_default');
@@ -44,7 +47,8 @@ class BaseController extends AbstractActionController
     /**
      * @return \ZfcUser\Service\User
      */
-    public function getUserService() {
+    public function getUserService()
+    {
         if (null === $this->userService) {
             $this->userService = $this->getServiceLocator()
                 ->get('zfcuser_user_service');
@@ -57,7 +61,8 @@ class BaseController extends AbstractActionController
      * @param  \ZfcUser\Service\User                      $userService
      * @return \JaztecAclAdmin\Controller\UsersController
      */
-    public function setUserService(UserService $userService) {
+    public function setUserService(UserService $userService)
+    {
         $this->userService = $userService;
 
         return $this;

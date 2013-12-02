@@ -24,7 +24,7 @@ class Acl extends ZendAcl
      */
     public function isLoaded()
     {
-        return $this->loaded ?: false;
+        return $this->loaded ? : false;
     }
 
     /**
@@ -36,8 +36,8 @@ class Acl extends ZendAcl
     public function setupAcl(EntityManager $em)
     {
         $this->insertRoles($this->findRoles($em))
-                ->insertResources($this->findResources($em))
-                ->insertPrivileges($this->findPrivileges($em));
+            ->insertResources($this->findResources($em))
+            ->insertPrivileges($this->findPrivileges($em));
 
         $this->loaded = true;
 
@@ -56,7 +56,7 @@ class Acl extends ZendAcl
             if (null === $role->getParent()) {
                 $this->addRole($role);
             } else {
-                $parents = array();
+                $parents   = array();
                 $parents[] = $role->getParent()->getRoleId();
                 $this->addRole($role, $parents);
             }
@@ -96,7 +96,7 @@ class Acl extends ZendAcl
         foreach ($privileges as $privilege) {
             $type = $privilege->getType();
             $this->$type(
-                    $privilege->getRole(), $privilege->getResource(), $privilege->getPrivilege()
+                $privilege->getRole(), $privilege->getResource(), $privilege->getPrivilege()
             );
         }
 
@@ -112,8 +112,7 @@ class Acl extends ZendAcl
     protected function findRoles(EntityManager $em)
     {
         $roles = $em->getRepository('JaztecAcl\Entity\Role')->findBy(
-            array(),
-            array('sort' => 'ASC')
+            array(), array('sort' => 'ASC')
         );
 
         return $roles;
@@ -128,8 +127,7 @@ class Acl extends ZendAcl
     protected function findResources(EntityManager $em)
     {
         $resources = $em->getRepository('JaztecAcl\Entity\Resource')->findBy(
-            array(),
-            array('sort' => 'ASC')
+            array(), array('sort' => 'ASC')
         );
 
         return $resources;
@@ -159,10 +157,10 @@ class Acl extends ZendAcl
     {
         // Check if the base resource exists, otherwise create it.
         if (!$baseResource instanceof ResourceEntity &&
-                !is_string($baseResource)) {
+            !is_string($baseResource)) {
             throw new \Exception('Base resource is not a valid ACL resource, ' . get_class($baseResource) . ' given.');
         } elseif (!$baseResource instanceof \ResourceEntity) {
-            $baseName = $baseResource;
+            $baseName     = $baseResource;
             $baseResource = $em->getRepository('JaztecAcl\Entity\Resource')->findOneBy(array('name' => $baseName));
             if (!$baseResource instanceof ResourceEntity) {
                 $baseResource = new \JaztecAcl\Entity\Resource();
@@ -190,4 +188,5 @@ class Acl extends ZendAcl
 
         return $resource;
     }
+
 }

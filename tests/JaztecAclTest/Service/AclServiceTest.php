@@ -21,7 +21,7 @@ class AclServiceTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->serviceManager = Bootstrap::getServiceManager();
-        $this->aclService = $this->serviceManager->get('jaztec_acl_service');
+        $this->aclService     = $this->serviceManager->get('jaztec_acl_service');
     }
 
     /**
@@ -32,4 +32,5 @@ class AclServiceTest extends \PHPUnit_Framework_TestCase
         // Testing for a good ACL object.
         $this->assertInstanceOf('\JaztecAcl\Acl\Acl', $this->aclService->getAcl());
     }
+
 }

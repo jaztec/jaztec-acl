@@ -161,13 +161,14 @@ class Privilege extends AbstractEntity
     public function toArray()
     {
         return array(
-            'PrivilegeID' => $this->getId(),
-            'Type' => $this->getType(),
-            'Privilege' => $this->getPrivilege(),
-            'Resource' => (null === $this->getResource()) ? null : $this->getResource()->getId(),
-            'Role' => (null === $this->getRole()) ? null : $this->getRole()->getId(),
+            'PrivilegeID'  => $this->getId(),
+            'Type'         => $this->getType(),
+            'Privilege'    => $this->getPrivilege(),
+            'Resource'     => (null === $this->getResource()) ? null : $this->getResource()->getId(),
+            'Role'         => (null === $this->getRole()) ? null : $this->getRole()->getId(),
             'ResourceName' => (null === $this->getResource()) ? null : $this->getResource()->getName(),
-            'RoleName' => (null === $this->getRole()) ? null : $this->getRole()->getName(),
+            'RoleName'     => (null === $this->getRole()) ? null : $this->getRole()->getName(),
         );
     }
+
 }

@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
 class AuthorizedController extends BaseController implements
-    AclServiceAwareInterface
+AclServiceAwareInterface
 {
 
     /** @var EntityManager $em */
@@ -41,7 +41,7 @@ class AuthorizedController extends BaseController implements
             if ($this->zfcUserAuthentication()->hasIdentity()) {
                 $role = $this->zfcUserAuthentication()->getIdentity()->getRole();
             } else {
-                $em = $this->getEntityManager();
+                $em   = $this->getEntityManager();
                 /** @var EntityManager $em */
                 // Haal de eerste rol op, altijd guest.
                 $role = $em->find('\JaztecAcl\Entity\Role', 1);
@@ -102,26 +102,23 @@ class AuthorizedController extends BaseController implements
 
         // Finding the module name in which the controller is declared.
         $moduleName = substr(get_class($this), 0, strpos(get_class($this), '\\'));
-        $config = $this->getServiceLocator()->get('Config');
-        $baseName = $config['jaztec_acl']['name'][$moduleName];
+        $config     = $this->getServiceLocator()->get('Config');
+        $baseName   = $config['jaztec_acl']['name'][$moduleName];
 
         $allowed = $this->getAclService()->isAllowed(
-            $this->getRole(),
-            $params['controller'],
-            $params['action'],
-            $baseName
+            $this->getRole(), $params['controller'], $params['action'], $baseName
         );
 
         // Redirect the user if this is specified in the configuration.
         if (!$allowed) {
             if ($config['jaztec_acl']['redirect_controller'] == true) {
                 $this->redirect()->toRoute(
-                    $config['jaztec_acl']['redirect_controller_route'],
-                    $config['jaztec_acl']['redirect_controller_route_params']
+                    $config['jaztec_acl']['redirect_controller_route'], $config['jaztec_acl']['redirect_controller_route_params']
                 );
             }
         }
 
         return $allowed;
     }
+
 }

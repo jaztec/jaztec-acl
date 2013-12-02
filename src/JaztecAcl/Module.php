@@ -14,7 +14,8 @@ class Module implements
 AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface
 {
 
-    public function init(ModuleManager $moduleManager) {
+    public function init(ModuleManager $moduleManager)
+    {
         $eventvents         = $moduleManager->getEventManager()->getSharedManager();
         $controllerCallback = array($this, 'onDispatchController');
         $directCallback     = array($this, 'onDispatchDirect');
@@ -25,14 +26,16 @@ AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface
     /**
      * {@inheritDoc}
      */
-    public function getConfig() {
+    public function getConfig()
+    {
         return include __DIR__ . '/../../config/module.config.php';
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getAutoloaderConfig() {
+    public function getAutoloaderConfig()
+    {
         return array(
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
@@ -45,7 +48,8 @@ AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface
     /**
      * {@inheritDoc}
      */
-    public function getServiceConfig() {
+    public function getServiceConfig()
+    {
         return include __DIR__ . '/../../config/service.config.php';
     }
 
@@ -54,7 +58,8 @@ AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface
      *
      * @param \Zend\Mvc\MvcEvent $eventvent
      */
-    public function onDispatchController(MvcEvent $eventvent) {
+    public function onDispatchController(MvcEvent $eventvent)
+    {
         $controller = $eventvent->getTarget();
 
         // Check ACL
@@ -69,7 +74,8 @@ AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface
      * @param  \Zend\Mvc\MvcEvent $event
      * @return null|array
      */
-    public function onDispatchDirect(Event $event) {
+    public function onDispatchDirect(Event $event)
+    {
         $object = $event->getParam('object');
         $method = $event->getParam('rpc')->getMethod();
 

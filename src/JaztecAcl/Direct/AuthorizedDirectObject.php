@@ -10,7 +10,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfcUser\Service\User as UserService;
 
 class AuthorizedDirectObject implements
-    ServiceLocatorAwareInterface
+ServiceLocatorAwareInterface
 {
 
     /** @var ZfcUser\Service\User $em */
@@ -54,9 +54,9 @@ class AuthorizedDirectObject implements
     {
         // Find the base resource name this module is given.
         $moduleName = substr(get_class($this), 0, strpos(get_class($this), '\\'));
-        $config = $this->getServiceLocator()->get('Config');
-        $baseName = $config['jaztec_acl']['name'][$moduleName];
-        $allowed = $this->getAclService()->isAllowed($this->getRole(), $this->aclDenominator, $privilege, $baseName);
+        $config     = $this->getServiceLocator()->get('Config');
+        $baseName   = $config['jaztec_acl']['name'][$moduleName];
+        $allowed    = $this->getAclService()->isAllowed($this->getRole(), $this->aclDenominator, $privilege, $baseName);
 
         return $allowed;
     }
@@ -115,7 +115,7 @@ class AuthorizedDirectObject implements
             if ($this->getUserService()->getAuthService()->hasIdentity()) {
                 $role = $this->getUserService()->getAuthService()->getIdentity()->getRole();
             } else {
-                $em = $this->getEntityManager();
+                $em   = $this->getEntityManager();
                 /** @var EntityManager $em */
                 // Haal de eerste rol op, altijd guest.
                 $role = $em->find('\JaztecAcl\Entity\Role', 1);
@@ -187,4 +187,5 @@ class AuthorizedDirectObject implements
 
         return $this;
     }
+
 }

@@ -27,7 +27,6 @@ class Bootstrap
      * @var array
      */
     protected static $config;
-
     protected static $bootstrap;
 
     /**
@@ -115,7 +114,7 @@ class Bootstrap
         AutoloaderFactory::factory(array(
             'Zend\Loader\StandardAutoloader' => array(
                 'autoregister_zf' => true,
-                'namespaces' => array(
+                'namespaces'      => array(
                     __NAMESPACE__ => __DIR__ . '/' . __NAMESPACE__,
                 ),
             ),
@@ -128,10 +127,10 @@ class Bootstrap
      */
     protected static function findParentPath($path)
     {
-        $dir = __DIR__;
+        $dir         = __DIR__;
         $previousDir = '.';
         while (!is_dir($dir . '/' . $path)) {
-            $dir = dirname($dir);
+            $dir         = dirname($dir);
             if ($previousDir === $dir)
                 return false;
             $previousDir = $dir;

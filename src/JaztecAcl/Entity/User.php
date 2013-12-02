@@ -90,9 +90,9 @@ class User extends AbstractEntity implements ZfcUserInterface
     {
         // Default waarden zetten
         $this->setActive(true)
-                ->setFirstName('Gast')
-                ->setLastName('')
-                ->setRoleID(1);
+            ->setFirstName('Gast')
+            ->setLastName('')
+            ->setRoleID(1);
     }
 
     /**
@@ -306,11 +306,12 @@ class User extends AbstractEntity implements ZfcUserInterface
     public function toArray()
     {
         return array(
-            'UserID' => $this->getId(),
-            'Role' => $this->getRole()->getId(),
+            'UserID'      => $this->getId(),
+            'Role'        => $this->getRole()->getId(),
             'DisplayName' => $this->getDisplayName(),
-            'Username' => $this->getUsername(),
-            'Email' => $this->getEmail(),
+            'Username'    => $this->getUsername(),
+            'Email'       => $this->getEmail(),
         );
     }
+
 }

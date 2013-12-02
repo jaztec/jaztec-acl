@@ -145,9 +145,10 @@ class Resource extends AbstractEntity implements ZendResourceInterface
     {
         return array(
             'ResourceID' => $this->getId(),
-            'Name' => $this->getResourceId(),
-            'ParentID' => $this->getParent() === null ? null : $this->getParent()->getId(),
-            'Parent' => $this->getParent() === null ? null : $this->getParent()->getResourceId(),
+            'Name'       => $this->getResourceId(),
+            'ParentID'   => $this->getParent() === null ? null : $this->getParent()->getId(),
+            'Parent'     => $this->getParent() === null ? null : $this->getParent()->getResourceId(),
         );
     }
+
 }

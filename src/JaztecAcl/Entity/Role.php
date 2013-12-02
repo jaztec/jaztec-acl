@@ -144,10 +144,11 @@ class Role extends AbstractEntity implements ZendRoleInterface
     public function toArray()
     {
         return array(
-            'RoleID' => $this->getId(),
-            'Name' => $this->getRoleId(),
+            'RoleID'   => $this->getId(),
+            'Name'     => $this->getRoleId(),
             'ParentID' => $this->getParent() === null ? null : $this->getParent()->getId(),
-            'Parent' => $this->getParent() === null ? null : $this->getParent()->getRoleId(),
+            'Parent'   => $this->getParent() === null ? null : $this->getParent()->getRoleId(),
         );
     }
+
 }
