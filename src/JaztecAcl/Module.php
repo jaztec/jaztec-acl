@@ -7,7 +7,6 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use KJSencha\Direct\DirectEvent;
-use KJSencha\Frontend as ExtJS;
 use Zend\Mvc\MvcEvent;
 use Zend\EventManager\Event;
 
@@ -82,21 +81,6 @@ AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface
                 return $object->notAllowed();
             }
         }
-    }
-
-    /**
-     * @return array
-     */
-    public function getComponentConfig() {
-        return array(
-            'factories' => array(
-                'TestPanel' => function($sm) {
-                    return new ExtJS\Panel(array(
-                        'title' => 'Testpanel'
-                    ));
-                }
-            )
-        );
     }
 
 }
