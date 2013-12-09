@@ -31,4 +31,16 @@ class AuthorizedDirectObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('not allowed', $response['message']);
     }
 
+    /**
+     * Test if the getRole function always returns a RoleInterface of the guest type.
+     * 
+     * @covers \JaztecAcl\Direct\AuthorizedDirectObject::getRole
+     */
+    public function testGetRole()
+    {
+        $role = $this->directObject->getRole();
+
+        $this->assertInstanceOf('\Zend\Permissions\Acl\Role\RoleInterface', $role);
+        $this->assertEquals('guest', $role->getRoleId());
+    }
 }

@@ -115,10 +115,10 @@ ServiceLocatorAwareInterface
             if ($this->getUserService()->getAuthService()->hasIdentity()) {
                 $role = $this->getUserService()->getAuthService()->getIdentity()->getRole();
             } else {
-                $em   = $this->getEntityManager();
-                /** @var EntityManager $em */
-                // Haal de eerste rol op, altijd guest.
-                $role = $em->find('\JaztecAcl\Entity\Role', 1);
+                // Setup a guest role.
+                $role = new \JaztecAcl\Entity\Role();
+                $role->setId(1);
+                $role->setName('guest');
             }
             $this->setRole($role);
         }

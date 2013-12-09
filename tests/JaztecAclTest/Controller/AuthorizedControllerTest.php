@@ -56,6 +56,11 @@ class AuthorizedControllerTest extends \PHPUnit_Framework_TestCase
         $this->event->setRouteMatch($this->routeMatch);
         $this->controller->setEvent($this->event);
         $this->controller->setServiceLocator($serviceManager);
+        
+        // Arranging the zfc-user services.
+        $authMock = $this->getMock('ZfcUser\Controller\Plugin\ZfcUserAuthentication');
+        $this->controller->getPluginManager()
+             ->setService('zfcUserAuthentication', $authMock);
     }
 
     public function testCheckAcl()
@@ -66,6 +71,19 @@ class AuthorizedControllerTest extends \PHPUnit_Framework_TestCase
         $response = $this->controller->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    /**
+     * Test if the getRole function always returns a RoleInterface of the guest type.
+     * 
+     * @covers \JaztecAcl\Controller\AuthorizedController::getRole
+     */
+    public function testGetRole()
+    {
+        $role = $this->controller->getRole();
+
+        $this->assertInstanceOf('\Zend\Permissions\Acl\Role\RoleInterface', $role);
+        $this->assertEquals('guest', $role->getRoleId());
     }
 
 }
