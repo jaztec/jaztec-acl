@@ -16,16 +16,16 @@ return array(
         'redirect_controller_route_params' => array('redirect' => 'admin'),
     ),
     'zfcuser'    => array(
-        'user_entity_class'    => 'JaztecAcl\Entity\User',
-        'enable_registration'  => false,
-        'enable_username'      => true,
-        'enable_display_name'  => true,
-        'auth_identity_fields' => array(
+        'user_entity_class'     => 'JaztecAcl\Entity\User',
+        'enable_registration'   => false,
+        'enable_username'       => true,
+        'enable_display_name'   => true,
+        'auth_identity_fields'  => array(
             'username'
         ),
-        'login_redirect_route' => 'jaztecadmin_protected',
-        'enable_user_state'    => true,
-        'allowed_login_states' => array(1),
+        'login_redirect_route'  => 'jaztecadmin_protected',
+        'enable_user_state'     => true,
+        'allowed_login_states'  => array(1),
     ),
     'doctrine'   => array(
         'driver' => array(
