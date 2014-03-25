@@ -20,8 +20,27 @@ class AclServiceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        Bootstrap::setUpAclDatabase();
+
         $this->serviceManager = Bootstrap::getServiceManager();
-        $this->aclService     = $this->serviceManager->get('jaztec_acl_service');
+        $em                   = Bootstrap::getServiceManager()->get('doctrine.entitymanager.orm_default');
+        /* @var $em \Doctrine\ORM\EntityManager */
+
+        $aclService = $this->serviceManager->get('jaztec_acl_service');
+        $aclService->setEntityManager($em);
+
+        // Configure the ACL object needed by our AclService.
+        $aclService->getAcl()->removeResourceAll();
+        $aclService->getAcl()->removeRoleAll();
+        $aclService->getAcl()->setupAcl($em);
+        /* @var $aclService \JaztecAcl\Service\AclService */
+
+        // Add a test resource to the ACL
+        if (!$aclService->getAcl()->hasResource('resource01')) {
+            $aclService->getAcl()->addResource('resource01');
+        }
+
+        $this->aclService = $aclService;
     }
 
     /**
@@ -33,4 +52,33 @@ class AclServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\JaztecAcl\Acl\Acl', $this->aclService->getAcl());
     }
 
+    /**
+     * @covers \JaztecAcl\Service\AclService::isAllowed
+     */
+    public function testControlList()
+    {
+        // Testing default capabilities
+        $this->aclService->getAcl()->allow('guest', 'resource01');
+        $this->aclService->getAcl()->deny('additionalRole', 'resource01');
+
+        // Testing for solid control list.
+        $this->assertTrue($this->aclService->isAllowed('guest', 'resource01', ''));
+        $this->assertFalse($this->aclService->isAllowed('additionalRole', 'resource01', ''));
+        $this->assertTrue($this->aclService->isAllowed('member', 'resource01', ''));
+    }
+
+    /**
+     * @covers \JaztecAcl\Service\AclService::isAllowed
+     */
+    public function testControlDetail()
+    {
+        // Testing special capabilities.
+        $this->aclService->getAcl()->deny();
+        $this->aclService->getAcl()->allow('additionalRole');
+
+        // Are is the right role permitted?
+        $this->assertFalse($this->aclService->isAllowed('guest', 'resource01', ''), 'The guest role should no longer have access to the resource');
+        $this->assertFalse($this->aclService->isAllowed('member', 'resource01', ''), 'A role extended from the guest role should not have access to the resource.');
+        $this->assertTrue($this->aclService->isAllowed('additionalRole', 'resource01', ''), 'The ACL should allow this role because it as all rights.');
+    }
 }

@@ -41,6 +41,7 @@ class AuthorizedControllerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        Bootstrap::setUpAclDatabase();
         // Gather variables
         $serviceManager   = Bootstrap::getServiceManager();
         $this->controller = new AuthorizedController();

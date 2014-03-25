@@ -15,6 +15,7 @@ class AuthorizedDirectObjectTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        Bootstrap::setUpAclDatabase();
         $this->directObject = new \JaztecAcl\Direct\AuthorizedDirectObject();
         $this->directObject->setServiceLocator(Bootstrap::getServiceManager());
     }

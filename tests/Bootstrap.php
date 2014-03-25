@@ -139,6 +139,50 @@ class Bootstrap
         return $dir . '/' . $path;
     }
 
+    /**
+     * Reset the database and provide dummy filling.
+     */
+    public static function setUpAclDatabase() {
+        // Schema Tool to process our entities
+        $em = static::getServiceManager()->get('doctrine.entitymanager.orm_default');
+        /* @var $em \Doctrine\ORM\EntityManager */
+        $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
+        $classes = $em->getMetaDataFactory()->getAllMetaData();
+
+        // Drop all classes and re-build them for each test case
+        $tool->dropSchema($classes);
+        $tool->createSchema($classes);
+
+        // Get the setup from the configuration.
+        $config = static::getServiceManager()->get('Config');
+        /* @var $config array */
+        $setUp = $config['TestSuite']['setUp'];
+        /* @var $setUp array */
+
+        // SetUp roles.
+        $roleSetUp = $setUp['roles'];
+        /* $var $roleSetIp array */
+        $roles = array();
+        /* $var $roles \JaztecAcl\Entity\Role[] */
+
+        foreach($roleSetUp as $setUpConfig) {
+            $role = new \JaztecAcl\Entity\Role();
+            $role->setName($setUpConfig['name'])
+                ->setSort($setUpConfig['sort']);
+
+            if (array_key_exists('parent', $setUpConfig)) {
+                foreach($roles as $cached) {
+                    /* @var $cached \JaztecAcl\Entity\Role */
+                    if ($cached->getName() === $setUpConfig['parent']) {
+                        $role->setParent($cached);
+                    }
+                }
+            }
+            $em->persist($role);
+            $roles[] = $role;
+        }
+        $em->flush();
+    }
 }
 
 Bootstrap::init();

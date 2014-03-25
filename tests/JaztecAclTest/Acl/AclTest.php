@@ -20,18 +20,20 @@ class AclTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        Bootstrap::setUpAclDatabase();
+
+        $em = $em = Bootstrap::getServiceManager()->get('doctrine.entitymanager.orm_default');
+        /* @var $em \Doctrine\ORM\EntityManager */
         $this->serviceManager = Bootstrap::getServiceManager();
         $this->acl            = $this->serviceManager->get('jaztec_acl_service')->getAcl();
 
         // Clear the ACL.
         $this->acl->removeResourceAll();
         $this->acl->removeRoleAll();
+        $this->acl->setupAcl($em);
 
-        // Setup the ACL
+        // Add a test resource to the ACL
         $this->acl->addResource('resource01');
-        $this->acl->addRole('role01');
-        $this->acl->addRole('role02');
-        $this->acl->addRole('role03', 'role01');
     }
 
     /**
@@ -40,13 +42,13 @@ class AclTest extends \PHPUnit_Framework_TestCase
     public function testControlList()
     {
         // Testing default capabilities
-        $this->acl->allow('role01', 'resource01');
-        $this->acl->deny('role02', 'resource01');
+        $this->acl->allow('guest', 'resource01');
+        $this->acl->deny('additionalRole', 'resource01');
 
         // Testing for solid control list.
-        $this->assertTrue($this->acl->isAllowed('role01', 'resource01'));
-        $this->assertFalse($this->acl->isAllowed('role02', 'resource01'));
-        $this->assertTrue($this->acl->isAllowed('role03', 'resource01'));
+        $this->assertTrue($this->acl->isAllowed('guest', 'resource01'));
+        $this->assertFalse($this->acl->isAllowed('additionalRole', 'resource01'));
+        $this->assertTrue($this->acl->isAllowed('member', 'resource01'));
     }
 
     /**
@@ -56,12 +58,12 @@ class AclTest extends \PHPUnit_Framework_TestCase
     {
         // Testing special capabilities.
         $this->acl->deny();
-        $this->acl->allow('role03');
+        $this->acl->allow('additionalRole');
 
         // Are is the right role permitted?
-        $this->assertFalse($this->acl->isAllowed('role01', 'resource01'));
-        $this->assertFalse($this->acl->isAllowed('role02', 'resource01'));
-        $this->assertTrue($this->acl->isAllowed('role03', 'resource01'), 'The ACL should allow this role because it as all rights.');
+        $this->assertFalse($this->acl->isAllowed('guest', 'resource01'));
+        $this->assertFalse($this->acl->isAllowed('member', 'resource01'));
+        $this->assertTrue($this->acl->isAllowed('additionalRole', 'resource01'), 'The ACL should allow this role because it as all rights.');
     }
 
     /**
@@ -69,7 +71,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoaded()
     {
-        $this->assertFalse($this->acl->isLoaded());
+        $this->assertTrue($this->acl->isLoaded());
     }
 
 }
