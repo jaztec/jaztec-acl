@@ -10,7 +10,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfcUser\Service\User as UserService;
 
 class AuthorizedDirectObject implements
-ServiceLocatorAwareInterface
+    ServiceLocatorAwareInterface
 {
 
     /** @var ZfcUser\Service\User $em */

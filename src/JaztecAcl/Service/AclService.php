@@ -116,8 +116,7 @@ AclAwareInterface, CacheAwareInterface
             //    $cache->removeItem('jaztec_acl');
             //$cache->addItem('jaztec_acl', $acl);
         }
-
-        // Check resource existance and create it if the config allows this, by defaultm use 'base'.
+        // Check resource existence and create it if the config allows this, by defaultm use 'base'.
         if (!$acl->hasResource($resource)) {
             if (!array_key_exists('create_resource', $cfg['jaztec_acl']) ||
                 $cfg['jaztec_acl']['create_resource'] == true) {
