@@ -67,5 +67,4 @@ class BaseController extends AbstractActionController
 
         return $this;
     }
-
 }

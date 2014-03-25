@@ -170,5 +170,4 @@ class Privilege extends AbstractEntity
             'RoleName'     => (null === $this->getRole()) ? null : $this->getRole()->getName(),
         );
     }
-
 }

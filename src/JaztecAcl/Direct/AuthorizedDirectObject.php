@@ -187,5 +187,4 @@ class AuthorizedDirectObject implements
 
         return $this;
     }
-
 }

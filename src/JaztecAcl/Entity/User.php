@@ -313,5 +313,4 @@ class User extends AbstractEntity implements ZfcUserInterface
             'Email'       => $this->getEmail(),
         );
     }
-
 }

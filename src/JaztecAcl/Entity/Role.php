@@ -150,5 +150,4 @@ class Role extends AbstractEntity implements ZendRoleInterface
             'Parent'   => $this->getParent() === null ? null : $this->getParent()->getRoleId(),
         );
     }
-
 }
