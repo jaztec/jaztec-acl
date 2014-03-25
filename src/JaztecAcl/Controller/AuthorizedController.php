@@ -116,7 +116,7 @@ class AuthorizedController extends BaseController implements
         if (!$allowed) {
             if ($config['jaztec_acl']['redirect_controller'] == true) {
                 $this->redirect()->toRoute(
-                    $config['jaztec_acl']['redirect_controller_route'], 
+                    $config['jaztec_acl']['redirect_controller_route'],
                     $config['jaztec_acl']['redirect_controller_route_params']
                 );
             }
