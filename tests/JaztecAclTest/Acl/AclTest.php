@@ -22,7 +22,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
     {
         Bootstrap::setUpAclDatabase();
 
-        $em = $em = Bootstrap::getServiceManager()->get('doctrine.entitymanager.orm_default');
+        $em                   = Bootstrap::getServiceManager()->get('doctrine.entitymanager.orm_default');
         /* @var $em \Doctrine\ORM\EntityManager */
         $this->serviceManager = Bootstrap::getServiceManager();
         $this->acl            = $this->serviceManager->get('jaztec_acl_service')->getAcl();
@@ -61,8 +61,8 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->acl->allow('additionalRole');
 
         // Are is the right role permitted?
-        $this->assertFalse($this->acl->isAllowed('guest', 'resource01'));
-        $this->assertFalse($this->acl->isAllowed('member', 'resource01'));
+        $this->assertFalse($this->acl->isAllowed('guest', 'resource01'), 'The guest role is no longer allowed on this resource');
+        $this->assertFalse($this->acl->isAllowed('member', 'resource01'), 'A role derived from the guest role is no longer allowed on this resource');
         $this->assertTrue($this->acl->isAllowed('additionalRole', 'resource01'), 'The ACL should allow this role because it as all rights.');
     }
 
@@ -74,4 +74,26 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->acl->isLoaded());
     }
 
+    /**
+     * @covers \JaztecAcl\Acl\Acl::createResource
+     */
+    public function testCreateResource()
+    {
+        // Set up ACL
+        $this->acl->allow();
+
+        $em = Bootstrap::getServiceManager()->get('doctrine.entitymanager.orm_default');
+        /* @var $em \Doctrine\ORM\EntityManager */
+
+        $this->acl->createResource('resource2', 'base', $em);
+
+        $resource = $em->getRepository('JaztecAcl\Entity\Resource')->findOneBy(array(
+            'name' => 'resource2'
+        ));
+        /* @var $resource \JaztecAcl\Entity\Resource */
+
+        // Test if the resource exists.
+        $this->assertTrue(($resource instanceof \JaztecAcl\Entity\Resource), "A new resource should've been added");
+        $this->assertTrue($this->acl->hasResource($resource), "The local ACL should contain the newly added resource");
+    }
 }
