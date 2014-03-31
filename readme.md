@@ -1,15 +1,8 @@
 JaztecAcl
 =========
---Travis here--
+--Travis here-- what now...
 
 Simple database driven ACL module for ZF2.
-
-## Dependencies
-
-- zendframework/ZF2
-- ZF-Commons/ZfcUser
-- ZF-Commons/ZfcUserDoctrineORM
-- jaztec/JaztecBase
 
 ## Installation
 - Run the /data/db/setup.sql script inside your MySQL editor.
