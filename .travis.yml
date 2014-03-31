@@ -1,0 +1,20 @@
+language: php
+
+env:
+  - DB=sqlite
+
+php:
+  - 5.3
+  - 5.4
+  - hhvm
+
+matrix:
+  allow_failures:
+    - php: hhvm
+
+before_script:
+  - composer install --dev --prefer-source
+  - wget http://cs.sensiolabs.org/get/php-cs-fixer.phar
+
+script:
+  - phpunit
