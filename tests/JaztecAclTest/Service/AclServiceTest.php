@@ -81,4 +81,41 @@ class AclServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->aclService->isAllowed('member', 'resource01', ''), 'A role extended from the guest role should not have access to the resource.');
         $this->assertTrue($this->aclService->isAllowed('additionalRole', 'resource01', ''), 'The ACL should allow this role because it as all rights.');
     }
+
+    /**
+     * @covers \JaztecAcl\Service\AclService::isAllowed
+     */
+    public function testServiceResourceCreation()
+    {
+        // Prepare the ACL
+        $this->aclService->getAcl()->deny();
+        $this->aclService->getAcl()->allow('additionalRole');
+
+        $this->aclService->isAllowed('additionalRole', 'resource99', 'index');
+        $this->assertTrue($this->aclService->getAcl()->hasResource('resource99'), "The test resource should have been added to the database");
+    }
+
+    /**
+     * @covers \JaztecAcl\Service\AclService::isAllowed
+     */    
+    public function testServicePrivilegeRequestCreation()
+    {
+        // Prepare the ACL
+        $this->aclService->getAcl()->deny();
+        $this->aclService->getAcl()->allow('additionalRole');
+
+        $this->aclService->isAllowed('additionalRole', 'resource50', 'index');
+
+        $em = Bootstrap::getServiceManager()->get('doctrine.entitymanager.orm_default');
+        /* @var $em \Doctrine\ORM\EntityManager */
+        $requests = $em->getRepository('JaztecAcl\Entity\RequestedPrivilege')->findBy(
+            array(
+                'privilege' => 'index',
+                'resource'  => 'resource50',
+            )
+        );
+        /* @var $requests array */
+
+        $this->assertGreaterThan(0, count($requests), "The newly added privilege should exist in the database");
+    }
 }

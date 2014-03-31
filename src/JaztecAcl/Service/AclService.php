@@ -127,6 +127,15 @@ class AclService extends AbstractService implements
             }
         }
 
+        // Track requests if set tot true.
+        if ($cfg['jaztec_acl']['track_privilege_requests'] === true) {
+            $resourceName = $resource;
+            if ($resource instanceof \JaztecAcl\Entity\Resource) {
+                $resourceName = $resource->getName();
+            }
+            $acl->checkPrivilegeRequest($privilege, $resourceName, $this->getEntityManager());
+        }
+
         return $acl->isAllowed($role, $resource, $privilege);
     }
 }

@@ -9,6 +9,8 @@ return array(
         ),
         // Auto-create resources when the called resource does not exist.
         'create_resource'                  => true,
+        // Track privilege requests.
+        'track_privilege_requests'         => true,
         // Redirect the AuthorizedController on Acl failure.
         'redirect_controller'              => true,
         // To which route the AuthorizedController will redirect and additional params.

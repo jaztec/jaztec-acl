@@ -96,4 +96,37 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(($resource instanceof \JaztecAcl\Entity\Resource), "A new resource should've been added");
         $this->assertTrue($this->acl->hasResource($resource), "The local ACL should contain the newly added resource");
     }
+
+    public function testCreatePrivilegeRequest()
+    {
+        // Set up the ACL
+        $this->acl->allow();
+
+        $em = Bootstrap::getServiceManager()->get('doctrine.entitymanager.orm_default');
+        /* @var $em \Doctrine\ORM\EntityManager */
+
+        $this->acl->checkPrivilegeRequest('index', 'resource01', $em);
+
+        $requests = $em->getRepository('JaztecAcl\Entity\RequestedPrivilege')->findBy(
+            array(
+                'privilege' => 'index',
+                'resource'  => 'resource01',
+            )
+        );
+        /* @var $requests array */
+        $this->assertGreaterThan(0, count($requests), "The newly added privilege should exist in the database");
+        $this->assertEquals(1, count($requests), "At least 1 occurance of this requested privilege should occur in the database");
+
+        $this->acl->checkPrivilegeRequest('index', 'resource01', $em);
+
+        $requestsNewRun = $em->getRepository('JaztecAcl\Entity\RequestedPrivilege')->findBy(
+            array(
+                'privilege' => 'index',
+                'resource'  => 'resource01',
+            )
+        );
+        /* @var $requestsNewRun array */
+        $this->assertGreaterThan(0, count($requestsNewRun), "The newly added privilege should exist in the database, also in the second run");
+        $this->assertEquals(1, count($requestsNewRun), "After a second run their thould only be one instance of the requested privilege");
+    }
 }

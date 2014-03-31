@@ -190,4 +190,41 @@ class Acl extends ZendAcl
 
         return $resource;
     }
+
+    /**
+     * Checks and adds the privilege request and the resource to the request
+     * storage if it doesn't exist.
+     * 
+     * @param   string                          $privilege
+     * @param   string                          $resource
+     * @param   \Doctrine\ORM\EntityManager     $em
+     * @return  bool
+     */
+    public function checkPrivilegeRequest($privilege, $resource, EntityManager $em)
+    {
+        $privilege = trim($privilege);
+        $resource = trim($resource);
+        // Check the input values.
+        if ($resource === '' || $privilege === '') {
+            return false;
+        }
+        // Try to find the privilege request in the database.
+        $requestedPrivilege = $em->getRepository('JaztecAcl\Entity\RequestedPrivilege')->findOneBy(
+            array(
+                'privilege' => $privilege,
+                'resource'  => $resource,
+            )
+        );
+        if ($requestedPrivilege instanceof \JaztecAcl\Entity\RequestedPrivilege) {
+            return true;
+        }
+        // Create the privilege request.
+        $newRequestedPrivilege = new \JaztecAcl\Entity\RequestedPrivilege();
+        $newRequestedPrivilege
+            ->setPrivilege($privilege)
+            ->setResource($resource);
+        $em->persist($newRequestedPrivilege);
+        $em->flush();
+        return true;
+    }
 }
