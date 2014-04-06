@@ -5,7 +5,7 @@ namespace JaztecAcl\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Console\Request as ConsoleRequest;
-use Zend\Stdlib\ArrayUtils;
+use Zend\Crypt\Password\Bcrypt;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 
@@ -53,7 +53,11 @@ class ConsoleController extends AbstractActionController
         // Test the mode.
         switch ($mode) {
             case 'clean-install':
-                $result = $this->installDatabase($this->getEntityManager(), $verbose);
+                $email = $request->getParam('email', null);
+                if (!$email) {
+                    throw new \Zend\Console\Exception\RuntimeException('No e-mail parameter was received.');
+                }
+                $result = $this->installDatabase($this->getEntityManager(), $email, $verbose);
                 break;
             case 'update':
                 $result = $this->updateDatabase($this->getEntityManager(), $verbose);
@@ -65,10 +69,11 @@ class ConsoleController extends AbstractActionController
     /**
      * Install the database.
      * 
-     * @param \Doctrine\ORM\EntityManager $em
-     * @param bool $verbose
+     * @param \Doctrine\ORM\EntityManager   $em
+     * @param string                        $email
+     * @param bool                          $verbose
      */
-    protected function installDatabase(EntityManager $em, $verbose)
+    protected function installDatabase(EntityManager $em, $email, $verbose)
     {
         $tool = new SchemaTool($em);
         /* @var $tool \Doctrine\ORM\Tools\SchemaTool */
@@ -88,7 +93,54 @@ class ConsoleController extends AbstractActionController
         }
         $tool->createSchema($classes);
 
+        /* @var $config array */
+        $config = $this->getServiceLocator()->get('Config');
+        /* @var $setUp array */
+        $setUp = $config['jaztec_acl']['setUp'];
+
+        /* @var $roleSetUp array */
+        $roleSetUp = $setUp['roles'];
+        /* @var $roles \JaztecAcl\Entity\Role[] */
+        $roles = array();
+
+        // SetUp roles.
+        foreach ($roleSetUp as $setUpConfig) {
+            $role = new \JaztecAcl\Entity\Role();
+            $role->setName($setUpConfig['name'])
+                ->setSort($setUpConfig['sort']);
+
+            $this->validateRoleParent($setUpConfig, $roles, $role);
+
+            $em->persist($role);
+            $roles[] = $role;
+        }
+        $em->flush();
+
+        // Add a global role.
+        if ($verbose) {
+            print_r("Create an administrative user.\n");
+        }
+        $this->addAdminUser($em, $email);
+
         return "Database installed\n";
+    }
+
+    /**
+     * 
+     * @param array                     $setUpConfig
+     * @param \JaztecAcl\Entity\Role[]  $roles
+     * @param \JaztecAcl\Entity\Role    $role
+     */
+    protected function validateRoleParent(array $setUpConfig, $roles, \JaztecAcl\Entity\Role $role)
+    {
+        if (array_key_exists('parent', $setUpConfig)) {
+            foreach ($roles as $cached) {
+                /* @var $cached \JaztecAcl\Entity\Role */
+                if ($cached->getName() === $setUpConfig['parent']) {
+                    $role->setParent($cached);
+                }
+            }
+        }
     }
 
     /**
@@ -132,6 +184,42 @@ class ConsoleController extends AbstractActionController
             $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\User'),
         );
         return $classes;
+    }
+
+    /**
+     * Add an administration user to the database.
+     * 
+     * @param \Doctrine\ORM\EntityManager   $em
+     * @param string                        $email
+     */
+    protected function addAdminUser(EntityManager $em, $email)
+    {
+        /* @var $options \ZfcUser\Options\UserServiceOptionsInterface */
+        $options = $this->getServiceLocator()->get('zfcuser_module_options');
+        /* @var $cost int */
+        $cost = $options->getPasswordCost();
+        /* @var $bcrypt \Zend\Crypt\Password\Bcrypt */
+        $crypt = new Bcrypt();
+        $crypt->setCost($cost);
+        /* @var $adminRole \JaztecAcl\Entity\Role */
+        $adminRole = $em->getRepository('JaztecAcl\Entity\Role')->findOneBy(
+            array(
+                'name'  => 'admin',
+            )
+        );
+        /* @var $user \JaztecAcl\Entity\User */
+        $user = new \JaztecAcl\Entity\User();
+        $user->setUsername('admin')
+            ->setPassword($crypt->create('admin'))
+            ->setEmail($email)
+            ->setRole($adminRole)
+            ->setFirstName('Admin')
+            ->setLastName('User')
+            ->setDisplayName('Administration user')
+            ->setActive(true)
+            ->setState(true);
+        $em->persist($user);
+        $em->flush();
     }
 
     /**

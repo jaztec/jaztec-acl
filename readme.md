@@ -27,11 +27,11 @@ or include it in the composer.json of your project with
 - After installation make sure your database setup is completed.
 - For a clean install run:
 ```sh
-[site_root]./php public/index.php acl clean-install database [--verbose|-v]
+[site_root]./php public/index.php acl clean-install --email=[your_email] database [--verbose|-v]
 ```
 - Or, after updating the source code:
 ```sh
 [site_root]./php public/index.php acl update database [--verbose|-v]
 ```
 
-- Congratulations, the ACL module has been installed.
+- Congratulations, the ACL module has been installed. If you performed a clean install a user will have been added with username 'admin' and password 'admin'

@@ -29,6 +29,44 @@ return array(
         ),
         // Use cache.
         'use_cache'                        => true,
+        /*
+         * The following is setup data for a clean database install.
+         * If you have installed the database manually you can get default
+         * role information here.
+         */
+        'setUp' => array(
+            'roles' => array(
+                array(
+                    'name' => 'guest',
+                    'sort' => 0
+                ),
+                array(
+                    'name'   => 'registered',
+                    'parent' => 'guest',
+                    'sort'   => 1
+                ),
+                array(
+                    'name'   => 'member',
+                    'parent' => 'registered',
+                    'sort'   => 2
+                ),
+                array(
+                    'name'   => 'supermember',
+                    'parent' => 'member',
+                    'sort'   => 3
+                ),
+                array(
+                    'name'   => 'moderator',
+                    'parent' => 'supermember',
+                    'sort'   => 4
+                ),
+                array(
+                    'name'   => 'admin',
+                    'parent' => 'moderator',
+                    'sort'   => 5
+                ),
+            ),
+        ),
     ),
     /**
      * Controller configuration fot the ConsoleController.
@@ -46,7 +84,7 @@ return array(
             'routes' => array(
                 'update-database' => array(
                     'options' => array(
-                        'route'     => 'acl [clean-install|update]:mode database [--verbose|-v]',
+                        'route'     => 'acl [clean-install|update]:mode [--email=] database [--verbose|-v]',
                         'defaults'  => array(
                             'controller'    => 'jaztecacl/console',
                             'action'        => 'update-database',
