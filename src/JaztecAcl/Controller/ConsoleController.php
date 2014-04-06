@@ -89,14 +89,14 @@ class ConsoleController extends AbstractActionController
     {
         /* @var $result string */
         $result = "\n";
-        $result .= "CopyRight 2014 by Jasper van Herpt <jasper.v.herpt@gmail.com>\n";
+        $result .= "Copyright 2014 by Jasper van Herpt <jasper.v.herpt@gmail.com>\n";
         $result .= "\n";
         $result .= "Usage:\t\tacl database [clean-install|update] [--email=] [--help|-h] [--verbose|-v]\n";
         $result .= "Examples:\tacl database clean-install --email=john.doe@example.com --verbose\n";
         $result .= "\t\tacl database update --verbose\n";
         $result .= "\t\tacl database --help\n";
         $result .= "\n";
-        $result .= "clean-install: Installs the database scheme to the configurated database connection\n";
+        $result .= "clean-install: Installs the database schema to the configurated database connection\n";
         $result .= "\t--e-mail\t(required):\tAny e-mail address\n";
         $result .= "\t--verbose|-v\t(optional):\tOutput progress\n";
         $result .= "\n";
@@ -123,13 +123,13 @@ class ConsoleController extends AbstractActionController
         /* @var $classes array */
         $classes = $this->getEntityMetaData($em);
 
-        // Rebuild the scheme
+        // Rebuild the schema
         if ($verbose) {
-            print_r("Drop existing scheme if exists.\n");
+            print_r("Drop existing schema if exists.\n");
         }
         $tool->dropSchema($classes);
         if ($verbose) {
-            print_r("Rebuild the scheme.\n");
+            print_r("Rebuild the schema.\n");
         }
         $tool->createSchema($classes);
 
@@ -143,7 +143,7 @@ class ConsoleController extends AbstractActionController
         /* @var $roles \JaztecAcl\Entity\Role[] */
         $roles = array();
 
-        // SetUp roles.
+        // Setup roles.
         foreach ($roleSetUp as $setUpConfig) {
             $role = new \JaztecAcl\Entity\Role();
             $role->setName($setUpConfig['name'])
@@ -166,6 +166,9 @@ class ConsoleController extends AbstractActionController
     }
 
     /**
+     * Checks if any role setup configuration includes a parent and if so,
+     * retreives the parent from the roles stack and couples it with the
+     * provides role.
      * 
      * @param array                     $setUpConfig
      * @param \JaztecAcl\Entity\Role[]  $roles
@@ -199,9 +202,9 @@ class ConsoleController extends AbstractActionController
         /* @var $classes array */
         $classes = $this->getEntityMetaData($em);
 
-        // Rebuild the scheme
+        // Rebuild the schema
         if ($verbose) {
-            print_r("Update existing scheme.\n");
+            print_r("Update existing schema.\n");
         }
         $tool->updateSchema($classes, true);
 
@@ -209,7 +212,8 @@ class ConsoleController extends AbstractActionController
     }
 
     /**
-     * Get 
+     * Get the metadata of all the Doctrine entities in this module.
+     * 
      * @param \Doctrine\ORM\EntityManager $em
      * @return array A merged array with the metadata for this module.
      */
