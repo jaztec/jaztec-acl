@@ -17,11 +17,21 @@ or include it in the composer.json of your project with
 ```sh
 {
     "require": {
-        "jaztec/jaztec-base": "0.0.*",
-        "jaztec/jaztec-acl": "0.0.*"
+        "jaztec/jaztec-base": "0.1.*",
+        "jaztec/jaztec-acl": "0.1.*"
     }
 }
 
 ```
 
-- A complete guide including database setup will be available soon.
+- After installation make sure your database setup is completed.
+- For a clean install run:
+```sh
+[site_root]./php public/index.php acl clean-install database [--verbose|-v]
+```
+- Or, after updating the source code:
+```sh
+[site_root]./php public/index.php acl update database [--verbose|-v]
+```
+
+- Congratulations, the ACL module has been installed.
