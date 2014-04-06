@@ -15,4 +15,10 @@
             <property name="minimum" value="2"/>
         </properties>
     </rule>
+    <rule ref="rulesets/naming.xml/CouplingBetweenObjects">
+        <priority>2</priority>
+        <properties>
+            <property name="minimum" value="15"/>
+        </properties>
+    </rule>
 </ruleset>
