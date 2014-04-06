@@ -24,14 +24,19 @@ or include it in the composer.json of your project with
 
 ```
 
-- After installation make sure your database setup is completed.
-- For a clean install run:
+After installation make sure your database setup is completed.
+For a clean install run:
 ```sh
-[site_root]./php public/index.php acl clean-install --email=[your_email] database [--verbose|-v]
+[site_root]./php public/index.php acl database clean-install --email=[your_email] [--verbose|-v]
 ```
-- Or, after updating the source code:
+ Or, after updating the source code:
 ```sh
-[site_root]./php public/index.php acl update database [--verbose|-v]
+[site_root]./php public/index.php acl database update [--verbose|-v]
 ```
 
-- Congratulations, the ACL module has been installed. If you performed a clean install a user will have been added with username 'admin' and password 'admin'
+Congratulations, the ACL module has been installed. If you performed a clean install a user will have been added with username 'admin' and password 'admin'
+
+For any help using the console functions
+```sh
+[site_root]./php public/index.php acl database --help
+```

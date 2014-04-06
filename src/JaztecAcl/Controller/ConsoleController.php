@@ -40,9 +40,16 @@ class ConsoleController extends AbstractActionController
         }
         // Gather the variables.
         /* @var $mode string */
-        $mode = $request->getParam('mode', 'update');
+        if ((bool) $request->getParam('help', false) || $request->getParam('h', false)) {
+            $mode = 'help';
+        } else {
+            $mode = (bool) $request->getParam('clean-install', (bool) $request->getParam('update', false));
+            if (!$mode) {
+                $mode = 'help';
+            }
+        }
         /* @var $verbose boolean */
-        $verbose = $request->getParam('verbose', false) || $request->getParam('v', false) ? true : false;
+        $verbose = (bool) $request->getParam('verbose', false) || $request->getParam('v', false);
 
         /* @var $result string */
         $result = '';
@@ -62,7 +69,37 @@ class ConsoleController extends AbstractActionController
             case 'update':
                 $result = $this->updateDatabase($this->getEntityManager(), $verbose);
                 break;
+            case 'help':
+                $result = $this->getHelpOutput();
+                break;
         }
+        return $result;
+    }
+
+    /**
+     * Get the help output for console usage of the JaztecAcl 'acl database'
+     * console command.
+     * 
+     * @return string The help output string.
+     */
+    protected function getHelpOutput()
+    {
+        /* @var $result string */
+        $result = "\n";
+        $result .= "CopyRight 2014 by Jasper van Herpt <jasper.v.herpt@gmail.com>\n";
+        $result .= "\n";
+        $result .= "Usage:\t\tacl database [clean-install|update] [--email=] [--help|-h] [--verbose|-v]\n";
+        $result .= "Examples:\tacl database clean-install --email=john.doe@example.com --verbose\n";
+        $result .= "\t\tacl database update --verbose\n";
+        $result .= "\t\tacl database --help\n";
+        $result .= "\n";
+        $result .= "clean-install: Installs the database scheme to the configurated database connection\n";
+        $result .= "\t--e-mail\t(required):\tAny e-mail address\n";
+        $result .= "\t--verbose|-v\t(optional):\tOutput progress\n";
+        $result .= "\n";
+        $result .= "update: Update the class data to the existing database schema.\n";
+        $result .= "\t--verbose|-v\t(optional):\tOutput progress\n";
+        $result .= "\n";
         return $result;
     }
 

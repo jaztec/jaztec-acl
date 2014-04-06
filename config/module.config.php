@@ -84,7 +84,7 @@ return array(
             'routes' => array(
                 'update-database' => array(
                     'options' => array(
-                        'route'     => 'acl [clean-install|update]:mode [--email=] database [--verbose|-v]',
+                        'route'     => 'acl database [clean-install|update] [--email=] [--help|-h] [--verbose|-v]',
                         'defaults'  => array(
                             'controller'    => 'jaztecacl/console',
                             'action'        => 'update-database',
