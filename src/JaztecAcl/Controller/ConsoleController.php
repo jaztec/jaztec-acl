@@ -43,7 +43,10 @@ class ConsoleController extends AbstractActionController
         if ((bool) $request->getParam('help', false) || $request->getParam('h', false)) {
             $mode = 'help';
         } else {
-            $mode = (bool) $request->getParam('clean-install', (bool) $request->getParam('update', false));
+            $mode = $request->getParam('clean-install', false) ? 'clean-install' : false;
+            if (!$mode) {
+                $mode = $request->getParam('update', false) ? 'update' : false;
+            }
             if (!$mode) {
                 $mode = 'help';
             }
