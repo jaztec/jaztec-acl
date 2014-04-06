@@ -111,11 +111,13 @@ class AclService extends AbstractService implements
         $cfg = $this->getServiceLocator()->get('Config');
 
         if (!$acl->isLoaded()) {
-            //$cache = $this->getCacheStorage();
+            $cache = $this->getCacheStorage();
             $acl->setupAcl($this->getEntityManager());
-            //if($cache->hasItem('jaztec_acl'))
-            //    $cache->removeItem('jaztec_acl');
-            //$cache->addItem('jaztec_acl', $acl);
+            // Refresh the cached instance of the ACL.
+            if(!$cache->hasItem('jaztec_acl')) {
+                $cache->removeItem('jaztec_acl');
+            }
+            $cache->addItem('jaztec_acl', $acl);
         }
         // Check resource existence and create it if the config allows this, by defaultm use 'base'.
         if (!$acl->hasResource($resource)) {

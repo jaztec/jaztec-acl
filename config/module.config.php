@@ -16,6 +16,19 @@ return array(
         // To which route the AuthorizedController will redirect and additional params.
         'redirect_controller_route'        => 'zfcuser/login',
         'redirect_controller_route_params' => array('redirect' => 'admin'),
+        // Default cache configuration.
+        'cache'                            => array(
+            'adapter'	=> array(
+                'name'      => 'memory',
+                'options'   => array(),
+            ),
+            'plugins'   => array(
+                'exception_handler' => array('throw_exceptions' => true),
+                'serializer'
+            )
+        ),
+        // Use cache.
+        'use_cache'                        => true,
     ),
     'zfcuser'    => array(
         'user_entity_class'     => 'JaztecAcl\Entity\User',

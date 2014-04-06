@@ -9,7 +9,7 @@ use Zend\Mvc\MvcEvent;
 class BaseController extends AbstractActionController
 {
 
-    /** @var EntityManager $em */
+    /** @var \Doctrine\ORM\EntityManager $em */
     protected $em;
 
     /** @var ZfcUser\Service\User $em */

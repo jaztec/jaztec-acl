@@ -118,4 +118,47 @@ class AclServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertGreaterThan(0, count($requests), "The newly added privilege should exist in the database");
     }
+
+    /**
+     * @covers \JaztecAcl\Service\AclService::getCacheStorage
+     */
+    public function testCacheAvailable()
+    {
+        /* @var $cache \Zend\Cache\Storage\StorageInterface */
+        $cache = $this->aclService->getCacheStorage();
+        $this->assertInstanceOf('\Zend\Cache\Storage\StorageInterface', $cache);
+
+        /* @var $cacheDummy array */
+        $cacheDummy = array('test');
+
+        // Test some basic cache functionality.
+        $cache->addItem('cache_test_item', $cacheDummy);
+
+        $this->assertTrue($cache->hasItem('cache_test_item'));
+
+        $cache->removeItem('cache_test_item');
+
+        $this->assertFalse($cache->hasItem('cache_test_item'));
+    }
+
+    public function testAclCaching()
+    {
+        /* @var $cache \Zend\Cache\Storage\StorageInterface */
+        $cache = $this->aclService->getCacheStorage();
+        $this->assertInstanceOf('\Zend\Cache\Storage\StorageInterface', $cache);
+
+        /* @var $acl \JaztecAcl\Acl\Acl */
+        $acl = $this->aclService->getAcl();
+
+        // Test if the ACL gets cached properly.
+        $cache->addItem('jaztec_acl_cached', $acl);
+        $this->assertTrue($cache->hasItem('jaztec_acl_cached'));
+        /* @var $aclCached \JaztecAcl\Acl\Acl */
+        $aclCached = $cache->getItem('jaztec_acl_cached');
+
+        // Test if the ACL is in working order.
+        $this->assertInstanceOf('\JaztecAcl\Acl\Acl', $aclCached);
+        $this->assertTrue($aclCached->hasResource('resource01'));
+        $this->assertFalse($aclCached->isAllowed('guest', 'resource01'));
+    }
 }
