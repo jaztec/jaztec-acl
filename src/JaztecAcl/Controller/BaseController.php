@@ -59,7 +59,7 @@ class BaseController extends AbstractActionController
 
     /**
      * @param  \ZfcUser\Service\User                      $userService
-     * @return \JaztecAclAdmin\Controller\UsersController
+     * @return \JaztecAcl\Controller\BaseController
      */
     public function setUserService(UserService $userService)
     {

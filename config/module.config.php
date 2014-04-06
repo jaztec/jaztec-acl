@@ -30,6 +30,32 @@ return array(
         // Use cache.
         'use_cache'                        => true,
     ),
+    /**
+     * Controller configuration fot the ConsoleController.
+     */
+    'controllers'     => array(
+        'invokables' => array(
+            'jaztecacl/console' => 'JaztecAcl\Controller\ConsoleController',
+        ),
+    ),
+    /**
+     * Route options for console functionality
+     */
+    'console'    => array(
+        'router'    => array(
+            'routes' => array(
+                'update-database' => array(
+                    'options' => array(
+                        'route'     => 'acl [clean-install|update]:mode database [--verbose|-v]',
+                        'defaults'  => array(
+                            'controller'    => 'jaztecacl/console',
+                            'action'        => 'update-database',
+                        ),
+                    ),
+                ),
+            ),
+        )
+    ),
     'zfcuser'    => array(
         'user_entity_class'     => 'JaztecAcl\Entity\User',
         'enable_registration'   => false,
