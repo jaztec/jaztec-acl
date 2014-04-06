@@ -17,7 +17,7 @@ return array(
         },
         'jaztec_acl' => function(ServiceLocatorInterface $sm) {
             $cache = $sm->get('jaztec_cache');
-            if($cache->hasItem('jaztec_acl') && $config['jaztec_acl']['use_cache'] === true) {
+            if ($cache->hasItem('jaztec_acl') && $config['jaztec_acl']['use_cache'] === true) {
                 return $cache->getItem('jaztec_acl');
             } else {
                 return new Acl\Acl();
