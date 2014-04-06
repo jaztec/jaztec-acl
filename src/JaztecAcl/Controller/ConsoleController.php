@@ -116,7 +116,7 @@ class ConsoleController extends AbstractActionController
         }
         $em->flush();
 
-        // Add a global role.
+        // Add a global user.
         if ($verbose) {
             print_r("Create an administrative user.\n");
         }
