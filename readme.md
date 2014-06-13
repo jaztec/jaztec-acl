@@ -27,7 +27,7 @@ or include it in the composer.json of your project with
 After installation make sure your database setup is completed.
 For a clean install run:
 ```sh
-[site_root]./php public/index.php acl database clean-install --email=[your_email] [--verbose|-v]
+./php public/index.php acl database clean-install --email=[your_email] [--verbose|-v]
 ```
  Or, after updating the source code:
 ```sh
