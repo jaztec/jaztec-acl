@@ -42,8 +42,7 @@ return array(
                 ),
                 array(
                     'name'   => 'additionalRole',
-                    'parent' => 'guest',
-                    'sort'   => 1
+                    'sort'   => 0
                 ),
                 array(
                     'name'   => 'registered',
