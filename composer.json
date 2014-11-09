@@ -14,9 +14,6 @@
             "homepage": "http://www.jaspervanherpt.com"
         }
     ],
-    "require-dev": {
-        "sebastian/phpcpd": "*"
-    },
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.*",
