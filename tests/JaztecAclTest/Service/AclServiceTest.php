@@ -59,6 +59,10 @@ class AclServiceTest extends \PHPUnit_Framework_TestCase
     {
         // Testing default capabilities
         $this->aclService->getAcl()->allow('guest', 'resource01');
+        // Make sure the 'additionalRole' exists.
+        if (!$this->aclService->getAcl()->hasRole('additionalRole')) {
+            $this->aclService->getAcl()->addRole('additionalRole');
+        }
         $this->aclService->getAcl()->deny('additionalRole', 'resource01');
 
         // Testing for solid control list.
