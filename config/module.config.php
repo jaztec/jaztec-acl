@@ -41,6 +41,11 @@ return array(
                     'sort' => 0
                 ),
                 array(
+                    'name'   => 'additionalRole',
+                    'parant' => 'guest',
+                    'sort'   => 1
+                ),
+                array(
                     'name'   => 'registered',
                     'parent' => 'guest',
                     'sort'   => 1
