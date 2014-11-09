@@ -42,7 +42,7 @@ return array(
                 ),
                 array(
                     'name'   => 'additionalRole',
-                    'parant' => 'guest',
+                    'parent' => 'guest',
                     'sort'   => 1
                 ),
                 array(
