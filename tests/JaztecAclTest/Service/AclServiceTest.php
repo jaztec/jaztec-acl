@@ -5,7 +5,7 @@ namespace JaztecAclTest\Service;
 use JaztecAclTest\Bootstrap;
 use PHPUnit_Framework_TestCase;
 
-class AclServiceTest extends \PHPUnit_Framework_TestCase
+class AclServiceTest extends PHPUnit_Framework_TestCase
 {
 
     /**

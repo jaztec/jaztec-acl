@@ -6,14 +6,20 @@ use Zend\ModuleManager\ModuleManager;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
+use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
+use Zend\Console\Adapter\AdapterInterface as Console;
 use KJSencha\Direct\DirectEvent;
 use Zend\Mvc\MvcEvent;
 use Zend\EventManager\Event;
 
+/**
+ * Module class for integration of JaztecAcl into the ZF2 framework.
+ */
 class Module implements
     AutoloaderProviderInterface,
     ConfigProviderInterface,
-    ServiceProviderInterface
+    ServiceProviderInterface,
+    ConsoleUsageProviderInterface
 {
 
     public function init(ModuleManager $moduleManager)
@@ -73,7 +79,7 @@ class Module implements
     /**
      * Perform an ACL check when a AuthorizedDirectObject is dispatched.
      *
-     * @param  \Zend\Mvc\MvcEvent $event
+     * @param \Zend\Mvc\MvcEvent $event
      * @return null|array
      */
     public function onDispatchDirect(Event $event)
@@ -89,5 +95,30 @@ class Module implements
                 return $object->notAllowed();
             }
         }
+    }
+
+    /**
+     * Get help output for this module console actions.
+     * 
+     * @param \Zend\Console\Adapter\AdapterInterface $console
+     * @return type
+     */
+    public function getConsoleUsage(Console $console)
+    {
+        return array(
+            'acl database <clean-install|update> [--email=] [--help|-h] '
+            . '[--verbose|-v]' => 'Perform database actions for this module',
+            array(
+                'clean-install',
+                'Perform a clean install on the database from the ACL objects'
+            ),
+            array(
+                'update',
+                'Update the database with any changes to the ACL objects'
+            ),
+            array('[--email]', 'E-mail for an admin user to be added'),
+            array('[--help|-h]','Display help information'),
+            array('[--verbose|-v]', 'Display console output'),
+        );
     }
 }
