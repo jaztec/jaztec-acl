@@ -26,7 +26,7 @@
         "zf-commons/zfc-base": "0.*",
         "zf-commons/zfc-user": "0.*",
         "zf-commons/zfc-user-doctrine-orm": "0.*",
-        "jaztec/jaztec-base": "dev-master"
+        "jaztec/jaztec-base": "0.0.*"
     },
     "autoload": {
         "psr-0": {
