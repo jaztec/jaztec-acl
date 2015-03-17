@@ -7,45 +7,45 @@ use JaztecBase\Entity\AbstractEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="acl_privileges")
+ * @ORM\Table(name="AclPrivileges")
  */
 class Privilege extends AbstractEntity
 {
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @ORM\Column(name="Id", type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      *
      * @var int
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="Type", type="string")
      *
      * @var string
      */
     protected $type;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="Privilege", type="string")
      *
      * @var string
      */
     protected $privilege;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Role")
-     * @ORM\JoinColumn(name="role", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="JaztecAcl\Entity\Role", inversedBy="privileges")
+     * @ORM\JoinColumn(name="RoleId", referencedColumnName="Id")
      *
      * @var \JaztecAcl\Entity\Role
      */
     protected $role;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Resource")
-     * @ORM\JoinColumn(name="resource", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="JaztecAcl\Entity\Resource", inversedBy="privileges")
+     * @ORM\JoinColumn(name="ResourceId", referencedColumnName="Id")
      *
      * @var \JaztecAcl\Entity\Role
      */
@@ -68,8 +68,8 @@ class Privilege extends AbstractEntity
     }
 
     /**
-     * @param  string                      $type
-     * @return \JaztecAcl\Entity\Privilege
+     * @param  string $type
+     * @return self
      */
     public function setType($type)
     {
@@ -87,8 +87,8 @@ class Privilege extends AbstractEntity
     }
 
     /**
-     * @param  string                      $privilege
-     * @return \JaztecAcl\Entity\Privilege
+     * @param string $privilege
+     * @return self
      */
     public function setPrivilege($privilege)
     {
@@ -109,19 +109,9 @@ class Privilege extends AbstractEntity
      * @param  \JaztecAcl\Entity\Role      $role
      * @return \JaztecAcl\Entity\Privilege
      */
-    public function setRole(Role $role)
+    public function setRole($role)
     {
         $this->role = $role;
-
-        return $this;
-    }
-
-    /**
-     * @return \JaztecAcl\Entity\Privilege
-     */
-    public function clearRole()
-    {
-        $this->role = null;
 
         return $this;
     }
@@ -138,19 +128,9 @@ class Privilege extends AbstractEntity
      * @param  \JaztecAcl\Entity\Resource  $resource
      * @return \JaztecAcl\Entity\Privilege
      */
-    public function setResource(Resource $resource)
+    public function setResource($resource)
     {
         $this->resource = $resource;
-
-        return $this;
-    }
-
-    /**
-     * @return \JaztecAcl\Entity\Privilege
-     */
-    public function clearResource()
-    {
-        $this->resource = null;
 
         return $this;
     }
@@ -160,14 +140,14 @@ class Privilege extends AbstractEntity
      */
     public function toArray()
     {
-        return array(
-            'PrivilegeID'  => $this->getId(),
-            'Type'         => $this->getType(),
-            'Privilege'    => $this->getPrivilege(),
-            'Resource'     => (null === $this->getResource()) ? null : $this->getResource()->getId(),
-            'Role'         => (null === $this->getRole()) ? null : $this->getRole()->getId(),
-            'ResourceName' => (null === $this->getResource()) ? null : $this->getResource()->getName(),
-            'RoleName'     => (null === $this->getRole()) ? null : $this->getRole()->getName(),
-        );
+        return [
+            'privilegeID'  => $this->getId(),
+            'type'         => $this->getType(),
+            'privilege'    => $this->getPrivilege(),
+            'resourceId'   => $this->getResource() ?: $this->getResource()->getId(),
+            'roleId'       => $this->getRole() ?: $this->getRole()->getId(),
+            'resourceName' => $this->getResource() ?: $this->getResource()->getName(),
+            'roleName'     => $this->getRole() ?: $this->getRole()->getName(),
+        ];
     }
 }

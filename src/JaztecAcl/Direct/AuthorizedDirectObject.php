@@ -66,10 +66,10 @@ class AuthorizedDirectObject implements
      */
     public function notAllowed()
     {
-        return array(
+        return [
             'success' => false,
             'message' => 'not allowed',
-        );
+        ];
     }
 
     /**

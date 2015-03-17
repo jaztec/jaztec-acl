@@ -3,47 +3,67 @@
 namespace JaztecAcl\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Zend\Permissions\Acl\Role\RoleInterface as ZendRoleInterface;
 use JaztecBase\Entity\AbstractEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="acl_roles")
+ * @ORM\Table(name="AclRoles")
  */
 class Role extends AbstractEntity implements ZendRoleInterface
 {
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @ORM\Column(name="Id", type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      *
      * @var int
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="Name", type="string")
      *
      * @var string
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="Sort", type="integer")
      *
      * @var int
      */
     protected $sort;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Role")
-     * @ORM\JoinColumn(name="parent", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="JaztecAcl\Entity\Role", inversedBy="childRoles")
+     * @ORM\JoinColumn(name="ParentId", referencedColumnName="Id")
      *
      * @var \JaztecAcl\Entity\Role
      */
     protected $parent;
 
+    /**
+     * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Privilege", mappedBy="role", cascade={"persist","remove"})
+     * @var JaztecAcl\Entity\Privilege[] | \Doctrine\Common\Collections\ArrayCollection
+     */
+    protected $privileges;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Role", mappedBy="parent", cascade={"persist","remove"})
+     * @var JaztecAcl\Entity\Role[] | \Doctrine\Common\Collections\ArrayCollection
+     */
+    protected $childRoles;
+    
+    
+    public function __construct()
+    {
+        $this->privileges = new ArrayCollection();
+        $this->childRoles = new ArrayCollection();
+    }
+    
     /**
      * @return int
      */
@@ -113,19 +133,9 @@ class Role extends AbstractEntity implements ZendRoleInterface
      * @param  \JaztecAcl\Entity\Role $parent
      * @return \JaztecAcl\Entity\Role
      */
-    public function setParent(\JaztecAcl\Entity\Role $parent)
+    public function setParent($parent)
     {
         $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * @return \JaztecAcl\Entity\Role
-     */
-    public function clearParent()
-    {
-        $this->parent = null;
 
         return $this;
     }
@@ -139,15 +149,50 @@ class Role extends AbstractEntity implements ZendRoleInterface
     }
 
     /**
+     * @return \JaztecAcl\Entity\Privilege[] | \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getPrivileges()
+    {
+        return $this->privileges;
+    }
+
+    /**
+     * @return \JaztecAcl\Entity\Role[] | \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getChildRoles()
+    {
+        return $this->childRoles;
+    }
+
+    /**
+     * @param JaztecAcl\Entity\Privilege $privileges
+     * @return self
+     */
+    public function setPrivileges(array $privileges)
+    {
+        $this->privileges = $privileges;
+        return $this;
+    }
+
+    /**
+     * @param \JaztecAcl\Entity\Role[] $childRoles
+     * @return self
+     */
+    public function setChildRoles(array $childRoles)
+    {
+        $this->childRoles = $childRoles;
+        return $this;
+    }
+        
+    /**
      * @return array
      */
     public function toArray()
     {
         return array(
-            'RoleID'   => $this->getId(),
-            'Name'     => $this->getRoleId(),
-            'ParentID' => $this->getParent() === null ? null : $this->getParent()->getId(),
-            'Parent'   => $this->getParent() === null ? null : $this->getParent()->getRoleId(),
+            'roleId'   => $this->getId(),
+            'name'     => $this->getRoleId(),
+            'parentId' => $this->getParent() ?: $this->getParent()->getId()
         );
     }
 }

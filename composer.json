@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.5.0",
         "zendframework/zendframework": "2.*",
         "rwoverdijk/assetmanager": "1.*",
         "rovak/kj-sencha": "0.*",
@@ -26,7 +26,7 @@
         "zf-commons/zfc-base": "0.*",
         "zf-commons/zfc-user": "0.*",
         "zf-commons/zfc-user-doctrine-orm": "0.*",
-        "jaztec/jaztec-base": "0.0.*"
+        "jaztec/jaztec-base": "0.1.*"
     },
     "autoload": {
         "psr-0": {

@@ -16,7 +16,7 @@ class User extends AbstractEntity implements ZfcUserInterface
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      *
      * @var int
      */
@@ -72,15 +72,8 @@ class User extends AbstractEntity implements ZfcUserInterface
     protected $displayName;
 
     /**
-     * @ORM\Column(name="role", type="integer")
-     *
-     * @var int
-     */
-    protected $roleID;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Role")
-     * @ORM\JoinColumn(name="role", referencedColumnName="id")
+     * @ORM\JoinColumn(name="RoleId", referencedColumnName="Id")
      *
      * @var Role
      */

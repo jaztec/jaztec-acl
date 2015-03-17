@@ -25,8 +25,8 @@ class Module implements
     public function init(ModuleManager $moduleManager)
     {
         $eventvents         = $moduleManager->getEventManager()->getSharedManager();
-        $controllerCallback = array($this, 'onDispatchController');
-        $directCallback     = array($this, 'onDispatchDirect');
+        $controllerCallback = [$this, 'onDispatchController'];
+        $directCallback     = [$this, 'onDispatchDirect'];
         $eventvents->attach('Zend\Mvc\Application', MvcEvent::EVENT_DISPATCH, $controllerCallback);
         $eventvents->attach('KJSencha\Controller\DirectController', DirectEvent::EVENT_DISPATCH_RPC, $directCallback);
     }
@@ -44,13 +44,13 @@ class Module implements
      */
     public function getAutoloaderConfig()
     {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
+        return [
+            'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
                     __NAMESPACE__ => __DIR__,
-                ),
-            ),
-        );
+                ]
+            ]
+        ];
     }
 
     /**
@@ -105,20 +105,20 @@ class Module implements
      */
     public function getConsoleUsage(Console $console)
     {
-        return array(
+        return [
             'acl database <clean-install|update> [--email=] [--help|-h] '
             . '[--verbose|-v]' => 'Perform database actions for this module',
-            array(
+            [
                 'clean-install',
                 'Perform a clean install on the database from the ACL objects'
-            ),
-            array(
+            ],
+            [
                 'update',
                 'Update the database with any changes to the ACL objects'
-            ),
-            array('[--email]', 'E-mail for an admin user to be added'),
-            array('[--help|-h]','Display help information'),
-            array('[--verbose|-v]', 'Display console output'),
-        );
+            ],
+            ['[--email]', 'E-mail for an admin user to be added'],
+            ['[--help|-h]','Display help information'],
+            ['[--verbose|-v]', 'Display console output'],
+        ];
     }
 }

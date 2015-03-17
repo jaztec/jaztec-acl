@@ -56,7 +56,7 @@ class Acl extends ZendAcl
             if (null === $role->getParent()) {
                 $this->addRole($role);
             } else {
-                $parents   = array();
+                $parents   = [];
                 $parents[] = $role->getParent()->getRoleId();
                 $this->addRole($role, $parents);
             }
@@ -112,8 +112,8 @@ class Acl extends ZendAcl
     protected function findRoles(EntityManager $em)
     {
         $roles = $em->getRepository('JaztecAcl\Entity\Role')->findBy(
-            array(),
-            array('sort' => 'ASC')
+            [],
+            ['sort' => 'ASC']
         );
 
         return $roles;
@@ -128,8 +128,8 @@ class Acl extends ZendAcl
     protected function findResources(EntityManager $em)
     {
         $resources = $em->getRepository('JaztecAcl\Entity\Resource')->findBy(
-            array(),
-            array('sort' => 'ASC')
+            [],
+            ['sort' => 'ASC']
         );
 
         return $resources;
@@ -163,7 +163,7 @@ class Acl extends ZendAcl
             throw new \Exception('Base resource is not a valid ACL resource, ' . get_class($baseResource) . ' given.');
         } elseif (!$baseResource instanceof \ResourceEntity) {
             $baseName     = $baseResource;
-            $baseResource = $em->getRepository('JaztecAcl\Entity\Resource')->findOneBy(array('name' => $baseName));
+            $baseResource = $em->getRepository('JaztecAcl\Entity\Resource')->findOneBy(['name' => $baseName]);
             if (!$baseResource instanceof ResourceEntity) {
                 $baseResource = new \JaztecAcl\Entity\Resource();
                 $baseResource->setName($baseName);
@@ -209,12 +209,10 @@ class Acl extends ZendAcl
             return false;
         }
         // Try to find the privilege request in the database.
-        $requestedPrivilege = $em->getRepository('JaztecAcl\Entity\RequestedPrivilege')->findOneBy(
-            array(
-                'privilege' => $privilege,
-                'resource'  => $resource,
-            )
-        );
+        $requestedPrivilege = $em->getRepository('JaztecAcl\Entity\RequestedPrivilege')->findOneBy([
+            'privilege' => $privilege,
+            'resource'  => $resource,
+        ]);
         if ($requestedPrivilege instanceof \JaztecAcl\Entity\RequestedPrivilege) {
             return true;
         }

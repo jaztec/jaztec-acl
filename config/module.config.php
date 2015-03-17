@@ -2,11 +2,11 @@
 
 namespace JaztecAcl;
 
-return array(
-    'jaztec_acl' => array(
-        'name'                             => array(
+return [
+    'jaztec_acl' => [
+        'name'                             => [
         // Module base name here, specify once per module.
-        ),
+        ],
         // Auto-create resources when the called resource does not exist.
         'create_resource'                  => true,
         // Track privilege requests.
@@ -15,18 +15,18 @@ return array(
         'redirect_controller'              => true,
         // To which route the AuthorizedController will redirect and additional params.
         'redirect_controller_route'        => 'zfcuser/login',
-        'redirect_controller_route_params' => array('redirect' => 'admin'),
+        'redirect_controller_route_params' => ['redirect' => 'admin'],
         // Default cache configuration.
-        'cache'                            => array(
-            'adapter'	=> array(
+        'cache'                            => [
+            'adapter'	=> [
                 'name'      => 'memory',
-                'options'   => array(),
-            ),
-            'plugins'   => array(
-                'exception_handler' => array('throw_exceptions' => true),
+                'options'   => [],
+            ],
+            'plugins'   => [
+                'exception_handler' => ['throw_exceptions' => true],
                 'serializer'
-            )
-        ),
+            ]
+        ],
         // Use cache.
         'use_cache'                        => true,
         /*
@@ -34,104 +34,104 @@ return array(
          * If you have installed the database manually you can get default
          * role information here.
          */
-        'setUp' => array(
-            'roles' => array(
-                array(
+        'setUp' => [
+            'roles' => [
+                [
                     'name' => 'guest',
                     'sort' => 0
-                ),
-                array(
+                ],
+                [
                     'name'   => 'additionalRole',
                     'sort'   => 0
-                ),
-                array(
+                ],
+                [
                     'name'   => 'registered',
                     'parent' => 'guest',
                     'sort'   => 1
-                ),
-                array(
+                ],
+                [
                     'name'   => 'member',
                     'parent' => 'registered',
                     'sort'   => 2
-                ),
-                array(
+                ],
+                [
                     'name'   => 'supermember',
                     'parent' => 'member',
                     'sort'   => 3
-                ),
-                array(
+                ],
+                [
                     'name'   => 'moderator',
                     'parent' => 'supermember',
                     'sort'   => 4
-                ),
-                array(
+                ],
+                [
                     'name'   => 'admin',
                     'parent' => 'moderator',
                     'sort'   => 5
-                ),
-            ),
-        ),
-    ),
+                ],
+            ],
+        ],
+    ],
     /**
      * Controller configuration fot the ConsoleController.
      */
-    'controllers'     => array(
-        'invokables' => array(
+    'controllers'     => [
+        'invokables' => [
             'jaztecacl/console' => 'JaztecAcl\Controller\ConsoleController',
-        ),
-    ),
+        ],
+    ],
     /**
      * Route options for console functionality
      */
-    'console'    => array(
-        'router'    => array(
-            'routes' => array(
-                'update-database' => array(
-                    'options' => array(
+    'console'    => [
+        'router'    => [
+            'routes' => [
+                'update-database' => [
+                    'options' => [
                         'route'     => 'acl database [clean-install|update] [--email=] [--help|-h] [--verbose|-v]',
-                        'defaults'  => array(
+                        'defaults'  => [
                             'controller'    => 'jaztecacl/console',
                             'action'        => 'update-database',
-                        ),
-                    ),
-                ),
-            ),
-        )
-    ),
-    'zfcuser'    => array(
+                        ],
+                    ],
+                ],
+            ],
+        ]
+    ],
+    'zfcuser'    => [
         'user_entity_class'     => 'JaztecAcl\Entity\User',
         'enable_registration'   => false,
         'enable_username'       => true,
         'enable_display_name'   => true,
-        'auth_identity_fields'  => array(
+        'auth_identity_fields'  => [
             'username'
-        ),
+        ],
         'login_redirect_route'  => 'jaztecadmin_protected',
         'enable_user_state'     => true,
-        'allowed_login_states'  => array(1),
-    ),
-    'doctrine'   => array(
-        'driver' => array(
-            'jaztec_driver'  => array(
+        'allowed_login_states'  => [1],
+    ],
+    'doctrine'   => [
+        'driver' => [
+            'jaztec_driver'  => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(
+                'paths' => [
                     __DIR__ . '/../src/JaztecAcl/Entity',
-                )
-            ),
-            'zfcuser_entity' => array(
+                ]
+            ],
+            'zfcuser_entity' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(
+                'paths' => [
                     __DIR__ . '/../src/JaztecAcl/Entity',
-                )
-            ),
-            'orm_default'    => array(
-                'drivers' => array(
+                ]
+            ],
+            'orm_default'    => [
+                'drivers' => [
                     'JaztecAcl\Entity' => 'jaztec_driver',
                     'ZfcUser\Entity'   => 'zfcuser_entity',
-                )
-            )
-        )
-    ),
-);
+                ]
+            ]
+        ]
+    ],
+];

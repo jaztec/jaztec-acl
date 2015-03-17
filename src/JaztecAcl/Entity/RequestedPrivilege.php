@@ -7,29 +7,29 @@ use JaztecBase\Entity\AbstractEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="acl_requested_privileges")
+ * @ORM\Table(name="AclRequestedPrivileges")
  */
 class RequestedPrivilege extends AbstractEntity
 {
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @ORM\Column(name="Id", type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      *
      * @var int
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="Privilege", type="string")
      *
      * @var string
      */
     protected $privilege;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="Resource", type="string")
      * 
      * @var string
      */
@@ -52,8 +52,8 @@ class RequestedPrivilege extends AbstractEntity
     }
 
     /**
-     * @param  string                      $privilege
-     * @return \JaztecAcl\Entity\RequestedPrivilege
+     * @param string $privilege
+     * @return self
      */
     public function setPrivilege($privilege)
     {
@@ -72,7 +72,7 @@ class RequestedPrivilege extends AbstractEntity
 
     /**
      * @param  string  $resource
-     * @return \JaztecAcl\Entity\RequestedPrivilege
+     * @return self
      */
     public function setResource($resource)
     {
@@ -86,10 +86,10 @@ class RequestedPrivilege extends AbstractEntity
      */
     public function toArray()
     {
-        return array(
+        return [
             'id'           => $this->getId(),
-            'Privilege'    => $this->getPrivilege(),
-            'Resource'     => $this->getResource(),
-        );
+            'privilege'    => $this->getPrivilege(),
+            'resource'     => $this->getResource(),
+        ];
     }
 }

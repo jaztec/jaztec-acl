@@ -141,7 +141,7 @@ class ConsoleController extends AbstractActionController
         /* @var $roleSetUp array */
         $roleSetUp = $setUp['roles'];
         /* @var $roles \JaztecAcl\Entity\Role[] */
-        $roles = array();
+        $roles = [];
 
         // Setup roles.
         foreach ($roleSetUp as $setUpConfig) {
@@ -219,15 +219,13 @@ class ConsoleController extends AbstractActionController
      */
     protected function getEntityMetaData(EntityManager $em)
     {
-        /* @var $classes array */
-        $classes = array(
+        return [
             $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Privilege'),
             $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\RequestedPrivilege'),
             $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Resource'),
             $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Role'),
             $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\User'),
-        );
-        return $classes;
+        ];
     }
 
     /**
@@ -246,11 +244,7 @@ class ConsoleController extends AbstractActionController
         $crypt = new Bcrypt();
         $crypt->setCost($cost);
         /* @var $adminRole \JaztecAcl\Entity\Role */
-        $adminRole = $em->getRepository('JaztecAcl\Entity\Role')->findOneBy(
-            array(
-                'name'  => 'admin',
-            )
-        );
+        $adminRole = $em->getRepository('JaztecAcl\Entity\Role')->findOneBy(['name'  => 'admin']);
         /* @var $user \JaztecAcl\Entity\User */
         $user = new \JaztecAcl\Entity\User();
         $user->setUsername('admin')
