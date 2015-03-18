@@ -178,7 +178,7 @@ class Resource extends AbstractEntity implements ZendResourceInterface
     public function toArray()
     {
         return [
-            'resourceId' => $this->getId(),
+            'id'         => $this->getId(),
             'name'       => $this->getResourceId(),
             'parentId'   => $this->getParent() ?: $this->getParent()->getId(),
         ];

@@ -299,11 +299,11 @@ class User extends AbstractEntity implements ZfcUserInterface
     public function toArray()
     {
         return array(
-            'UserID'      => $this->getId(),
-            'Role'        => $this->getRole()->getId(),
-            'DisplayName' => $this->getDisplayName(),
-            'Username'    => $this->getUsername(),
-            'Email'       => $this->getEmail(),
+            'id'          => $this->getId(),
+            'role'        => $this->getRole()->getId(),
+            'displayName' => $this->getDisplayName(),
+            'username'    => $this->getUsername(),
+            'email'       => $this->getEmail(),
         );
     }
 }

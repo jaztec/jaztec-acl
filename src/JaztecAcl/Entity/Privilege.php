@@ -29,7 +29,7 @@ class Privilege extends AbstractEntity
     protected $type;
 
     /**
-     * @ORM\Column(name="Privilege", type="string")
+     * @ORM\Column(name="Privilege", type="string", nullable=true)
      *
      * @var string
      */
@@ -141,7 +141,7 @@ class Privilege extends AbstractEntity
     public function toArray()
     {
         return [
-            'privilegeID'  => $this->getId(),
+            'id'           => $this->getId(),
             'type'         => $this->getType(),
             'privilege'    => $this->getPrivilege(),
             'resourceId'   => $this->getResource() ?: $this->getResource()->getId(),
