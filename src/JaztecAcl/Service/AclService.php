@@ -112,7 +112,7 @@ class AclService extends AbstractService implements
 
         if (!$acl->isLoaded()) {
             $cache = $this->getCacheStorage();
-            $acl->setupAcl($this->getEntityManager());
+            $acl->setupAcl();
             // Refresh the cached instance of the ACL.
             if (!$cache->hasItem('jaztec_acl')) {
                 $cache->removeItem('jaztec_acl');

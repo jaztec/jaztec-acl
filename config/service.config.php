@@ -18,18 +18,15 @@ return [
         'jaztec_acl' => function(ServiceLocatorInterface $sm) {
             $cache = $sm->get('jaztec_cache');
             if ($cache->hasItem('jaztec_acl') && $config['jaztec_acl']['use_cache'] === true) {
-                return $cache->getItem('jaztec_acl');
+                $acl = $cache->getItem('jaztec_acl');
             } else {
-                return new Acl\Acl();
+                $acl = new Acl\Acl();
             }
+            $acl->setEntityManager($sm->get('doctrine.entitymanager.orm_default'));
+            return $acl;
         }
     ],
     'initializers' => [
-        'jaztec_em' => function($instance, ServiceLocatorInterface $sm) {
-            if ($instance instanceof Service\AbstractDoctrineService) {
-                $instance->setEntityManager($sm->get('doctrine.entitymanager.orm_default'));
-            }
-        },
         'jaztec_acl' => function($instance, ServiceLocatorInterface $sm) {
             if ($instance instanceof Acl\AclAwareInterface) {
                 $instance->setAcl($sm->get('jaztec_acl'));

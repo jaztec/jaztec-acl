@@ -10,13 +10,18 @@
 namespace JaztecAcl\Acl;
 
 use Zend\Permissions\Acl\Acl as ZendAcl;
-use Doctrine\ORM\EntityManager;
 use JaztecAcl\Entity\Resource as ResourceEntity;
+use JaztecBase\ORM\EntityManagerAwareInterface;
+use JaztecBase\ORM\EntityManagerAwareTrait;
 
-class Acl extends ZendAcl
+class Acl extends ZendAcl implements 
+    EntityManagerAwareInterface,
+    \Serializable
 {
 
-    /** @var boolean $loaded */
+    use EntityManagerAwareTrait;
+    
+    /** @var boolean */
     protected $loaded;
 
     /**
@@ -30,14 +35,13 @@ class Acl extends ZendAcl
     /**
      * Build a new ACL object from the database.
      *
-     * @param  \Doctrine\ORM\EntityManager $em
      * @return \JaztecAcl\Acl\Acl
      */
-    public function setupAcl(EntityManager $em)
+    public function setupAcl()
     {
-        $this->insertRoles($this->findRoles($em))
-            ->insertResources($this->findResources($em))
-            ->insertPrivileges($this->findPrivileges($em));
+        $this->insertRoles($this->findRoles())
+            ->insertResources($this->findResources())
+            ->insertPrivileges($this->findPrivileges());
 
         $this->loaded = true;
 
@@ -94,8 +98,7 @@ class Acl extends ZendAcl
     protected function insertPrivileges(array $privileges)
     {
         foreach ($privileges as $privilege) {
-            $type = $privilege->getType();
-            $this->$type(
+            $this->{$privilege->getType()}(
                 $privilege->getRole(), $privilege->getResource(), $privilege->getPrivilege()
             );
         }
@@ -106,12 +109,11 @@ class Acl extends ZendAcl
     /**
      * Find the roles in the database.
      *
-     * @param  \Doctrine\ORM\EntityManager $em
      * @return array
      */
-    protected function findRoles(EntityManager $em)
+    protected function findRoles()
     {
-        $roles = $em->getRepository('JaztecAcl\Entity\Role')->findBy(
+        $roles = $this->getEntityManager()->getRepository('JaztecAcl\Entity\Role')->findBy(
             [],
             ['sort' => 'ASC']
         );
@@ -122,12 +124,11 @@ class Acl extends ZendAcl
     /**
      * Find the resources in the database.
      *
-     * @param  \Doctrine\ORM\EntityManager $em
      * @return array
      */
-    protected function findResources(EntityManager $em)
+    protected function findResources()
     {
-        $resources = $em->getRepository('JaztecAcl\Entity\Resource')->findBy(
+        $resources = $this->getEntityManager()->getRepository('JaztecAcl\Entity\Resource')->findBy(
             [],
             ['sort' => 'ASC']
         );
@@ -138,25 +139,24 @@ class Acl extends ZendAcl
     /**
      * Find the privileges in the database.
      *
-     * @param  \Doctrine\ORM\EntityManager $em
      * @return array
      */
-    protected function findPrivileges(EntityManager $em)
+    protected function findPrivileges()
     {
-        $privileges = $em->getRepository('JaztecAcl\Entity\Privilege')->findAll();
+        $privileges = $this->getEntityManager()->getRepository('JaztecAcl\Entity\Privilege')->findAll();
 
         return $privileges;
     }
 
     /**
-     *
+     * Create a new resource in the ACL structure
      * @param  string                            $newResource
      * @param  string|\JaztecAcl\Entity\Resource $baseResource
-     * @param  \Doctrine\ORM\EntityManager       $em
      * @return \JaztecAcl\Entity\Resource
      */
-    public function createResource($newResource, $baseResource, EntityManager $em)
+    public function createResource($newResource, $baseResource)
     {
+        $em = $this->getEntityManager();
         // Check if the base resource exists, otherwise create it.
         if (!$baseResource instanceof ResourceEntity &&
             !is_string($baseResource)) {
@@ -165,8 +165,7 @@ class Acl extends ZendAcl
             $baseName     = $baseResource;
             $baseResource = $em->getRepository('JaztecAcl\Entity\Resource')->findOneBy(['name' => $baseName]);
             if (!$baseResource instanceof ResourceEntity) {
-                $baseResource = new \JaztecAcl\Entity\Resource();
-                $baseResource->setName($baseName);
+                $baseResource = new \JaztecAcl\Entity\Resource($baseName);
                 $baseResource->setSort(0);
                 $em->persist($baseResource);
                 $this->addResource($baseResource->getResourceId());
@@ -178,15 +177,12 @@ class Acl extends ZendAcl
         }
 
         // Create the new (unknown) resource and add it to the ACL.
-        $resource = new \JaztecAcl\Entity\Resource();
-        $resource->setName($newResource);
-        $resource->setParent($baseResource);
-        $resource->setSort($baseResource->getSort() + 1);
+        $resource = new \JaztecAcl\Entity\Resource($newResource, $baseResource, $baseResource->getSort() + 1);
         $em->persist($resource);
 
         $em->flush();
 
-        $this->addResource($resource, $baseResource->getResourceId());
+        $this->addResource($resource, $resource->getParent());
 
         return $resource;
     }
@@ -197,11 +193,11 @@ class Acl extends ZendAcl
      * 
      * @param   string                          $privilege
      * @param   string                          $resource
-     * @param   \Doctrine\ORM\EntityManager     $em
      * @return  bool
      */
-    public function checkPrivilegeRequest($privilege, $resource, EntityManager $em)
+    public function checkPrivilegeRequest($privilege, $resource)
     {
+        $em = $this->getEntityManager();
         $privilege = trim($privilege);
         $resource = trim($resource);
         // Check the input values.
@@ -225,4 +221,24 @@ class Acl extends ZendAcl
         $em->flush();
         return true;
     }
+    
+    /**
+     * Return this object as string
+     */
+    public function serialize()
+    {
+        $this->em = null;
+        return $this;
+    }
+    
+    /**
+     * Return this object from a string
+     * @param object $serialized
+     * @return self
+     */
+    public function unserialize($serialized)
+    {
+        return $serialized;
+    }
+
 }

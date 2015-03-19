@@ -144,8 +144,8 @@ class Bootstrap
      */
     public static function setUpAclDatabase() {
         // Schema Tool to process our entities
+        /* @var \Doctrine\ORM\EntityManager $em */
         $em = static::getServiceManager()->get('doctrine.entitymanager.orm_default');
-        /* @var $em \Doctrine\ORM\EntityManager */
         $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
         $classes = $em->getMetaDataFactory()->getAllMetaData();
 
@@ -154,26 +154,25 @@ class Bootstrap
         $tool->createSchema($classes);
 
         // Get the setup from the configuration.
+        /* @var array $config */
         $config = static::getServiceManager()->get('Config');
-        /* @var $config array */
+        /* @var array $setUp */
         $setUp = $config['TestSuite']['setUp'];
-        /* @var $setUp array */
 
         // SetUp roles.
+        /* $var array $roleSetIp */
         $roleSetUp = $setUp['roles'];
-        /* $var $roleSetIp array */
+        /* $var \JaztecAcl\Entity\Role[] $roles */
         $roles = array();
-        /* $var $roles \JaztecAcl\Entity\Role[] */
 
         foreach($roleSetUp as $setUpConfig) {
-            $role = new \JaztecAcl\Entity\Role();
-            $role->setName($setUpConfig['name'])
-                ->setSort($setUpConfig['sort']);
+            $role = new \JaztecAcl\Entity\Role($setUpConfig['name']);
+            $role->setSort($setUpConfig['sort']);
 
             if (array_key_exists('parent', $setUpConfig)) {
                 foreach($roles as $cached) {
-                    /* @var $cached \JaztecAcl\Entity\Role */
-                    if ($cached->getName() === $setUpConfig['parent']) {
+                    /* @var \JaztecAcl\Entity\Role $cached */
+                    if ($cached->getName() == $setUpConfig['parent']) {
                         $role->setParent($cached);
                     }
                 }
@@ -181,6 +180,7 @@ class Bootstrap
             $em->persist($role);
             $roles[] = $role;
         }
+        var_dump($role->getName());
         $em->flush();
     }
 }

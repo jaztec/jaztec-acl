@@ -27,13 +27,30 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->serviceManager = Bootstrap::getServiceManager();
         $this->acl            = $this->serviceManager->get('jaztec_acl_service')->getAcl();
 
+        $resource1 = new \JaztecAcl\Entity\Resource('resource01');
+        $resource2 = new \JaztecAcl\Entity\Resource('resource02', $resource1);
+        $resource3 = new \JaztecAcl\Entity\Resource('resource03', $resource2);
+        $resource4 = new \JaztecAcl\Entity\Resource('resource04');
+        $resource5 = new \JaztecAcl\Entity\Resource('resource05', $resource4);
+        
+        $privilege1 = new \JaztecAcl\Entity\Privilege();
+        $privilege1->setResource($resource5);
+        $privilege1->setRole($em->getRepository('JaztecAcl\Entity\Role')->findBy(['name' => 'guest']));
+        $privilege1->setType('allow');
+        
+        $em->persist($privilege1);
+        $em->persist($resource1);
+        $em->persist($resource2);
+        $em->persist($resource3);
+        $em->persist($resource4);
+        $em->persist($resource5);
+        $em->flush();
+        
         // Clear the ACL.
         $this->acl->removeResourceAll();
         $this->acl->removeRoleAll();
-        $this->acl->setupAcl($em);
-
-        // Add a test resource to the ACL
-        $this->acl->addResource('resource01');
+        $this->acl->setupAcl();
+        
     }
 
     /**
@@ -43,12 +60,23 @@ class AclTest extends \PHPUnit_Framework_TestCase
     {
         // Testing default capabilities
         $this->acl->allow('guest', 'resource01');
-        $this->acl->deny('additionalRole', 'resource01');
+        $this->acl->deny('supermember', 'resource01');
+        $this->acl->allow('supermember', 'resource02');
 
         // Testing for solid control list.
-        $this->assertTrue($this->acl->isAllowed('guest', 'resource01'));
-        $this->assertFalse($this->acl->isAllowed('additionalRole', 'resource01'));
-        $this->assertTrue($this->acl->isAllowed('member', 'resource01'));
+        $this->assertTrue($this->acl->isAllowed('guest', 'resource01'), 'guest should have access to resource01');
+        $this->assertTrue($this->acl->isAllowed('guest', 'resource02'), 'guest should have access to resource02');
+        $this->assertTrue($this->acl->isAllowed('guest', 'resource03'), 'guest should have access to resource03');
+        $this->assertTrue($this->acl->isAllowed('guest', 'resource05'), 'guest should have access to resource05');
+        $this->assertFalse($this->acl->isAllowed('supermember', 'resource01'), 'supermember should not have access to resource01');
+        $this->assertTrue($this->acl->isAllowed('supermember', 'resource02'), 'supermember should have access to resource02');
+        $this->assertTrue($this->acl->isAllowed('supermember', 'resource03'), 'supermember should have access to resource03');
+        $this->assertFalse($this->acl->isAllowed('moderator', 'resource01'), 'moderator should not have access to resource01');
+        $this->assertTrue($this->acl->isAllowed('moderator', 'resource02'), 'supermember should have access to resource02');
+        $this->assertTrue($this->acl->isAllowed('moderator', 'resource03'), 'supermember should have access to resource03');
+        $this->assertTrue($this->acl->isAllowed('member', 'resource01'), 'member should have access to resource01');
+        $this->assertTrue($this->acl->isAllowed('member', 'resource02'), 'member should have access to resource02');
+        $this->assertTrue($this->acl->isAllowed('member', 'resource03'), 'member should have access to resource03');
     }
 
     /**
@@ -58,12 +86,14 @@ class AclTest extends \PHPUnit_Framework_TestCase
     {
         // Testing special capabilities.
         $this->acl->deny();
-        $this->acl->allow('additionalRole');
+        $this->acl->allow('supermember');
+        $this->acl->allow('guest', 'resource05', 'index');
 
         // Are is the right role permitted?
         $this->assertFalse($this->acl->isAllowed('guest', 'resource01'), 'The guest role is no longer allowed on this resource');
         $this->assertFalse($this->acl->isAllowed('member', 'resource01'), 'A role derived from the guest role is no longer allowed on this resource');
-        $this->assertTrue($this->acl->isAllowed('additionalRole', 'resource01'), 'The ACL should allow this role because it as all rights.');
+        $this->assertTrue($this->acl->isAllowed('supermember', 'resource01'), 'The ACL should allow this role because it as all rights.');
+        $this->assertTrue($this->acl->isAllowed('guest', 'resource05', 'index'), 'The ACL should allow this role with this privilege because it was directly set.');
     }
 
     /**

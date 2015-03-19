@@ -57,8 +57,16 @@ class Resource extends AbstractEntity implements ZendResourceInterface
      */
     protected $childResources;
     
-    public function __construct()
+    /**
+     * @param string $name
+     * @param \JaztecAcl\Entity\Resource $parent
+     * @param int $sort
+     */
+    public function __construct($name, Resource $parent = null, $sort = 0)
     {
+        $this->setName($name);
+        $this->setParent($parent);
+        $this->setSort($sort);
         $this->privileges = new ArrayCollection();
         $this->childResources = new ArrayCollection();
     }

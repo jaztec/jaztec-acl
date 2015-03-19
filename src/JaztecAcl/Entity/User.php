@@ -72,7 +72,7 @@ class User extends AbstractEntity implements ZfcUserInterface
     protected $displayName;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Role")
+     * @ORM\ManyToOne(targetEntity="JaztecAcl\Entity\Role")
      * @ORM\JoinColumn(name="RoleId", referencedColumnName="Id")
      *
      * @var Role

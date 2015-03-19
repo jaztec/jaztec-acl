@@ -116,9 +116,7 @@ class AuthorizedDirectObject implements
                 $role = $this->getUserService()->getAuthService()->getIdentity()->getRole();
             } else {
                 // Setup a guest role.
-                $role = new \JaztecAcl\Entity\Role();
-                $role->setId(1);
-                $role->setName('guest');
+                $role = new \JaztecAcl\Entity\Role('guest');
             }
             $this->setRole($role);
         }

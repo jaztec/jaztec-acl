@@ -5,10 +5,12 @@ namespace JaztecAcl\Controller;
 use JaztecAcl\Entity\Role;
 use JaztecAcl\Service\AclService;
 use JaztecAcl\Service\AclServiceAwareInterface;
+use JaztecBase\ORM\EntityManagerAwareInterface;
 use Doctrine\ORM\EntityManager;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
 class AuthorizedController extends BaseController implements
+    EntityManagerAwareInterface,
     AclServiceAwareInterface
 {
 
@@ -42,9 +44,7 @@ class AuthorizedController extends BaseController implements
                 $role = $this->zfcUserAuthentication()->getIdentity()->getRole();
             } else {
                 // Setup a guest role
-                $role = new \JaztecAcl\Entity\Role();
-                $role->setId(1);
-                $role->setName('guest');
+                $role = new \JaztecAcl\Entity\Role('guest');
             }
             $this->setRole($role);
         }
@@ -65,10 +65,6 @@ class AuthorizedController extends BaseController implements
      */
     public function getEntityManager()
     {
-        if (null === $this->em) {
-            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
-        }
-
         return $this->em;
     }
 

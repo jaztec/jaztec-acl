@@ -41,10 +41,6 @@ return [
                     'sort' => 0
                 ],
                 [
-                    'name'   => 'additionalRole',
-                    'sort'   => 0
-                ],
-                [
                     'name'   => 'registered',
                     'parent' => 'guest',
                     'sort'   => 1

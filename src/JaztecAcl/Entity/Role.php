@@ -57,9 +57,16 @@ class Role extends AbstractEntity implements ZendRoleInterface
      */
     protected $childRoles;
     
-    
-    public function __construct()
+    /**
+     * @param type $name
+     * @param \JaztecAcl\Entity\Role $parent
+     * @param int $sort
+     */
+    public function __construct($name, Role $parent = null, $sort = 0)
     {
+        $this->setName($name);
+        $this->setParent($parent);
+        $this->setSort($sort);
         $this->privileges = new ArrayCollection();
         $this->childRoles = new ArrayCollection();
     }

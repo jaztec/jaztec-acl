@@ -32,7 +32,7 @@ class AclServiceTest extends PHPUnit_Framework_TestCase
         // Configure the ACL object needed by our AclService.
         $aclService->getAcl()->removeResourceAll();
         $aclService->getAcl()->removeRoleAll();
-        $aclService->getAcl()->setupAcl($em);
+        $aclService->getAcl()->setupAcl();
         /* @var $aclService \JaztecAcl\Service\AclService */
 
         // Add a test resource to the ACL
@@ -154,15 +154,18 @@ class AclServiceTest extends PHPUnit_Framework_TestCase
         /* @var $acl \JaztecAcl\Acl\Acl */
         $acl = $this->aclService->getAcl();
 
+        $this->assertTrue($acl->hasResource('resource01'), 'ACL object should contain resource01 before caching');
+        $this->assertFalse($acl->isAllowed('guest', 'resource01'), 'Guest should not have access to resource01 before caching');
+        
         // Test if the ACL gets cached properly.
         $cache->addItem('jaztec_acl_cached', $acl);
-        $this->assertTrue($cache->hasItem('jaztec_acl_cached'));
+        $this->assertTrue($cache->hasItem('jaztec_acl_cached'), 'Cache should contain Acl object');
         /* @var $aclCached \JaztecAcl\Acl\Acl */
         $aclCached = $cache->getItem('jaztec_acl_cached');
 
         // Test if the ACL is in working order.
         $this->assertInstanceOf('\JaztecAcl\Acl\Acl', $aclCached);
-        $this->assertTrue($aclCached->hasResource('resource01'));
-        $this->assertFalse($aclCached->isAllowed('guest', 'resource01'));
+        $this->assertTrue($aclCached->hasResource('resource01'), 'ACL object should contain resource01 after caching');
+        $this->assertFalse($aclCached->isAllowed('guest', 'resource01'), 'Guest should not have access to resource01 after caching');
     }
 }
