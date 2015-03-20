@@ -1,6 +1,6 @@
 <?php
 
-namespace JaztecAcl\Entity;
+namespace JaztecAcl\Entity\Monitor;
 
 use Doctrine\ORM\Mapping as ORM;
 use JaztecBase\Entity\AbstractEntity;

@@ -2,7 +2,6 @@
 
 namespace JaztecAcl\Controller;
 
-use JaztecAcl\Entity\Role;
 use JaztecAcl\Service\AclService;
 use JaztecAcl\Service\AclServiceAwareInterface;
 use JaztecBase\ORM\EntityManagerAwareInterface;
@@ -44,7 +43,7 @@ class AuthorizedController extends BaseController implements
                 $role = $this->zfcUserAuthentication()->getIdentity()->getRole();
             } else {
                 // Setup a guest role
-                $role = new \JaztecAcl\Entity\Role('guest');
+                $role = new \JaztecAcl\Entity\Acl\Role('guest');
             }
             $this->setRole($role);
         }

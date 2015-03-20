@@ -140,12 +140,12 @@ class ConsoleController extends AbstractActionController
 
         /* @var $roleSetUp array */
         $roleSetUp = $setUp['roles'];
-        /* @var $roles \JaztecAcl\Entity\Role[] */
+        /* @var $roles \JaztecAcl\Entity\Acl\Role[] */
         $roles = [];
 
         // Setup roles.
         foreach ($roleSetUp as $setUpConfig) {
-            $role = new \JaztecAcl\Entity\Role();
+            $role = new \JaztecAcl\Entity\Acl\Role();
             $role->setName($setUpConfig['name'])
                 ->setSort($setUpConfig['sort']);
 
@@ -171,14 +171,14 @@ class ConsoleController extends AbstractActionController
      * provides role.
      * 
      * @param array                     $setUpConfig
-     * @param \JaztecAcl\Entity\Role[]  $roles
-     * @param \JaztecAcl\Entity\Role    $role
+     * @param \JaztecAcl\Entity\Acl\Role[]  $roles
+     * @param \JaztecAcl\Entity\Acl\Role    $role
      */
-    protected function validateRoleParent(array $setUpConfig, $roles, \JaztecAcl\Entity\Role $role)
+    protected function validateRoleParent(array $setUpConfig, $roles, \JaztecAcl\Entity\Acl\Role $role)
     {
         if (array_key_exists('parent', $setUpConfig)) {
             foreach ($roles as $cached) {
-                /* @var $cached \JaztecAcl\Entity\Role */
+                /* @var $cached \JaztecAcl\Entity\Acl\Role */
                 if ($cached->getName() === $setUpConfig['parent']) {
                     $role->setParent($cached);
                 }
@@ -220,11 +220,11 @@ class ConsoleController extends AbstractActionController
     protected function getEntityMetaData(EntityManager $em)
     {
         return [
-            $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Privilege'),
-            $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\RequestedPrivilege'),
-            $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Resource'),
-            $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Role'),
-            $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\User'),
+            $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Acl\Privilege'),
+            $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Monitor\RequestedPrivilege'),
+            $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Acl\Resource'),
+            $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Acl\Role'),
+            $em->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Auth\User'),
         ];
     }
 
@@ -243,10 +243,10 @@ class ConsoleController extends AbstractActionController
         /* @var $bcrypt \Zend\Crypt\Password\Bcrypt */
         $crypt = new Bcrypt();
         $crypt->setCost($cost);
-        /* @var $adminRole \JaztecAcl\Entity\Role */
-        $adminRole = $em->getRepository('JaztecAcl\Entity\Role')->findOneBy(['name'  => 'admin']);
-        /* @var $user \JaztecAcl\Entity\User */
-        $user = new \JaztecAcl\Entity\User();
+        /* @var $adminRole \JaztecAcl\Entity\Acl\Role */
+        $adminRole = $em->getRepository('JaztecAcl\Entity\Acl\Role')->findOneBy(['name'  => 'admin']);
+        /* @var $user \JaztecAcl\Entity\Auth\User */
+        $user = new \JaztecAcl\Entity\Auth\User();
         $user->setUsername('admin')
             ->setPassword($crypt->create('admin'))
             ->setEmail($email)

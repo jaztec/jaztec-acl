@@ -1,6 +1,6 @@
 <?php
 
-namespace JaztecAcl\Entity;
+namespace JaztecAcl\Entity\Acl;
 
 use Doctrine\ORM\Mapping as ORM;
 use JaztecBase\Entity\AbstractEntity;
@@ -36,18 +36,18 @@ class Privilege extends AbstractEntity
     protected $privilege;
 
     /**
-     * @ORM\ManyToOne(targetEntity="JaztecAcl\Entity\Role", inversedBy="privileges")
+     * @ORM\ManyToOne(targetEntity="JaztecAcl\Entity\Acl\Role", inversedBy="privileges")
      * @ORM\JoinColumn(name="RoleId", referencedColumnName="Id")
      *
-     * @var \JaztecAcl\Entity\Role
+     * @var \JaztecAcl\Entity\Acl\Role
      */
     protected $role;
 
     /**
-     * @ORM\ManyToOne(targetEntity="JaztecAcl\Entity\Resource", inversedBy="privileges")
+     * @ORM\ManyToOne(targetEntity="JaztecAcl\Entity\Acl\Resource", inversedBy="privileges")
      * @ORM\JoinColumn(name="ResourceId", referencedColumnName="Id")
      *
-     * @var \JaztecAcl\Entity\Role
+     * @var \JaztecAcl\Entity\Acl\Role
      */
     protected $resource;
 
@@ -98,7 +98,7 @@ class Privilege extends AbstractEntity
     }
 
     /**
-     * @return \JaztecAcl\Entity\Role
+     * @return \JaztecAcl\Entity\Acl\Role
      */
     public function getRole()
     {
@@ -106,8 +106,8 @@ class Privilege extends AbstractEntity
     }
 
     /**
-     * @param  \JaztecAcl\Entity\Role      $role
-     * @return \JaztecAcl\Entity\Privilege
+     * @param  \JaztecAcl\Entity\Acl\Role      $role
+     * @return \JaztecAcl\Entity\Acl\Privilege
      */
     public function setRole(Role $role = null)
     {
@@ -117,7 +117,7 @@ class Privilege extends AbstractEntity
     }
 
     /**
-     * @return \JaztecAcl\Entity\Resource
+     * @return \JaztecAcl\Entity\Acl\Resource
      */
     public function getResource()
     {
@@ -125,8 +125,8 @@ class Privilege extends AbstractEntity
     }
 
     /**
-     * @param  \JaztecAcl\Entity\Resource  $resource
-     * @return \JaztecAcl\Entity\Privilege
+     * @param  \JaztecAcl\Entity\Acl\Resource  $resource
+     * @return \JaztecAcl\Entity\Acl\Privilege
      */
     public function setResource(Resource $resource = null)
     {

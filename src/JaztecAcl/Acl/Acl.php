@@ -10,8 +10,7 @@
 namespace JaztecAcl\Acl;
 
 use Zend\Permissions\Acl\Acl as ZendAcl;
-use Zend\Json\Json;
-use JaztecAcl\Entity\Resource as ResourceEntity;
+use JaztecAcl\Entity\Acl\Resource as ResourceEntity;
 use JaztecBase\ORM\EntityManagerAwareInterface;
 use JaztecBase\ORM\EntityManagerAwareTrait;
 
@@ -113,7 +112,7 @@ class Acl extends ZendAcl implements
      */
     protected function findRoles()
     {
-        $roles = $this->getEntityManager()->getRepository('JaztecAcl\Entity\Role')->findBy(
+        $roles = $this->getEntityManager()->getRepository('JaztecAcl\Entity\Acl\Role')->findBy(
             [],
             ['sort' => 'ASC']
         );
@@ -128,7 +127,7 @@ class Acl extends ZendAcl implements
      */
     protected function findResources()
     {
-        $resources = $this->getEntityManager()->getRepository('JaztecAcl\Entity\Resource')->findBy(
+        $resources = $this->getEntityManager()->getRepository('JaztecAcl\Entity\Acl\Resource')->findBy(
             [],
             ['sort' => 'ASC']
         );
@@ -143,7 +142,7 @@ class Acl extends ZendAcl implements
      */
     protected function findPrivileges()
     {
-        $privileges = $this->getEntityManager()->getRepository('JaztecAcl\Entity\Privilege')->findAll();
+        $privileges = $this->getEntityManager()->getRepository('JaztecAcl\Entity\Acl\Privilege')->findAll();
 
         return $privileges;
     }
@@ -151,8 +150,8 @@ class Acl extends ZendAcl implements
     /**
      * Create a new resource in the ACL structure
      * @param  string                            $newResource
-     * @param  string|\JaztecAcl\Entity\Resource $baseResource
-     * @return \JaztecAcl\Entity\Resource
+     * @param  string|\JaztecAcl\Entity\Acl\Resource $baseResource
+     * @return \JaztecAcl\Entity\Acl\Resource
      */
     public function createResource($newResource, $baseResource)
     {
@@ -163,9 +162,9 @@ class Acl extends ZendAcl implements
             throw new \Exception('Base resource is not a valid ACL resource, ' . get_class($baseResource) . ' given.');
         } elseif (!$baseResource instanceof \ResourceEntity) {
             $baseName     = $baseResource;
-            $baseResource = $em->getRepository('JaztecAcl\Entity\Resource')->findOneBy(['name' => $baseName]);
+            $baseResource = $em->getRepository('JaztecAcl\Entity\Acl\Resource')->findOneBy(['name' => $baseName]);
             if (!$baseResource instanceof ResourceEntity) {
-                $baseResource = new \JaztecAcl\Entity\Resource($baseName);
+                $baseResource = new \JaztecAcl\Entity\Acl\Resource($baseName);
                 $baseResource->setSort(0);
                 $em->persist($baseResource);
                 $this->addResource($baseResource->getResourceId());
@@ -177,7 +176,7 @@ class Acl extends ZendAcl implements
         }
 
         // Create the new (unknown) resource and add it to the ACL.
-        $resource = new \JaztecAcl\Entity\Resource($newResource, $baseResource, $baseResource->getSort() + 1);
+        $resource = new \JaztecAcl\Entity\Acl\Resource($newResource, $baseResource, $baseResource->getSort() + 1);
         $em->persist($resource);
 
         $em->flush();
@@ -205,15 +204,15 @@ class Acl extends ZendAcl implements
             return false;
         }
         // Try to find the privilege request in the database.
-        $requestedPrivilege = $em->getRepository('JaztecAcl\Entity\RequestedPrivilege')->findOneBy([
+        $requestedPrivilege = $em->getRepository('JaztecAcl\Entity\Monitor\RequestedPrivilege')->findOneBy([
             'privilege' => $privilege,
             'resource'  => $resource,
         ]);
-        if ($requestedPrivilege instanceof \JaztecAcl\Entity\RequestedPrivilege) {
+        if ($requestedPrivilege instanceof \JaztecAcl\Entity\Monitor\RequestedPrivilege) {
             return true;
         }
         // Create the privilege request.
-        $newRequestedPrivilege = new \JaztecAcl\Entity\RequestedPrivilege();
+        $newRequestedPrivilege = new \JaztecAcl\Entity\Monitor\RequestedPrivilege();
         $newRequestedPrivilege
             ->setPrivilege($privilege)
             ->setResource($resource);

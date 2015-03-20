@@ -1,6 +1,6 @@
 <?php
 
-namespace JaztecAcl\Entity;
+namespace JaztecAcl\Entity\Auth;
 
 use ZfcUser\Entity\UserInterface as ZfcUserInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -72,7 +72,7 @@ class User extends AbstractEntity implements ZfcUserInterface
     protected $displayName;
 
     /**
-     * @ORM\ManyToOne(targetEntity="JaztecAcl\Entity\Role")
+     * @ORM\ManyToOne(targetEntity="JaztecAcl\Entity\Acl\Role")
      * @ORM\JoinColumn(name="RoleId", referencedColumnName="Id")
      *
      * @var Role
@@ -98,7 +98,7 @@ class User extends AbstractEntity implements ZfcUserInterface
 
     /**
      * @param  int                    $id
-     * @return \JaztecAcl\Entity\User
+     * @return \JaztecAcl\Entity\Auth\User
      */
     public function setId($id)
     {
@@ -117,7 +117,7 @@ class User extends AbstractEntity implements ZfcUserInterface
 
     /**
      * @param  string                 $username
-     * @return \JaztecAcl\Entity\User
+     * @return \JaztecAcl\Entity\Auth\User
      */
     public function setUsername($username)
     {
@@ -136,7 +136,7 @@ class User extends AbstractEntity implements ZfcUserInterface
 
     /**
      * @param  string                 $email
-     * @return \JaztecAcl\Entity\User
+     * @return \JaztecAcl\Entity\Auth\User
      */
     public function setEmail($email)
     {
@@ -155,7 +155,7 @@ class User extends AbstractEntity implements ZfcUserInterface
 
     /**
      * @param  string                 $password
-     * @return \JaztecAcl\Entity\User
+     * @return \JaztecAcl\Entity\Auth\User
      */
     public function setPassword($password)
     {
@@ -174,7 +174,7 @@ class User extends AbstractEntity implements ZfcUserInterface
 
     /**
      * @param  string                 $firstName
-     * @return \JaztecAcl\Entity\User
+     * @return \JaztecAcl\Entity\Auth\User
      */
     public function setFirstName($firstName)
     {
@@ -192,7 +192,7 @@ class User extends AbstractEntity implements ZfcUserInterface
     }
 
     /**
-     * @return JaztecAcl\Entity\Role
+     * @return JaztecAcl\Entity\Acl\Role
      */
     public function getRole()
     {
@@ -200,10 +200,10 @@ class User extends AbstractEntity implements ZfcUserInterface
     }
 
     /**
-     * @param  \JaztecAcl\Entity\Role $role
-     * @return \JaztecAcl\Entity\User
+     * @param  \JaztecAcl\Entity\Acl\Role $role
+     * @return \JaztecAcl\Entity\Auth\User
      */
-    public function setRole(\JaztecAcl\Entity\Role $role)
+    public function setRole(\JaztecAcl\Entity\Acl\Role $role)
     {
         $this->role = $role;
 
@@ -212,7 +212,7 @@ class User extends AbstractEntity implements ZfcUserInterface
 
     /**
      * @param  string                 $lastName
-     * @return \JaztecAcl\Entity\User
+     * @return \JaztecAcl\Entity\Auth\User
      */
     public function setLastName($lastName)
     {
@@ -231,7 +231,7 @@ class User extends AbstractEntity implements ZfcUserInterface
 
     /**
      * @param  bool                   $active
-     * @return \JaztecAcl\Entity\User
+     * @return \JaztecAcl\Entity\Auth\User
      */
     public function setActive($active)
     {
@@ -250,7 +250,7 @@ class User extends AbstractEntity implements ZfcUserInterface
 
     /**
      * @param  string                 $displayName
-     * @return \JaztecAcl\Entity\User
+     * @return \JaztecAcl\Entity\Auth\User
      */
     public function setDisplayName($displayName)
     {
@@ -261,7 +261,7 @@ class User extends AbstractEntity implements ZfcUserInterface
 
     /**
      * @param  int                    $roleID
-     * @return \JaztecAcl\Entity\User
+     * @return \JaztecAcl\Entity\Auth\User
      */
     protected function setRoleID($roleID)
     {

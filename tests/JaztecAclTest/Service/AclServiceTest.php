@@ -112,7 +112,7 @@ class AclServiceTest extends PHPUnit_Framework_TestCase
 
         $em = Bootstrap::getServiceManager()->get('doctrine.entitymanager.orm_default');
         /* @var $em \Doctrine\ORM\EntityManager */
-        $requests = $em->getRepository('JaztecAcl\Entity\RequestedPrivilege')->findBy(
+        $requests = $em->getRepository('JaztecAcl\Entity\Monitor\RequestedPrivilege')->findBy(
             array(
                 'privilege' => 'index',
                 'resource'  => 'resource50',

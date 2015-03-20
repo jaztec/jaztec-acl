@@ -1,6 +1,6 @@
 <?php
 
-namespace JaztecAcl\Entity;
+namespace JaztecAcl\Entity\Acl;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -38,28 +38,28 @@ class Role extends AbstractEntity implements ZendRoleInterface
     protected $sort;
 
     /**
-     * @ORM\ManyToOne(targetEntity="JaztecAcl\Entity\Role", inversedBy="childRoles")
+     * @ORM\ManyToOne(targetEntity="JaztecAcl\Entity\Acl\Role", inversedBy="childRoles")
      * @ORM\JoinColumn(name="ParentId", referencedColumnName="Id")
      *
-     * @var \JaztecAcl\Entity\Role
+     * @var \JaztecAcl\Entity\Acl\Role
      */
     protected $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Privilege", mappedBy="role", cascade={"persist", "remove"})
-     * @var JaztecAcl\Entity\Privilege[] | \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Acl\Privilege", mappedBy="role", cascade={"persist", "remove"})
+     * @var JaztecAcl\Entity\Acl\Privilege[] | \Doctrine\Common\Collections\ArrayCollection
      */
     protected $privileges;
     
     /**
-     * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Role", mappedBy="parent", cascade={"persist", "remove"})
-     * @var JaztecAcl\Entity\Role[] | \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Acl\Role", mappedBy="parent", cascade={"persist", "remove"})
+     * @var JaztecAcl\Entity\Acl\Role[] | \Doctrine\Common\Collections\ArrayCollection
      */
     protected $childRoles;
     
     /**
      * @param type $name
-     * @param \JaztecAcl\Entity\Role $parent
+     * @param \JaztecAcl\Entity\Acl\Role $parent
      * @param int $sort
      */
     public function __construct($name, Role $parent = null, $sort = 0)
@@ -81,7 +81,7 @@ class Role extends AbstractEntity implements ZendRoleInterface
 
     /**
      * @param  int                    $id
-     * @return \JaztecAcl\Entity\Role
+     * @return \JaztecAcl\Entity\Acl\Role
      */
     public function setId($id)
     {
@@ -100,7 +100,7 @@ class Role extends AbstractEntity implements ZendRoleInterface
 
     /**
      * @param  string                 $name
-     * @return \JaztecAcl\Entity\Role
+     * @return \JaztecAcl\Entity\Acl\Role
      */
     public function setName($name)
     {
@@ -119,7 +119,7 @@ class Role extends AbstractEntity implements ZendRoleInterface
 
     /**
      * @param  int                    $sort
-     * @return \JaztecAcl\Entity\Role
+     * @return \JaztecAcl\Entity\Acl\Role
      */
     public function setSort($sort)
     {
@@ -129,7 +129,7 @@ class Role extends AbstractEntity implements ZendRoleInterface
     }
 
     /**
-     * @return \JaztecAcl\Entity\Role
+     * @return \JaztecAcl\Entity\Acl\Role
      */
     public function getParent()
     {
@@ -137,8 +137,8 @@ class Role extends AbstractEntity implements ZendRoleInterface
     }
 
     /**
-     * @param  \JaztecAcl\Entity\Role $parent
-     * @return \JaztecAcl\Entity\Role
+     * @param  \JaztecAcl\Entity\Acl\Role $parent
+     * @return \JaztecAcl\Entity\Acl\Role
      */
     public function setParent(Role $parent = null)
     {
@@ -156,7 +156,7 @@ class Role extends AbstractEntity implements ZendRoleInterface
     }
 
     /**
-     * @return \JaztecAcl\Entity\Privilege[] | \Doctrine\Common\Collections\ArrayCollection
+     * @return \JaztecAcl\Entity\Acl\Privilege[] | \Doctrine\Common\Collections\ArrayCollection
      */
     public function getPrivileges()
     {
@@ -164,7 +164,7 @@ class Role extends AbstractEntity implements ZendRoleInterface
     }
 
     /**
-     * @return \JaztecAcl\Entity\Role[] | \Doctrine\Common\Collections\ArrayCollection
+     * @return \JaztecAcl\Entity\Acl\Role[] | \Doctrine\Common\Collections\ArrayCollection
      */
     public function getChildRoles()
     {
@@ -172,7 +172,7 @@ class Role extends AbstractEntity implements ZendRoleInterface
     }
 
     /**
-     * @param JaztecAcl\Entity\Privilege $privileges
+     * @param JaztecAcl\Entity\Acl\Privilege $privileges
      * @return self
      */
     public function setPrivileges($privileges)
@@ -182,7 +182,7 @@ class Role extends AbstractEntity implements ZendRoleInterface
     }
 
     /**
-     * @param \JaztecAcl\Entity\Role[] $childRoles
+     * @param \JaztecAcl\Entity\Acl\Role[] $childRoles
      * @return self
      */
     public function setChildRoles($childRoles)

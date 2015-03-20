@@ -162,16 +162,16 @@ class Bootstrap
         // SetUp roles.
         /* $var array $roleSetIp */
         $roleSetUp = $setUp['roles'];
-        /* $var \JaztecAcl\Entity\Role[] $roles */
+        /* $var \JaztecAcl\Entity\Acl\Role[] $roles */
         $roles = array();
 
         foreach($roleSetUp as $setUpConfig) {
-            $role = new \JaztecAcl\Entity\Role($setUpConfig['name']);
+            $role = new \JaztecAcl\Entity\Acl\Role($setUpConfig['name']);
             $role->setSort($setUpConfig['sort']);
 
             if (array_key_exists('parent', $setUpConfig)) {
                 foreach($roles as $cached) {
-                    /* @var \JaztecAcl\Entity\Role $cached */
+                    /* @var \JaztecAcl\Entity\Acl\Role $cached */
                     if ($cached->getName() == $setUpConfig['parent']) {
                         $role->setParent($cached);
                     }

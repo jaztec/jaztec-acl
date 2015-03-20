@@ -27,15 +27,15 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->serviceManager = Bootstrap::getServiceManager();
         $this->acl            = $this->serviceManager->get('jaztec_acl_service')->getAcl();
 
-        $resource1 = new \JaztecAcl\Entity\Resource('resource01');
-        $resource2 = new \JaztecAcl\Entity\Resource('resource02', $resource1);
-        $resource3 = new \JaztecAcl\Entity\Resource('resource03', $resource2);
-        $resource4 = new \JaztecAcl\Entity\Resource('resource04');
-        $resource5 = new \JaztecAcl\Entity\Resource('resource05', $resource4);
+        $resource1 = new \JaztecAcl\Entity\Acl\Resource('resource01');
+        $resource2 = new \JaztecAcl\Entity\Acl\Resource('resource02', $resource1);
+        $resource3 = new \JaztecAcl\Entity\Acl\Resource('resource03', $resource2);
+        $resource4 = new \JaztecAcl\Entity\Acl\Resource('resource04');
+        $resource5 = new \JaztecAcl\Entity\Acl\Resource('resource05', $resource4);
         
-        $privilege1 = new \JaztecAcl\Entity\Privilege();
+        $privilege1 = new \JaztecAcl\Entity\Acl\Privilege();
         $privilege1->setResource($resource5);
-        $privilege1->setRole($em->getRepository('JaztecAcl\Entity\Role')->findOneBy(['name' => 'guest']));
+        $privilege1->setRole($em->getRepository('JaztecAcl\Entity\Acl\Role')->findOneBy(['name' => 'guest']));
         $privilege1->setType('allow');
        
         $em->persist($privilege1);
@@ -117,13 +117,13 @@ class AclTest extends \PHPUnit_Framework_TestCase
 
         $this->acl->createResource('resource2', 'base', $em);
 
-        $resource = $em->getRepository('JaztecAcl\Entity\Resource')->findOneBy(array(
+        $resource = $em->getRepository('JaztecAcl\Entity\Acl\Resource')->findOneBy(array(
             'name' => 'resource2'
         ));
-        /* @var $resource \JaztecAcl\Entity\Resource */
+        /* @var $resource \JaztecAcl\Entity\Acl\Resource */
 
         // Test if the resource exists.
-        $this->assertTrue(($resource instanceof \JaztecAcl\Entity\Resource), "A new resource should've been added");
+        $this->assertTrue(($resource instanceof \JaztecAcl\Entity\Acl\Resource), "A new resource should've been added");
         $this->assertTrue($this->acl->hasResource($resource), "The local ACL should contain the newly added resource");
     }
 
@@ -137,7 +137,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
 
         $this->acl->checkPrivilegeRequest('index', 'resource01', $em);
 
-        $requests = $em->getRepository('JaztecAcl\Entity\RequestedPrivilege')->findBy(
+        $requests = $em->getRepository('JaztecAcl\Entity\Monitor\RequestedPrivilege')->findBy(
             array(
                 'privilege' => 'index',
                 'resource'  => 'resource01',
@@ -149,7 +149,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
 
         $this->acl->checkPrivilegeRequest('index', 'resource01', $em);
 
-        $requestsNewRun = $em->getRepository('JaztecAcl\Entity\RequestedPrivilege')->findBy(
+        $requestsNewRun = $em->getRepository('JaztecAcl\Entity\Monitor\RequestedPrivilege')->findBy(
             array(
                 'privilege' => 'index',
                 'resource'  => 'resource01',

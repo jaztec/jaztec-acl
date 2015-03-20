@@ -1,6 +1,6 @@
 <?php
 
-namespace JaztecAcl\Entity;
+namespace JaztecAcl\Entity\Acl;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,10 +31,10 @@ class Resource extends AbstractEntity implements ZendResourceInterface
     protected $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="JaztecAcl\Entity\Resource", inversedBy="childResources")
+     * @ORM\ManyToOne(targetEntity="JaztecAcl\Entity\Acl\Resource", inversedBy="childResources")
      * @ORM\JoinColumn(name="ParentId", referencedColumnName="Id")
      *
-     * @var \JaztecAcl\Entity\Resource
+     * @var \JaztecAcl\Entity\Acl\Resource
      */
     protected $parent;
 
@@ -46,20 +46,20 @@ class Resource extends AbstractEntity implements ZendResourceInterface
     protected $sort;
 
     /**
-     * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Privilege", mappedBy="resource", cascade={"persist", "remove"})
-     * @var \JaztecAcl\Entity\Privilege[] | \Doctrin\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Acl\Privilege", mappedBy="resource", cascade={"persist", "remove"})
+     * @var \JaztecAcl\Entity\Acl\Privilege[] | \Doctrin\Common\Collections\ArrayCollection
      */
     protected $privileges;
     
     /**
-     * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Resource", mappedBy="parent", cascade={"persist", "remove"})
-     * @var \JaztecAcl\Entity\Resource[] | \Doctrin\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Acl\Resource", mappedBy="parent", cascade={"persist", "remove"})
+     * @var \JaztecAcl\Entity\Acl\Resource[] | \Doctrin\Common\Collections\ArrayCollection
      */
     protected $childResources;
     
     /**
      * @param string $name
-     * @param \JaztecAcl\Entity\Resource $parent
+     * @param \JaztecAcl\Entity\Acl\Resource $parent
      * @param int $sort
      */
     public function __construct($name, Resource $parent = null, $sort = 0)
@@ -99,7 +99,7 @@ class Resource extends AbstractEntity implements ZendResourceInterface
     }
 
     /**
-     * @return \JaztecAcl\Entity\Resource
+     * @return \JaztecAcl\Entity\Acl\Resource
      */
     public function getParent()
     {
@@ -107,7 +107,7 @@ class Resource extends AbstractEntity implements ZendResourceInterface
     }
 
     /**
-     * @param \JaztecAcl\Entity\Resource $parent
+     * @param \JaztecAcl\Entity\Acl\Resource $parent
      * @return self
      */
     public function setParent(Resource $parent = null)
@@ -145,7 +145,7 @@ class Resource extends AbstractEntity implements ZendResourceInterface
     }
 
     /**
-     * @return \JaztecAcl\Entity\Privilege[] | \Doctrine\Common\Collections\ArrayCollection
+     * @return \JaztecAcl\Entity\Acl\Privilege[] | \Doctrine\Common\Collections\ArrayCollection
      */
     public function getPrivileges()
     {
@@ -153,7 +153,7 @@ class Resource extends AbstractEntity implements ZendResourceInterface
     }
 
     /**
-     * @return \JaztecAcl\Entity\Resource[] | \Doctrine\Common\Collections\ArrayCollection
+     * @return \JaztecAcl\Entity\Acl\Resource[] | \Doctrine\Common\Collections\ArrayCollection
      */
     public function getChildResources()
     {
@@ -161,7 +161,7 @@ class Resource extends AbstractEntity implements ZendResourceInterface
     }
 
     /**
-     * @param \JaztecAcl\Entity\Privilege[]
+     * @param \JaztecAcl\Entity\Acl\Privilege[]
      * @return self
      */
     public function setPrivileges($privileges)
@@ -171,7 +171,7 @@ class Resource extends AbstractEntity implements ZendResourceInterface
     }
 
     /**
-     * @param \JaztecAcl\Entity\Resource[]
+     * @param \JaztecAcl\Entity\Acl\Resource[]
      * @return self
      */
     public function setChildResources($childResources)
