@@ -46,13 +46,13 @@ class Role extends AbstractEntity implements ZendRoleInterface
     protected $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Privilege", mappedBy="role", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Privilege", mappedBy="role", cascade={"persist", "remove"})
      * @var JaztecAcl\Entity\Privilege[] | \Doctrine\Common\Collections\ArrayCollection
      */
     protected $privileges;
     
     /**
-     * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Role", mappedBy="parent", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Role", mappedBy="parent", cascade={"persist", "remove"})
      * @var JaztecAcl\Entity\Role[] | \Doctrine\Common\Collections\ArrayCollection
      */
     protected $childRoles;
@@ -67,8 +67,8 @@ class Role extends AbstractEntity implements ZendRoleInterface
         $this->setName($name);
         $this->setParent($parent);
         $this->setSort($sort);
-        $this->privileges = new ArrayCollection();
-        $this->childRoles = new ArrayCollection();
+        $this->setPrivileges(new ArrayCollection());
+        $this->setChildRoles(new ArrayCollection());
     }
     
     /**
@@ -140,7 +140,7 @@ class Role extends AbstractEntity implements ZendRoleInterface
      * @param  \JaztecAcl\Entity\Role $parent
      * @return \JaztecAcl\Entity\Role
      */
-    public function setParent($parent)
+    public function setParent(Role $parent = null)
     {
         $this->parent = $parent;
 
@@ -175,7 +175,7 @@ class Role extends AbstractEntity implements ZendRoleInterface
      * @param JaztecAcl\Entity\Privilege $privileges
      * @return self
      */
-    public function setPrivileges(array $privileges)
+    public function setPrivileges($privileges)
     {
         $this->privileges = $privileges;
         return $this;
@@ -185,7 +185,7 @@ class Role extends AbstractEntity implements ZendRoleInterface
      * @param \JaztecAcl\Entity\Role[] $childRoles
      * @return self
      */
-    public function setChildRoles(array $childRoles)
+    public function setChildRoles($childRoles)
     {
         $this->childRoles = $childRoles;
         return $this;

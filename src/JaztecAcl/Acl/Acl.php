@@ -10,13 +10,13 @@
 namespace JaztecAcl\Acl;
 
 use Zend\Permissions\Acl\Acl as ZendAcl;
+use Zend\Json\Json;
 use JaztecAcl\Entity\Resource as ResourceEntity;
 use JaztecBase\ORM\EntityManagerAwareInterface;
 use JaztecBase\ORM\EntityManagerAwareTrait;
 
 class Acl extends ZendAcl implements 
-    EntityManagerAwareInterface,
-    \Serializable
+    EntityManagerAwareInterface
 {
 
     use EntityManagerAwareTrait;
@@ -221,24 +221,13 @@ class Acl extends ZendAcl implements
         $em->flush();
         return true;
     }
-    
-    /**
-     * Return this object as string
-     */
-    public function serialize()
-    {
-        $this->em = null;
-        return $this;
-    }
-    
-    /**
-     * Return this object from a string
-     * @param object $serialized
-     * @return self
-     */
-    public function unserialize($serialized)
-    {
-        return $serialized;
-    }
 
+    /**
+     * Set up the object for serialization
+     * @return array
+     */
+    public function __sleep()
+    {
+        return ['resources', 'roleRegistry', 'rules'];
+    }
 }

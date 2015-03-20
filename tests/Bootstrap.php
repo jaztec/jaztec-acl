@@ -180,7 +180,6 @@ class Bootstrap
             $em->persist($role);
             $roles[] = $role;
         }
-        var_dump($role->getName());
         $em->flush();
     }
 }

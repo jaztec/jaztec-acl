@@ -145,6 +145,36 @@ class AclServiceTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($cache->hasItem('cache_test_item'));
     }
 
+    public function testDefaultZendAclCaching()
+    {
+        /* @var $cache \Zend\Cache\Storage\StorageInterface */
+        $cache = $this->aclService->getCacheStorage();
+        $this->assertInstanceOf('\Zend\Cache\Storage\StorageInterface', $cache);
+
+        /* @var $acl \Zend\Permissions\Acl\Acl */
+        $acl = new \Zend\Permissions\Acl\Acl();
+        $acl->addResource('resource01');
+
+        $this->assertTrue($acl->hasResource('resource01'), 'ACL object should contain resource01 before caching');
+        
+        if ($cache->hasItem('acl_cached')) {
+            $cache->removeItem('acl_cached');
+        }
+
+        // Test if the ACL gets cached properly.
+        $cache->addItem('acl_cached', $acl);
+        $this->assertTrue($cache->hasItem('acl_cached'), 'Cache should contain Acl object');
+        /* @var $aclCached \Zend\Permissions\Acl\Acl */
+        $aclCached = $cache->getItem('acl_cached');
+
+        // Test if the ACL is in working order.
+        $this->assertInstanceOf('\Zend\Permissions\Acl\Acl', $aclCached);
+
+        $this->assertTrue($aclCached->hasResource('resource01'), 'ACL object should contain resource01 after caching');
+        
+        $cache->removeItem('acl_cached');
+    }
+    
     public function testAclCaching()
     {
         /* @var $cache \Zend\Cache\Storage\StorageInterface */
@@ -157,6 +187,10 @@ class AclServiceTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($acl->hasResource('resource01'), 'ACL object should contain resource01 before caching');
         $this->assertFalse($acl->isAllowed('guest', 'resource01'), 'Guest should not have access to resource01 before caching');
         
+        if ($cache->hasItem('jaztec_acl_cached')) {
+            $cache->removeItem('jaztec_acl_cached');
+        }
+
         // Test if the ACL gets cached properly.
         $cache->addItem('jaztec_acl_cached', $acl);
         $this->assertTrue($cache->hasItem('jaztec_acl_cached'), 'Cache should contain Acl object');
@@ -164,8 +198,12 @@ class AclServiceTest extends PHPUnit_Framework_TestCase
         $aclCached = $cache->getItem('jaztec_acl_cached');
 
         // Test if the ACL is in working order.
-        $this->assertInstanceOf('\JaztecAcl\Acl\Acl', $aclCached);
+        $this->assertInstanceOf('\JaztecAcl\Acl\Acl', $aclCached, 'The returned object should be an instance of JaztecAcl\Acl\Acl');
+//        $this->assertInstanceOf('\Doctrine\ORM\EntityManager', $aclCached->getEntityManager(), 'The returned object should have a working entity manager');
+
         $this->assertTrue($aclCached->hasResource('resource01'), 'ACL object should contain resource01 after caching');
         $this->assertFalse($aclCached->isAllowed('guest', 'resource01'), 'Guest should not have access to resource01 after caching');
+        
+        $cache->removeItem('jaztec_acl_cached');
     }
 }

@@ -67,8 +67,8 @@ class Resource extends AbstractEntity implements ZendResourceInterface
         $this->setName($name);
         $this->setParent($parent);
         $this->setSort($sort);
-        $this->privileges = new ArrayCollection();
-        $this->childResources = new ArrayCollection();
+        $this->setPrivileges(new ArrayCollection());
+        $this->setChildResources(new ArrayCollection());
     }
     
     /**
@@ -110,7 +110,7 @@ class Resource extends AbstractEntity implements ZendResourceInterface
      * @param \JaztecAcl\Entity\Resource $parent
      * @return self
      */
-    public function setParent($parent)
+    public function setParent(Resource $parent = null)
     {
         $this->parent = $parent;
 
@@ -164,7 +164,7 @@ class Resource extends AbstractEntity implements ZendResourceInterface
      * @param \JaztecAcl\Entity\Privilege[]
      * @return self
      */
-    public function setPrivileges(array $privileges)
+    public function setPrivileges($privileges)
     {
         $this->privileges = $privileges;
         return $this;
@@ -174,7 +174,7 @@ class Resource extends AbstractEntity implements ZendResourceInterface
      * @param \JaztecAcl\Entity\Resource[]
      * @return self
      */
-    public function setChildResources(array $childResources)
+    public function setChildResources($childResources)
     {
         $this->childResources = $childResources;
         return $this;

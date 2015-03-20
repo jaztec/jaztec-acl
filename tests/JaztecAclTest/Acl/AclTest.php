@@ -35,9 +35,9 @@ class AclTest extends \PHPUnit_Framework_TestCase
         
         $privilege1 = new \JaztecAcl\Entity\Privilege();
         $privilege1->setResource($resource5);
-        $privilege1->setRole($em->getRepository('JaztecAcl\Entity\Role')->findBy(['name' => 'guest']));
+        $privilege1->setRole($em->getRepository('JaztecAcl\Entity\Role')->findOneBy(['name' => 'guest']));
         $privilege1->setType('allow');
-        
+       
         $em->persist($privilege1);
         $em->persist($resource1);
         $em->persist($resource2);

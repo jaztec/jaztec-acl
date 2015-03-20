@@ -109,7 +109,7 @@ class Privilege extends AbstractEntity
      * @param  \JaztecAcl\Entity\Role      $role
      * @return \JaztecAcl\Entity\Privilege
      */
-    public function setRole($role)
+    public function setRole(Role $role = null)
     {
         $this->role = $role;
 
@@ -128,7 +128,7 @@ class Privilege extends AbstractEntity
      * @param  \JaztecAcl\Entity\Resource  $resource
      * @return \JaztecAcl\Entity\Privilege
      */
-    public function setResource($resource)
+    public function setResource(Resource $resource = null)
     {
         $this->resource = $resource;
 
