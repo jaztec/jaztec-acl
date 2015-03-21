@@ -8,6 +8,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 return [
     'invokables' => [
         'jaztec_acl_service' => 'JaztecAcl\Service\AclService',
+        'jaztec_acl_installation_service' => 'JaztecAcl\Service\InstallationService'
     ],
     'factories'  => [
         'jaztec_cache' => function(ServiceLocatorInterface $sm) {
