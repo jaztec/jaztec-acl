@@ -108,6 +108,7 @@ class AclServiceTest extends PHPUnit_Framework_TestCase
         $this->aclService->getAcl()->deny();
         $this->aclService->getAcl()->allow('additionalRole');
 
+        // File a new request so it can be registered.
         $this->aclService->isAllowed('additionalRole', 'resource50', 'index');
 
         $em = Bootstrap::getServiceManager()->get('doctrine.entitymanager.orm_default');
@@ -169,7 +170,6 @@ class AclServiceTest extends PHPUnit_Framework_TestCase
 
         // Test if the ACL is in working order.
         $this->assertInstanceOf('\Zend\Permissions\Acl\Acl', $aclCached);
-
         $this->assertTrue($aclCached->hasResource('resource01'), 'ACL object should contain resource01 after caching');
         
         $cache->removeItem('acl_cached');
@@ -199,8 +199,6 @@ class AclServiceTest extends PHPUnit_Framework_TestCase
 
         // Test if the ACL is in working order.
         $this->assertInstanceOf('\JaztecAcl\Acl\Acl', $aclCached, 'The returned object should be an instance of JaztecAcl\Acl\Acl');
-//        $this->assertInstanceOf('\Doctrine\ORM\EntityManager', $aclCached->getEntityManager(), 'The returned object should have a working entity manager');
-
         $this->assertTrue($aclCached->hasResource('resource01'), 'ACL object should contain resource01 after caching');
         $this->assertFalse($aclCached->isAllowed('guest', 'resource01'), 'Guest should not have access to resource01 after caching');
         

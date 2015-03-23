@@ -8,64 +8,64 @@ use JaztecBase\Entity\AbstractEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="user")
+ * @ORM\Table(name="AclUsers")
  */
 class User extends AbstractEntity implements ZfcUserInterface
 {
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="Id", type="integer")
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
      * @var int
      */
-    protected $user_id;
+    protected $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="Username", type="string")
      *
      * @var string
      */
     protected $username;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="Email", type="string")
      *
      * @var string
      */
     protected $email;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="Password", type="string")
      *
      * @var string
      */
     protected $password;
 
     /**
-     * @ORM\Column(name="firstname", type="string")
+     * @ORM\Column(name="FirstName", type="string")
      *
      * @var string
      */
     protected $firstName;
 
     /**
-     * @ORM\Column(name="lastname", type="string")
+     * @ORM\Column(name="LastName", type="string")
      *
      * @var string
      */
     protected $lastName;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="Active", type="boolean")
      *
      * @var bool
      */
     protected $active;
 
     /**
-     * @ORM\Column(name="display_name", type="string")
+     * @ORM\Column(name="DisplayName", type="string")
      *
      * @var string
      */
@@ -79,6 +79,9 @@ class User extends AbstractEntity implements ZfcUserInterface
      */
     protected $role;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         // Default waarden zetten
@@ -93,7 +96,7 @@ class User extends AbstractEntity implements ZfcUserInterface
      */
     public function getId()
     {
-        return $this->user_id;
+        return $this->id;
     }
 
     /**
@@ -102,8 +105,7 @@ class User extends AbstractEntity implements ZfcUserInterface
      */
     public function setId($id)
     {
-        $this->user_id = (int) $id;
-
+        $this->id = (int) $id;
         return $this;
     }
 
