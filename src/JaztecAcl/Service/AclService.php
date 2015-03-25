@@ -5,22 +5,25 @@ namespace JaztecAcl\Service;
 use JaztecAcl\Acl\AclAwareInterface;
 use JaztecAcl\Cache\CacheAwareInterface;
 use JaztecAcl\Acl\Acl as JaztecAclAcl;
+use JaztecAcl\Entity\Monitor\AclRequest;
 use Zend\Cache\Storage\StorageInterface;
 use JaztecBase\Service\AbstractService;
+use JaztecBase\ORM\EntityManagerAwareInterface;
+use JaztecBase\ORM\EntityManagerAwareTrait;
 
 class AclService extends AbstractService implements
     AclAwareInterface,
-    CacheAwareInterface
+    CacheAwareInterface,
+    EntityManagerAwareInterface
 {
+
+    use EntityManagerAwareTrait;
 
     /** @var \JaztecAcl\Acl\Acl $acl */
     protected $acl;
 
     /** @var \ZfcUser\Controller\Plugin\ZfcUserAuthentication $userAuth */
     protected $userAuth;
-
-    /** @var \Doctrine\ORM\EntityManager $em */
-    protected $em;
 
     /** @var \Zend\Cache\Storage\StorageInterface */
     protected $cacheStorage;
@@ -77,26 +80,6 @@ class AclService extends AbstractService implements
     }
 
     /**
-     * @return \Doctrine\ORM\EntityManager
-     */
-    public function getEntityManager()
-    {
-        if (null === $this->em) {
-            $this->setEntityManager($this->getServiceLocator()->get('doctrine.entitymanager.orm_default'));
-        }
-
-        return $this->em;
-    }
-
-    /**
-     * @param \Doctrine\ORM\EntityManager $em
-     */
-    public function setEntityManager(\Doctrine\ORM\EntityManager $em)
-    {
-        $this->em = $em;
-    }
-
-    /**
      * @param Zend\Acl\Role\RoleInterface|string $role
      * @param Zend\Acl\Role\RoleInterface|string $resource
      * @param string                             $privilege
@@ -129,15 +112,29 @@ class AclService extends AbstractService implements
             }
         }
 
+        $resourceName = $resource;
+        if ($resource instanceof \JaztecAcl\Entity\Acl\Resource) {
+            $resourceName = $resource->getName();
+        }
         // Track requests if set tot true.
         if ($cfg['jaztec_acl']['track_privilege_requests'] === true) {
-            $resourceName = $resource;
-            if ($resource instanceof \JaztecAcl\Entity\Acl\Resource) {
-                $resourceName = $resource->getName();
-            }
             $acl->checkPrivilegeRequest($privilege, $resourceName, $this->getEntityManager());
         }
 
-        return $acl->isAllowed($role, $resource, $privilege);
+        $allowed = $acl->isAllowed($role, $resource, $privilege);
+
+        // Track requests further if set to true.
+        if ($cfg['jaztec_acl']['track_acl_requests'] == true) {
+            $request = new AclRequest();
+            $request->setAllowed($allowed);
+            $request->setDateTime(new \DateTime());
+            $request->setRole($role instanceof \JaztecAcl\Entity\Acl\Role ? $role->getRoleId() : $role);
+            $request->setResource($resourceName);
+            $request->setPrivilege($privilege);
+            $this->getEntityManager()->persist($request);
+            $this->getEntityManager()->flush($request);
+        }
+        
+        return $allowed;
     }
 }

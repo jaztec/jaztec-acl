@@ -11,6 +11,8 @@ return [
         'create_resource'                  => true,
         // Track privilege requests.
         'track_privilege_requests'         => true,
+        // Used to track all requests made to the ACL module with timestamp and the result of the request.
+        'track_acl_requests'               => true,
         // Redirect the AuthorizedController on Acl failure.
         'redirect_controller'              => true,
         // To which route the AuthorizedController will redirect and additional params.
@@ -95,16 +97,17 @@ return [
         ]
     ],
     'zfcuser'    => [
-        'user_entity_class'     => 'JaztecAcl\Entity\User',
+        'user_entity_class'     => 'JaztecAcl\Entity\Auth\User',
         'enable_registration'   => false,
         'enable_username'       => true,
         'enable_display_name'   => true,
         'auth_identity_fields'  => [
             'username'
         ],
-        'login_redirect_route'  => 'jaztecadmin_protected',
+        'login_redirect_route'  => 'jaztecadmin',
         'enable_user_state'     => true,
         'allowed_login_states'  => [1],
+        'tableName'             => 'User'
     ],
     'doctrine'   => [
         'driver' => [

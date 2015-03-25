@@ -134,6 +134,7 @@ class InstallationService extends AbstractDoctrineMapper implements
             $this->getEntityManager()->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Acl\Resource'),
             $this->getEntityManager()->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Acl\Role'),
             $this->getEntityManager()->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Auth\User'),
+            $this->getEntityManager()->getMetadataFactory()->getMetadataFor('\JaztecAcl\Entity\Monitor\AclRequest'),
         ];
     }
 
@@ -151,7 +152,7 @@ class InstallationService extends AbstractDoctrineMapper implements
         $adminRole = $this->getEntityManager()->getRepository('JaztecAcl\Entity\Acl\Role')->findOneBy(['name'  => 'admin']);
         $user = new User();
         $user->setUsername('admin')
-            ->setPassword($crypt->create('admin'))
+            ->setPassword($crypt->create('admin1234'))
             ->setEmail($email)
             ->setRole($adminRole)
             ->setFirstName('Admin')
