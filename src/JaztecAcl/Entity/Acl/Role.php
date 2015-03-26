@@ -50,13 +50,13 @@ class Role extends AbstractEntity implements ZendRoleInterface
      * @var JaztecAcl\Entity\Acl\Privilege[] | \Doctrine\Common\Collections\ArrayCollection
      */
     protected $privileges;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Acl\Role", mappedBy="parent", cascade={"persist", "remove"})
      * @var JaztecAcl\Entity\Acl\Role[] | \Doctrine\Common\Collections\ArrayCollection
      */
     protected $childRoles;
-    
+
     /**
      * @param type $name
      * @param \JaztecAcl\Entity\Acl\Role $parent
@@ -70,7 +70,7 @@ class Role extends AbstractEntity implements ZendRoleInterface
         $this->setPrivileges(new ArrayCollection());
         $this->setChildRoles(new ArrayCollection());
     }
-    
+
     /**
      * @return int
      */
@@ -190,7 +190,7 @@ class Role extends AbstractEntity implements ZendRoleInterface
         $this->childRoles = $childRoles;
         return $this;
     }
-        
+
     /**
      * @return array
      */
@@ -199,7 +199,7 @@ class Role extends AbstractEntity implements ZendRoleInterface
         return array(
             'id'       => $this->getId(),
             'name'     => $this->getRoleId(),
-            'parentId' => $this->getParent() ?: $this->getParent()->getId()
+            'parentId' => $this->getParent() ? $this->getParent()->getId() : null
         );
     }
 }

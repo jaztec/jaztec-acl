@@ -50,13 +50,13 @@ class Resource extends AbstractEntity implements ZendResourceInterface
      * @var \JaztecAcl\Entity\Acl\Privilege[] | \Doctrin\Common\Collections\ArrayCollection
      */
     protected $privileges;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="JaztecAcl\Entity\Acl\Resource", mappedBy="parent", cascade={"persist", "remove"})
      * @var \JaztecAcl\Entity\Acl\Resource[] | \Doctrin\Common\Collections\ArrayCollection
      */
     protected $childResources;
-    
+
     /**
      * @param string $name
      * @param \JaztecAcl\Entity\Acl\Resource $parent
@@ -70,7 +70,7 @@ class Resource extends AbstractEntity implements ZendResourceInterface
         $this->setPrivileges(new ArrayCollection());
         $this->setChildResources(new ArrayCollection());
     }
-    
+
     /**
      * @return int
      */
@@ -179,7 +179,7 @@ class Resource extends AbstractEntity implements ZendResourceInterface
         $this->childResources = $childResources;
         return $this;
     }
-        
+
     /**
      * @return array
      */
@@ -188,7 +188,7 @@ class Resource extends AbstractEntity implements ZendResourceInterface
         return [
             'id'         => $this->getId(),
             'name'       => $this->getResourceId(),
-            'parentId'   => $this->getParent() ?: $this->getParent()->getId(),
+            'parentId'   => $this->getParent() ? $this->getParent()->getId() : null,
         ];
     }
 }
