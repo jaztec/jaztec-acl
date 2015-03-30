@@ -144,10 +144,10 @@ class Privilege extends AbstractEntity
             'id'           => $this->getId(),
             'type'         => $this->getType(),
             'privilege'    => $this->getPrivilege(),
-            'resourceId'   => $this->getResource() ?: $this->getResource()->getId(),
-            'roleId'       => $this->getRole() ?: $this->getRole()->getId(),
-            'resourceName' => $this->getResource() ?: $this->getResource()->getName(),
-            'roleName'     => $this->getRole() ?: $this->getRole()->getName(),
+            'resourceId'   => $this->getResource() ? $this->getResource()->getId() : null,
+            'roleId'       => $this->getRole() ? $this->getRole()->getId() : null,
+            'resourceName' => $this->getResource() ? $this->getResource()->getName() : null,
+            'roleName'     => $this->getRole() ? $this->getRole()->getName() : null,
         ];
     }
 }
