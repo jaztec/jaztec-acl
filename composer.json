@@ -24,8 +24,8 @@
         "doctrine/migrations": "dev-master",
         "doctrine/data-fixtures": "dev-master",
         "zf-commons/zfc-base": "0.*",
-        "zf-commons/zfc-user": "0.*",
-        "zf-commons/zfc-user-doctrine-orm": "0.*",
+        "zf-commons/zfc-user": "1.*",
+        "zf-commons/zfc-user-doctrine-orm": "1.*",
         "jaztec/jaztec-base": "dev-master"
     },
     "autoload": {

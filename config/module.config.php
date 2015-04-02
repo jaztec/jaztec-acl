@@ -104,7 +104,7 @@ return [
         'auth_identity_fields'  => [
             'username'
         ],
-        'login_redirect_route'  => 'jaztecadmin',
+        'login_redirect_route'  => 'home',
         'enable_user_state'     => true,
         'allowed_login_states'  => [1],
         'tableName'             => 'User'
