@@ -90,10 +90,19 @@ return [
                         'defaults'  => [
                             'controller'    => 'jaztecacl/console',
                             'action'        => 'update-database',
-                        ],
-                    ],
+                        ]
+                    ]
                 ],
-            ],
+                'add-user' => [
+                    'options' => [
+                        'route' => 'acl new-user --email=|-e --password=|-p [--help|-h] [--verbose|-v]',
+                        'defaults' => [
+                            'controller' => 'jaztecacl/console',
+                            'action' => 'new-user'
+                        ]
+                    ]
+                ]
+            ]
         ]
     ],
     'zfcuser'    => [

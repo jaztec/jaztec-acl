@@ -19,10 +19,10 @@ class InstallationService extends AbstractDoctrineMapper implements
     EntityManagerAwareInterface
 {
     use EntityManagerAwareTrait;
-    
+
     /**
      * Install the database.
-     * 
+     *
      * @param string                        $email
      * @param bool                          $verbose
      */
@@ -79,7 +79,7 @@ class InstallationService extends AbstractDoctrineMapper implements
      * Checks if any role setup configuration includes a parent and if so,
      * retreives the parent from the roles stack and couples it with the
      * provides role.
-     * 
+     *
      * @param array                     $setUpConfig
      * @param \JaztecAcl\Entity\Acl\Role[]  $roles
      * @param \JaztecAcl\Entity\Acl\Role    $role
@@ -97,7 +97,7 @@ class InstallationService extends AbstractDoctrineMapper implements
 
     /**
      * Update the database.
-     * 
+     *
      * @param bool $verbose
      */
     public function updateDatabase($verbose)
@@ -123,7 +123,7 @@ class InstallationService extends AbstractDoctrineMapper implements
 
     /**
      * Get the metadata of all the Doctrine entities in this module.
-     * 
+     *
      * @return array A merged array with the metadata for this module.
      */
     protected function getEntityMetaData()
@@ -140,10 +140,10 @@ class InstallationService extends AbstractDoctrineMapper implements
 
     /**
      * Add an administration user to the database.
-     * 
+     *
      * @param string                        $email
      */
-    protected function addAdminUser($email)
+    public function addAdminUser($email, $password = 'admin1234')
     {
         $options = $this->getServiceLocator()->get('zfcuser_module_options');
         $cost = $options->getPasswordCost();
@@ -152,7 +152,7 @@ class InstallationService extends AbstractDoctrineMapper implements
         $adminRole = $this->getEntityManager()->getRepository('JaztecAcl\Entity\Acl\Role')->findOneBy(['name'  => 'admin']);
         $user = new User();
         $user->setUsername('admin')
-            ->setPassword($crypt->create('admin1234'))
+            ->setPassword($crypt->create($password))
             ->setEmail($email)
             ->setRole($adminRole)
             ->setFirstName('Admin')
@@ -160,7 +160,6 @@ class InstallationService extends AbstractDoctrineMapper implements
             ->setDisplayName('Administration user')
             ->setActive(true)
             ->setState(true);
-            ;
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush($user);
     }
