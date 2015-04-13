@@ -141,9 +141,11 @@ class InstallationService extends AbstractDoctrineMapper implements
     /**
      * Add an administration user to the database.
      *
-     * @param string                        $email
+     * @param string $email
+     * @param string $username
+     * @param string $password
      */
-    public function addAdminUser($email, $password = 'admin1234')
+    public function addAdminUser($email, $username = 'admin', $password = 'admin1234')
     {
         $options = $this->getServiceLocator()->get('zfcuser_module_options');
         $cost = $options->getPasswordCost();
@@ -151,7 +153,7 @@ class InstallationService extends AbstractDoctrineMapper implements
         $crypt->setCost($cost);
         $adminRole = $this->getEntityManager()->getRepository('JaztecAcl\Entity\Acl\Role')->findOneBy(['name'  => 'admin']);
         $user = new User();
-        $user->setUsername('admin')
+        $user->setUsername($username)
             ->setPassword($crypt->create($password))
             ->setEmail($email)
             ->setRole($adminRole)

@@ -36,7 +36,8 @@ class ConsoleController extends AbstractActionController
             $mode = 'creating user';
             $email = $request->getParam('email', false);
             $password = $request->getParam('password', false);
-            if (!$email || !$password) {
+            $username = $request->getParam('username', false);
+            if (!$email || !$password || !$username) {
                 throw new \InvalidArgumentException('Not all required parameters received');
             }
         }
@@ -52,7 +53,7 @@ class ConsoleController extends AbstractActionController
         // Test the mode.
         switch ($mode) {
             case 'creating user':
-                $this->getService()->addAdminUser($email, $password);
+                $this->getService()->addAdminUser($email, $username, $password);
                 $result = "Created user with email {$email} and password {$password}";
                 break;
             case 'help':
@@ -145,7 +146,7 @@ class ConsoleController extends AbstractActionController
         $result .= "\n";
         $result .= "Creating a new user";
         $result .= "\n";
-        $result .= "Usage:\t\tacl new-user --email=|-e --password=|-p [--help|-h] [--verbose|-v]\n";
+        $result .= "Usage:\t\tacl new-user --username=|-u --email=|-e --password=|-p [--help|-h] [--verbose|-v]\n";
         $result .= "Example:\tacl new-user --email=john.doe@example.com --password=something --verbose\n";
         $result .= "This action will create a new admin user";
         $result .= "\t--e-mail\t(required):\tAny e-mail address\n";
